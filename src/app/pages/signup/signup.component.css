@@ -1,0 +1,119 @@
+input[type="password"]::-webkit-textfield-decoration-container,
+input[type="password"]::-webkit-contacts-auto-fill-button,
+input[type="password"]::-webkit-credentials-auto-fill-button {
+  display: none !important;
+}
+
+input[type="password"]::-ms-reveal,
+input[type="password"]::-ms-clear {
+  display: none !important;
+}
+
+.signup-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    background-color: #FAFAF9; /* Blanco Crema */
+    font-family: 'Julius Sans One', sans-serif; /* Tipografía */
+  }
+  
+  .signup-form {
+    background-color: white;
+    padding: 2rem;
+    border-radius: 8px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    width: 100%;
+    max-width: 400px;
+  }
+  
+  .signup-form h2 {
+    color: #2A4E6E; /* Azul Oscuro Profundo */
+    margin-bottom: 1.5rem;
+    text-align: center;
+    font-size: 2rem;
+  }
+  
+  /* Estilos para los inputs */
+  .signup-form input {
+    width: 100%;
+    padding: 0.75rem;
+    margin-bottom: 0.5rem;
+    border: 1px solid #E0E0E0; /* Gris Suave */
+    border-radius: 4px;
+    font-size: 1rem;
+    font-family: 'Julius Sans One', sans-serif;
+    transition: border-color 0.3s ease;
+  }
+  
+  /* Estilos para inputs inválidos */
+  .signup-form input.invalid {
+    border-color: #ff0000; /* Rojo para errores */
+  }
+  
+  /* Estilos para inputs válidos */
+  .signup-form input.valid {
+    border-color: #00cc00; /* Verde para válido */
+  }
+  
+  /* Estilos para los mensajes de error */
+  .error-message {
+    color: #ff0000; /* Rojo para mensajes de error */
+    font-size: 0.875rem;
+    margin-bottom: 1rem;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem; /* Espacio entre el ícono y el texto */
+  }
+  
+  .error-message .material-icons {
+    font-size: 1rem; /* Tamaño del ícono */
+  }
+  
+  /* Estilos para el botón de registro */
+  .signup-form button {
+    width: 100%;
+    padding: 0.75rem;
+    background-color: #5A92C2; /* Azul Sereno */
+    color: white;
+    border: none;
+    border-radius: 4px;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    font-family: 'Julius Sans One', sans-serif;
+  }
+  
+  .signup-form button:disabled {
+    background-color: #cccccc; /* Gris para deshabilitado */
+    cursor: not-allowed;
+  }
+  
+  .signup-form button:hover:not(:disabled) {
+    background-color: #2A4E6E; /* Azul Oscuro Profundo */
+  }
+
+  /* Estilos para el contenedor de la contraseña */
+.password-container {
+    position: relative;
+    display: flex;
+    align-items: center;
+  }
+  
+  .password-container input {
+    width: 100%;
+    padding-right: 2.5rem; /* Espacio para el ícono */
+  }
+  
+  /* Estilos para el ícono de ojo */
+  .toggle-password {
+    position: absolute;
+    right: 0.75rem;
+    cursor: pointer;
+    color: #5A92C2; /* Azul Sereno */
+    user-select: none; /* Evita que el texto se seleccione */
+  }
+  
+  .toggle-password:hover {
+    color: #2A4E6E; /* Azul Oscuro Profundo */
+  }

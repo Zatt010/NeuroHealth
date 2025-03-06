@@ -1,0 +1,59 @@
+<div class="signup-container">
+    <div class="signup-form">
+      <h2>SIGN-UP</h2>
+      <form [formGroup]="signupForm" (ngSubmit)="onSubmit()">
+        <!-- Nombre -->
+        <input type="text" formControlName="nombre" placeholder="Nombre" required
+               [ngClass]="{'invalid': nombre?.invalid && (nombre?.dirty || nombre?.touched)}">
+        <div *ngIf="nombre?.invalid && (nombre?.dirty || nombre?.touched)" class="error-message">
+          <span class="material-icons">warning</span> El nombre es requerido.
+        </div>
+  
+        <!-- Apellido -->
+        <input type="text" formControlName="apellido" placeholder="Apellido" required
+               [ngClass]="{'invalid': apellido?.invalid && (apellido?.dirty || apellido?.touched)}">
+        <div *ngIf="apellido?.invalid && (apellido?.dirty || apellido?.touched)" class="error-message">
+          <span class="material-icons">warning</span> El apellido es requerido.
+        </div>
+  
+        <!-- Email -->
+        <input type="email" formControlName="email" placeholder="Email" required
+               [ngClass]="{'invalid': email?.invalid && (email?.dirty || email?.touched)}">
+        <div *ngIf="email?.invalid && (email?.dirty || email?.touched)" class="error-message">
+          <span *ngIf="email?.errors?.['required']">
+            <span class="material-icons">warning</span> El email es requerido.
+          </span>
+          <span *ngIf="email?.errors?.['email']">
+            <span class="material-icons">warning</span> El email no es válido.
+          </span>
+        </div>
+  
+        <!-- Contraseña -->
+        <div class="password-container">
+          <input [type]="hidePassword ? 'password' : 'text'" formControlName="password" placeholder="Contraseña" required
+                 [ngClass]="{'invalid': password?.invalid && (password?.dirty || password?.touched)}">
+          <span class="material-icons toggle-password" (click)="togglePasswordVisibility()">
+            {{ hidePassword ? 'visibility_off' : 'visibility' }}
+          </span>
+        </div>
+        <div *ngIf="password?.invalid && (password?.dirty || password?.touched)" class="error-message">
+          <span class="material-icons">warning</span> La contraseña es requerida.
+        </div>
+  
+        <!-- Confirmar Contraseña -->
+        <div class="password-container">
+          <input [type]="hideConfirmPassword ? 'password' : 'text'" formControlName="confirmPassword" placeholder="Repita la contraseña" required
+                 [ngClass]="{'invalid': signupForm.hasError('passwordMismatch'), 'valid': password?.value === confirmPassword?.value && confirmPassword?.valid}">
+          <span class="material-icons toggle-password" (click)="toggleConfirmPasswordVisibility()">
+            {{ hideConfirmPassword ? 'visibility_off' : 'visibility' }}
+          </span>
+        </div>
+        <div *ngIf="signupForm.hasError('passwordMismatch')" class="error-message">
+          <span class="material-icons">warning</span> Las contraseñas no coinciden.
+        </div>
+  
+        <!-- Botón de Registro -->
+        <button type="submit" [disabled]="signupForm.invalid || signupForm.hasError('passwordMismatch')">Registrar</button>
+      </form>
+    </div>
+  </div>
