@@ -1,0 +1,449 @@
+html, body {
+  margin: 0;
+  padding: 0;
+  width: 100%;
+  overflow-x: hidden;
+  
+}
+
+* {
+  box-sizing: border-box;
+}
+
+
+.landing-container {
+  width: 100%;
+  min-height: 100vh;
+  font-family: 'Arial', sans-serif;
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  background-color: #5A92C2;
+}
+
+/* Header ajustado */
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 2rem;
+  background-color: #5A92C2;
+  width: 100%;
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 1000;
+}
+
+.hero-section {
+  background-image: url('Assets/Neuro.jpg');
+  background-size: cover;
+  background-position: center;
+  width: 100%;
+  min-height: calc(100vh - 80px);
+  margin-top: 80px;
+  position: relative;
+  z-index: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+.hero-section::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(255, 255, 255, 0.7);
+  z-index: 1;
+  
+}
+
+.content-overlay {
+  position: relative;
+  z-index: 2;
+  width: 100%;
+  max-width: 1200px;
+  padding: 2rem;
+  margin: 0 auto;
+  text-align: center;
+}
+
+/* Sección de servicios */
+.services-section {
+  position: relative;
+  z-index: 3;
+  padding: 4rem 2rem;
+  background-color: #FAFAF9;
+  margin-top: -1px;
+}
+.hero-section, .services-section {
+  display: block;
+  width: 100%;
+  max-width: 100%;
+  overflow-x: hidden;
+}
+.section-title {
+  color: #2A4E6E;
+  font-size: 2.5rem;
+  text-align: center;
+  margin-bottom: 3rem;
+}
+
+.services-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 2rem;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.service-card {
+  background: white;
+  border-radius: 15px;
+  padding: 2rem;
+  box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+  transition: transform 0.3s ease;
+  opacity: 1;
+}
+
+.service-card:hover {
+  transform: translateY(-5px);
+}
+
+.card-image {
+  width: 100%;
+  height: 200px;
+  border-radius: 10px;
+  overflow: hidden;
+  margin-bottom: 1.5rem;
+}
+
+.card-image img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  opacity: 1 !important;
+}
+
+.card-title {
+  color: #5A92C2;
+  font-size: 1.5rem;
+  margin-bottom: 1rem;
+}
+
+.card-description {
+  color: #5A8F6E;
+  line-height: 1.6;
+  margin-bottom: 1.5rem;
+}
+
+/* Botones */
+.login-button {
+  background-color: #7FB685;
+  color: #FAFAF9;
+  border: none;
+  padding: 0.8rem 2rem;
+  border-radius: 20px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  font-weight: bold;
+  text-transform: uppercase;
+}
+
+.login-button:hover {
+  background-color: #5A8F6E;
+}
+
+.explore-button {
+  background-color: #7FB685;
+  color: #FAFAF9;
+  border: none;
+  padding: 0.8rem 2rem;
+  border-radius: 20px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  font-weight: bold;
+  text-transform: uppercase;
+  width: 100%;
+}
+
+.explore-button:hover {
+  background-color: #5A8F6E;
+}
+
+.cta-button {
+  background-color: #5A92C2;
+  color: #FAFAF9;
+  border: none;
+  padding: 1rem 3rem;
+  font-size: 1.2rem;
+  border-radius: 30px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  text-transform: uppercase;
+  font-weight: bold;
+}
+
+.cta-button:hover {
+  background-color: #2A4E6E;
+  transform: translateY(-2px);
+}
+
+/* Textos */
+.logo {
+  display: flex;
+  flex-direction: column;
+  line-height: 1;
+  color: #FAFAF9;
+}
+
+.logo-neuro {
+  font-size: 2.5rem;
+  font-weight: bold;
+  letter-spacing: -0.05em;
+}
+
+.logo-health {
+  font-size: 2rem;
+  font-weight: 300;
+  letter-spacing: 0.1em;
+}
+
+.tagline {
+  color: #5A92C2;
+  font-size: 1.5rem;
+  margin-bottom: 2rem;
+}
+
+.content-box {
+  background-color: transparent;
+  padding: 3rem 2rem;
+  border-radius: 15px;
+}
+
+.cta-title {
+  color: #2A4E6E;
+  font-size: 2.5rem;
+  margin-bottom: 1.5rem;
+  line-height: 1.3;
+}
+
+.description {
+  color: #5A92C2;
+  font-size: 1.5rem;
+  margin-bottom: 2.5rem;
+  line-height: 1.6;
+}
+
+.hero-section > *, .services-section > * {
+  margin: 0 auto;
+  padding-left: 0;
+  padding-right: 0;
+}
+
+/* Estilos para la sección de citas */
+.appointment-section {
+  background-color: #5A92C2; /* Mismo color que el header */
+  padding: 4rem 2rem;
+  color: #FAFAF9;
+}
+
+.section-title {
+  text-align: center;
+  font-size: 2.5rem;
+  margin-bottom: 1.5rem;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+}
+
+.appointment-description {
+  text-align: center;
+  max-width: 800px;
+  margin: 0 auto 3rem;
+  font-size: 1.2rem;
+  line-height: 1.6;
+}
+
+/* Variables de color */
+:root {
+  --calendar-bg-color: #FAFAF9; /* Color del header */
+  --calendar-font-color: #5A92C2; /* Blanco */
+  --weekdays-border-bottom-color: rgba(255,255,255,0.2);
+  --calendar-date-hover-color: #7FB685; /* Verde */
+  --calendar-current-date-color: #2A4E6E; /* Azul oscuro */
+  --calendar-today-color: #7FB685; /* Verde */
+  --calendar-border-radius: 16px;
+  --calendar-prevnext-date-color: #FAFAF9;
+}
+
+/* Estilos del calendario */
+.calendar-container {
+  background: #FAFAF9 !important; /* Fondo blanco forzado */
+  border-radius: 16px;
+  padding: 20px;
+  color: #000000; /* Texto azul */
+}
+
+.calendar-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 1.5rem;
+  color: var(--calendar-font-color);
+}
+
+.calendar-header button {
+  background: none;
+  border: none;
+  color: var(--calendar-font-color);
+  font-size: 1.5rem;
+  cursor: pointer;
+  padding: 8px 16px;
+  border-radius: 8px;
+  transition: all 0.3s ease;
+}
+
+.calendar-header button:hover {
+  background: rgba(255,255,255,0.1);
+}
+
+.calendar {
+  width: 100%;
+  border-collapse: collapse;
+  color: var(--calendar-font-color);
+}
+
+.calendar th {
+  padding: 12px;
+  font-weight: 500;
+  border-bottom: 1px solid var(--weekdays-border-bottom-color);
+}
+
+.calendar td {
+  width: 14.28%;
+  height: 40px;
+  text-align: center;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  position: relative;
+  border-radius: 8px;
+}
+
+.calendar td:not(.empty):hover {
+  background: #96b8d6 !important;
+  color: #FAFAF9 !important;
+  font-weight: bold;
+}
+
+.calendar td.selected {
+  background: var(--calendar-today-color);
+  color: #2A4E6E !important;
+  font-weight: bold;
+}
+
+.calendar td.empty {
+  color: rgba(255,255,255,0.3);
+  cursor: default;
+}
+
+.confirm-button {
+  background: var(--calendar-today-color);
+  color: var(--calendar-font-color);
+  border: none;
+  padding: 12px 24px;
+  border-radius: 30px;
+  cursor: pointer;
+  font-weight: bold;
+  margin-top: 1.5rem;
+  transition: all 0.3s ease;
+  display: block;
+  width: 100%;
+  max-width: 200px;
+  margin: 1.5rem auto 0;
+}
+
+.confirm-button:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .calendar td {
+    height: 35px;
+    font-size: 0.9rem;
+  }
+  
+  .calendar-header span {
+    font-size: 1.1rem;
+  }
+  
+  .confirm-button {
+    padding: 10px 20px;
+  }
+}
+
+@media (max-width: 480px) {
+  .calendar-container {
+    padding: 15px;
+  }
+  
+  .calendar td {
+    height: 30px;
+    font-size: 0.8rem;
+  }
+  
+  .calendar-header button {
+    padding: 4px 8px;
+  }
+}
+
+@media (max-width: 480px) {
+  .appointment-section {
+    padding: 2rem 1rem;
+  }
+  
+  .calendar td, .calendar th {
+    height: 30px;
+    font-size: 0.8rem;
+  }
+}
+/* Responsive Design */
+@media (max-width: 768px) {
+  .header {
+    padding: 1rem;
+  }
+
+  .services-grid {
+    grid-template-columns: 1fr;
+    max-width: 500px;
+  }
+
+  .section-title {
+    font-size: 2rem;
+  }
+
+  .card-image {
+    height: 150px;
+  }
+
+  .cta-title {
+    font-size: 2rem;
+  }
+
+  .description {
+    font-size: 1.2rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .services-section {
+    padding: 2rem 1rem;
+  }
+
+  .service-card {
+    padding: 1.5rem;
+  }
+}
