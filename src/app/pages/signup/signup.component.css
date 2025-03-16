@@ -117,3 +117,28 @@ input[type="password"]::-ms-clear {
   .toggle-password:hover {
     color: #2A4E6E; /* Azul Oscuro Profundo */
   }
+
+  .log-in-link {
+    text-align: center;
+    margin-top: 1rem;
+  }
+  
+  .log-in-link p {
+    color: #E0E0E0;
+    font-size: 0.9rem;
+    margin-bottom: 0.3rem;
+    font-family: Arial, sans-serif;
+  }
+  
+  .log-in {
+    color: #7FB685;
+    text-decoration: none;
+    font-size: 1rem;
+    font-weight: bold;
+    transition: color 0.3s ease;
+    font-family: Arial, sans-serif;
+  }
+  
+  .log-in:hover {
+    color: #5A8F6E;
+  }
