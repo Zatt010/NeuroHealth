@@ -1,20 +1,20 @@
 <div class="login-container">
-    <div class="login-form">
-      <h2>INICIAR SESIÓN</h2>
-      <form>
-        <input type="email" placeholder="Email" required>
-        <input type="password" placeholder="Contraseña" required>
-        <button type="submit">Ingresar</button>
-      </form>
-      <div class="google-login">
-        <button (mouseover)="changeIcon(true)" (mouseleave)="changeIcon(false)">
-          <span class="material-icons">{{ mailIcon }}</span>
-          Ingresa con Gmail
-        </button>
-      </div>
-      <div class="sign-up-link">
-        <p>¿Sin cuenta??</p>
-        <a href="#" class="sign-up">Sign up</a>
-      </div>
+  <div class="login-form">
+    <h2>INICIAR SESIÓN</h2>
+    <form (ngSubmit)="onSubmit()">
+      <input type="email" [(ngModel)]="email" name="email" placeholder="Email" required>
+      <input type="password" [(ngModel)]="password" name="password" placeholder="Contraseña" required>
+      <button type="submit">Ingresar</button>
+    </form>
+    <div class="google-login">
+      <button>
+        <span class="material-icons">mail</span>
+        Ingresa con Gmail
+      </button>
+    </div>
+    <div class="sign-up-link">
+      <p>¿Sin cuenta?</p>
+      <a href="/signup" class="sign-up">Sign up</a>
     </div>
   </div>
+</div>
