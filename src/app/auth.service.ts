@@ -11,9 +11,13 @@ export class AuthService {
   constructor(private http: HttpClient) {}
 
   login(email: string, password: string): Observable<any> {
-    const body = { email, password };
-    const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
-
-    return this.http.post(this.apiUrl, body, { headers });
+    const params = new URLSearchParams();
+    params.append('email', email);
+    params.append('contrasena', password);
+  
+    const headers = new HttpHeaders({ 'Content-Type': 'application/x-www-form-urlencoded' });
+  
+    return this.http.post(this.apiUrl, params.toString(), { headers });
   }
+  
 }

@@ -7,26 +7,32 @@ import { Router } from '@angular/router';
 @Component({
   selector: 'app-login',
   standalone: true,
-  imports: [CommonModule, NgFor, FormsModule, NgIf],
+  imports: [CommonModule, FormsModule],
   templateUrl: './login.component.html',
   styleUrls: ['./login.component.css']
 })
 
 export class LoginComponent {
   email: string = '';
-  password: string = '';
+  contrasena: string = '';
+  errorMessage: string = '';
 
   constructor(private authService: AuthService, private router: Router) {}
 
   onSubmit() {
-    this.authService.login(this.email, this.password).subscribe({
+
+    this.authService.login(this.email, this.contrasena).subscribe({
       next: (response) => {
         console.log('Login exitoso:', response);
         // localStorage.setItem('token', response.token); 
         this.router.navigate(['/home']); // Redirige a otra página
       },
       error: (error) => {
-        console.error('Error de login:', error);
+        if (error.status === 401) {
+          this.errorMessage = 'Credenciales incorrectas. Por favor, intente de nuevo.';
+        } else {
+          this.errorMessage = 'Hubo un error. Intente nuevamente más tarde.';
+        }
       }
     });
   }
