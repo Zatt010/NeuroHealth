@@ -20,28 +20,36 @@ export class landingPage implements OnInit {
   }
 
   generateCalendar(date: Date) {
-    const month = date.getMonth();
-    const year = date.getFullYear();
-    const firstDay = new Date(year, month, 1);
-    const lastDay = new Date(year, month + 1, 0);
+        const month = date.getMonth();
+        const year = date.getFullYear();
+        const firstDay = new Date(year, month, 1);
+        const lastDay = new Date(year, month + 1, 0);
 
-    this.calendarDays = [];
-    let dateCount = 1;
+        const startDay = firstDay.getDay() === 0 ? 6 : firstDay.getDay() - 1;
 
-    for (let i = 0; i < 6; i++) {
-      const week: (number | null)[] = [];
+        this.calendarDays = [];
+        let days: (number | null)[] = [];
 
-      for (let j = 0; j < 7; j++) {
-        if ((i === 0 && j < firstDay.getDay()) || dateCount > lastDay.getDate()) {
-          week.push(null);
-        } else {
-          week.push(dateCount);
-          dateCount++;
+        for (let i = 0; i < startDay; i++) {
+          days.push(null);
+        }
+
+        for (let day = 1; day <= lastDay.getDate(); day++) {
+          days.push(day);
+
+          if (days.length === 7) {
+            this.calendarDays.push(days);
+            days = [];
+          }
+        }
+
+        if (days.length > 0) {
+          while (days.length < 7) {
+            days.push(null);
+          }
+          this.calendarDays.push(days);
         }
       }
-      this.calendarDays.push(week);
-    }
-  }
 
   selectDate(day: number | null) {
     if (day) {
