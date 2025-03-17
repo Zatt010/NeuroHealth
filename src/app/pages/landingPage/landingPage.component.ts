@@ -1,11 +1,12 @@
 // landingPage.component.ts
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { RouterModule } from '@angular/router';
 
 @Component({
   selector: 'app-landingPage',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, RouterModule],
   templateUrl: './landingPage.component.html',
   styleUrls: ['./landingPage.component.css']
 })
@@ -23,13 +24,13 @@ export class landingPage implements OnInit {
     const year = date.getFullYear();
     const firstDay = new Date(year, month, 1);
     const lastDay = new Date(year, month + 1, 0);
-    
+
     this.calendarDays = [];
     let dateCount = 1;
-    
+
     for (let i = 0; i < 6; i++) {
       const week: (number | null)[] = [];
-      
+
       for (let j = 0; j < 7; j++) {
         if ((i === 0 && j < firstDay.getDay()) || dateCount > lastDay.getDate()) {
           week.push(null);
@@ -53,7 +54,7 @@ export class landingPage implements OnInit {
   }
 
   isSelected(day: number | null): boolean {
-    return !!day && !!this.selectedDate && 
+    return !!day && !!this.selectedDate &&
       this.selectedDate.getDate() === day &&
       this.selectedDate.getMonth() === this.currentDate.getMonth() &&
       this.selectedDate.getFullYear() === this.currentDate.getFullYear();
@@ -66,7 +67,7 @@ export class landingPage implements OnInit {
     );
     this.generateCalendar(this.currentDate);
   }
-  
+
   nextMonth() {
     this.currentDate = new Date(
       this.currentDate.getFullYear(),

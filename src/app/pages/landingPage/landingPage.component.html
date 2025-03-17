@@ -4,7 +4,7 @@
       <span class="logo-neuro">NEURO</span>
       <span class="logo-health">HEALTH</span>
     </div>
-    <button class="login-button">Login</button>
+    <button class="login-button" routerLink="/login">Login</button>
   </header>
 
   <main class="hero-section">
@@ -13,14 +13,14 @@
         <p class="tagline">Apoyo emocional a un clic de distancia.</p>
         <h1 class="cta-title">#Tu mente importa: descubre cómo Neuro Med puede ayudarte hoy.</h1>
         <p class="description">Registra tus emociones, accede a meditaciones guiadas y recibe apoyo personalizado con inteligencia artificial. Tu bienestar comienza aquí.</p>
-        <button class="cta-button">Comenzar</button>
+        <button class="cta-button" routerLink="/signup">Comenzar</button>
       </div>
     </div>
   </main>
 
   <section class="services-section">
     <h2 class="section-title">Nuestros Servicios</h2>
-    
+
     <div class="services-grid">
       <!-- Tarjeta Meditación -->
       <div class="service-card">
@@ -29,8 +29,8 @@
         </div>
         <h3 class="card-title">Meditación</h3>
         <p class="card-description">
-          Accede a una biblioteca de ejercicios de respiración y relajación. 
-          Elige entre una variedad de meditaciones guiadas en audio adaptadas 
+          Accede a una biblioteca de ejercicios de respiración y relajación.
+          Elige entre una variedad de meditaciones guiadas en audio adaptadas
           a tu estado emocional.
         </p>
         <button class="explore-button">Explora</button>
@@ -43,8 +43,8 @@
         </div>
         <h3 class="card-title">Recursos</h3>
         <p class="card-description">
-          Artículos, videos y herramientas enfocadas en el bienestar mental. 
-          Diseñados para apoyarte en tu camino hacia una mejor salud emocional 
+          Artículos, videos y herramientas enfocadas en el bienestar mental.
+          Diseñados para apoyarte en tu camino hacia una mejor salud emocional
           y comprensión.
         </p>
         <button class="explore-button">Explora</button>
@@ -57,8 +57,8 @@
         </div>
         <h3 class="card-title">Comunidad</h3>
         <p class="card-description">
-          Únete a nuestra comunidad de apoyo para compartir experiencias, 
-          leer testimonios y participar en foros. Conéctate con personas 
+          Únete a nuestra comunidad de apoyo para compartir experiencias,
+          leer testimonios y participar en foros. Conéctate con personas
           que entienden tu camino.
         </p>
         <button class="explore-button">Explora</button>
@@ -69,9 +69,9 @@
   <!-- SECCIÓN DE CALENDARIO (ÚNICA) -->
   <section class="appointment-section">
     <h2 class="section-title">AGENDA TU CITA</h2>
-    
+
     <p class="appointment-description">
-      Agenda fácilmente tus citas con nuestros especialistas en salud mental utilizando nuestro sistema de reservas simplificado. 
+      Agenda fácilmente tus citas con nuestros especialistas en salud mental utilizando nuestro sistema de reservas simplificado.
       Conéctate con el experto adecuado cuando te convenga.
     </p>
 
@@ -81,7 +81,7 @@
         <span>{{ currentDate | date:'MMMM y' | uppercase }}</span>
         <button (click)="nextMonth()">›</button>
       </div>
-      
+
       <table class="calendar">
         <thead>
           <tr>
@@ -96,7 +96,7 @@
         </thead>
         <tbody>
           <tr *ngFor="let week of calendarDays">
-            <td *ngFor="let day of week" 
+            <td *ngFor="let day of week"
                 [class.selected]="isSelected(day)"
                 [class.empty]="day === null"
                 (click)="selectDate(day)">
@@ -105,7 +105,7 @@
           </tr>
         </tbody>
       </table>
-      
+
       <button class="confirm-button">Confirmar</button>
     </div>
   </section>

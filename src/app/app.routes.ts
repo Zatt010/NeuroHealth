@@ -5,9 +5,10 @@ import { landingPage } from './pages/landingPage/landingPage.component';
 
 
 export const routes: Routes = [
-    { path: 'login', component: LoginComponent }, 
+    { path: '', component: landingPage},
+    { path: 'login', component: LoginComponent },
     { path: 'signup', component: SignupComponent },
     { path: 'home', component: landingPage },
 
-    { path: '', redirectTo: '/login', pathMatch: 'full' } 
+    { path: '', redirectTo: '/login', pathMatch: 'full' }
   ];
