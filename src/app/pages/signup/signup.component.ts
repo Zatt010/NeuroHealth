@@ -1,6 +1,8 @@
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ReactiveFormsModule, FormGroup, FormControl, Validators, AbstractControl, ValidationErrors, ValidatorFn } from '@angular/forms';
+import { AuthService } from '../../auth.service';
+import { Router } from '@angular/router';
 
 export const passwordMatchValidator: ValidatorFn = (control: AbstractControl): ValidationErrors | null => {
   const password = control.get('password');
@@ -22,7 +24,7 @@ export class SignupComponent {
   hidePassword = true;
   hideConfirmPassword = true;
 
-  constructor() {
+  constructor(private authService: AuthService, private router: Router) {
     this.signupForm = new FormGroup({
       nombre: new FormControl('', Validators.required),
       apellido: new FormControl('', Validators.required),
@@ -59,11 +61,25 @@ export class SignupComponent {
     return this.signupForm.get('confirmPassword');
   }
 
+
   onSubmit() {
     if (this.signupForm.valid && this.password?.value === this.confirmPassword?.value) {
-      console.log('Formulario enviado', this.signupForm.value);
+      const { nombre, apellido, email, password } = this.signupForm.value;
+  
+      this.authService.signup(nombre, apellido, email, password).subscribe({
+        next: (response) => {
+          console.log('Usuario registrado con éxito:', response);
+          alert('Usuario registrado con éxito');
+          this.router.navigate(['/login']);
+        },
+        error: (error) => {
+          console.error('Error al registrar:', error);
+          alert('Error al registrar el usuario');
+        }
+      });
     } else {
       console.log('Formulario inválido');
     }
   }
+  
 }
