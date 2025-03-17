@@ -17,7 +17,7 @@ export class AuthService {
   
     const headers = new HttpHeaders({ 'Content-Type': 'application/x-www-form-urlencoded' });
 
-    const apiLoginUrl = this.apiUrl + "/login";
+    const apiLoginUrl = `${this.apiUrl}/login`;
   
     return this.http.post(apiLoginUrl, params.toString(), { headers });
   }
