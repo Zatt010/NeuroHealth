@@ -13,6 +13,4 @@ export const routes: Routes = [
     { path: 'home', component: landingPage },
     { path: 'resources', component: HealthResourcesComponent },
     { path: 'bigfive', component:BigFiveTestComponent },
-
-    { path: '', redirectTo: '/login', pathMatch: 'full' }
   ];

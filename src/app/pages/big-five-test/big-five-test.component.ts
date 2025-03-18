@@ -1,10 +1,12 @@
 import { Component } from '@angular/core';
 import { CommonModule, NgFor, NgIf } from '@angular/common';
 import { FormsModule, NgModel } from '@angular/forms';
+import { RouterModule } from '@angular/router';
 
 @Component({
   selector: 'app-big-five-test',
-  imports: [CommonModule, FormsModule, NgFor, NgIf],
+  standalone: true,
+  imports: [CommonModule, FormsModule, NgFor, NgIf, RouterModule],
   templateUrl: './big-five-test.component.html',
   styleUrl: './big-five-test.component.css'
 })

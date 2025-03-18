@@ -1,15 +1,15 @@
 <div class="container">
     <h2>Test BIG FIVE</h2>
     <p>Responde en una escala de 1 (Muy en desacuerdo) a 5 (Muy de acuerdo).</p>
-  
+
     <div class="test-container" *ngFor="let question of questions; let i = index">
       <div class="question">
         <p>{{ question.text }}</p>
         <div class="range-container">
-          <input 
-            type="range" 
-            [(ngModel)]="responses[i]" 
-            min="1" max="5" step="1" 
+          <input
+            type="range"
+            [(ngModel)]="responses[i]"
+            min="1" max="5" step="1"
             [value]="responses[i]"
             (input)="updateResponse(i, $event)"
             [ngStyle]="getRangeStyle(responses[i])">
@@ -23,9 +23,10 @@
         </div>
       </div>
     </div>
-  
+
     <button (click)="submitTest()">Ver resultado</button>
-  
+    <button class="home-button" routerLink="/">Volver al Inicio</button>
+
     <div *ngIf="completed" class="results">
       <h2>Resultados</h2>
       <ul>
@@ -35,4 +36,3 @@
       </ul>
     </div>
   </div>
-  
