@@ -3,7 +3,7 @@ html, body {
   padding: 0;
   width: 100%;
   overflow-x: hidden;
-  
+
 }
 
 * {
@@ -57,7 +57,7 @@ html, body {
   height: 100%;
   background: rgba(255, 255, 255, 0.7);
   z-index: 1;
-  
+
 }
 
 .content-overlay {
@@ -97,6 +97,13 @@ html, body {
   gap: 2rem;
   max-width: 1200px;
   margin: 0 auto;
+  position: relative;
+}
+.test-card {
+  grid-row: 3; /* Fila 3 */
+  grid-column: 2; /* Columna 2 */
+  /*margin-top: -30%; /* Superposición vertical */
+  z-index: 2;
 }
 
 .service-card {
@@ -167,7 +174,7 @@ html, body {
   font-weight: bold;
   text-transform: uppercase;
   width: 100%;
-  
+
 }
 
 .explore-button:hover {
@@ -370,17 +377,25 @@ html, body {
   box-shadow: 0 4px 12px rgba(0,0,0,0.15);
 }
 
+@media (max-width: 1200px) {
+  .test-card {
+    grid-row: 2;
+    grid-column: 1 / -1;
+    margin-top: 2rem;
+  }
+}
+
 /* Responsive */
 @media (max-width: 768px) {
   .calendar td {
     height: 35px;
     font-size: 0.9rem;
   }
-  
+
   .calendar-header span {
     font-size: 1.1rem;
   }
-  
+
   .confirm-button {
     padding: 10px 20px;
   }
@@ -390,12 +405,12 @@ html, body {
   .calendar-container {
     padding: 15px;
   }
-  
+
   .calendar td {
     height: 30px;
     font-size: 0.8rem;
   }
-  
+
   .calendar-header button {
     padding: 4px 8px;
   }
@@ -405,7 +420,7 @@ html, body {
   .appointment-section {
     padding: 2rem 1rem;
   }
-  
+
   .calendar td, .calendar th {
     height: 30px;
     font-size: 0.8rem;

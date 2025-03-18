@@ -24,7 +24,7 @@ export class LoginComponent {
     this.authService.login(this.email, this.contrasena).subscribe({
       next: (response) => {
         console.log('Login exitoso:', response);
-        // localStorage.setItem('token', response.token); 
+        // localStorage.setItem('token', response.token);
         this.router.navigate(['/home']); // Redirige a otra página
       },
       error: (error) => {
