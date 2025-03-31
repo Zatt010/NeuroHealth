@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
+import { Router } from '@angular/router';
 
 @Component({
   standalone: true,
@@ -13,4 +14,10 @@ export class NewPostComponent {
   postTitle: string = '';
   postContent: string = '';
   selectedCategory: string = 'Ansiedad';
+
+  constructor(private router: Router) {}
+
+  submitPost() {
+    this.router.navigate(['/community']);
+  }
 }

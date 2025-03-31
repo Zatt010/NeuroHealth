@@ -1,6 +1,24 @@
-<input [(ngModel)]="postTitle" placeholder="Título">
-<textarea [(ngModel)]="postContent"></textarea>
-<select [(ngModel)]="selectedCategory">
-  <option>Ansiedad</option>
-  <option>Depresión</option>
-</select>
+<div class="form-container">
+  <h2>Nueva Publicación</h2>
+
+  <div class="form-group">
+    <label>Título</label>
+    <input [(ngModel)]="postTitle" placeholder="Ej: Mi experiencia con...">
+  </div>
+
+  <div class="form-group">
+    <label>Contenido</label>
+    <textarea [(ngModel)]="postContent" placeholder="Escribe aquí tu historia..."></textarea>
+  </div>
+
+  <div class="form-group">
+    <label>Categoría</label>
+    <select [(ngModel)]="selectedCategory">
+      <option>Ansiedad</option>
+      <option>Depresión</option>
+      <option>Estrés</option>
+    </select>
+  </div>
+
+  <button (click)="submitPost()">Publicar</button>
+</div>

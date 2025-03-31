@@ -13,10 +13,14 @@
     <div class="forum-container">
       <!-- Filtros -->
       <div class="filter-bar">
-        <button class="filter-button active">Todos los temas</button>
-        <button class="filter-button">Ansiedad</button>
-        <button class="filter-button">Depresión</button>
-        <button class="filter-button">Estrés</button>
+        <button
+          *ngFor="let category of ['Todos los temas', 'Ansiedad', 'Depresión', 'Estrés']"
+          class="filter-button"
+          [class.active]="selectedCategory === category || (category === 'Todos los temas' && !selectedCategory)"
+          (click)="filterPosts(category === 'Todos los temas' ? null : (category || ''))"
+        >
+          {{ category }}
+        </button>
         <button class="new-post-button" routerLink="/community/new">+ Nueva publicación</button>
       </div>
 
@@ -37,4 +41,5 @@
       </div>
     </div>
   </main>
+  <router-outlet></router-outlet>
 </div>

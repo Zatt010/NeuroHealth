@@ -94,6 +94,7 @@
 .filter-button.active {
   background: #5A92C2;
   color: white;
+  position: relative;
 }
 
 .new-post-button {
@@ -171,4 +172,67 @@
   color: #5A92C2;
   cursor: pointer;
   font-weight: 600;
+}
+
+.filter-button.active::after {
+  content: "";
+  position: absolute;
+  bottom: -5px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 60%;
+  height: 2px;
+  background: #7FB685;
+}
+
+.post-detail {
+  max-width: 800px;
+  margin: 2rem auto;
+  padding: 2rem;
+  background: white;
+  border-radius: 15px;
+  box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+}
+
+.post-detail h2 {
+  color: #2A4E6E;
+  font-size: 2rem;
+  margin-bottom: 1rem;
+}
+
+.author {
+  color: #5A92C2 !important;
+  font-weight: 500;
+  margin-bottom: 1.5rem;
+  display: block;
+}
+
+.content {
+  color: #4A5568;
+  line-height: 1.8;
+  margin-bottom: 3rem;
+  white-space: pre-line;
+}
+
+.comments {
+  border-top: 2px solid #E2E8F0;
+  padding-top: 2rem;
+}
+
+textarea {
+  width: 100%;
+  padding: 1rem;
+  border: 2px solid #5A92C2;
+  border-radius: 10px;
+  margin: 1rem 0;
+  min-height: 100px;
+}
+
+button {
+  background: #7FB685;
+  color: white;
+  border: none;
+  padding: 0.8rem 2rem;
+  border-radius: 20px;
+  cursor: pointer;
 }

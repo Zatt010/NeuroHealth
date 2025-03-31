@@ -10,7 +10,8 @@ import { TruncatePipe } from '../../shared/pipes/truncate.pipe';
   styleUrls: ['./community.component.css']
 })
 export class CommunityComponent {
-  posts = [
+  selectedCategory: string | null = null;
+  public posts = [
     {
       id: 1,
       title: 'Mi experiencia con la meditación diaria',
@@ -28,4 +29,14 @@ export class CommunityComponent {
       author: 'carlos_23'
     }
   ];
+
+  filterPosts(category: string | null) {
+    this.selectedCategory = category === this.selectedCategory ? null : category;
+  }
+
+  get filteredPosts() {
+    return this.selectedCategory
+      ? this.posts.filter(post => post.category === this.selectedCategory)
+      : this.posts;
+  }
 }

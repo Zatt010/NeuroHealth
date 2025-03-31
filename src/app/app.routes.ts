@@ -21,7 +21,8 @@ export const routes: Routes = [
         children: [
           { path: 'new', component: NewPostComponent },
           { path: ':id', component: PostDetailComponent },
-          { path: '', redirectTo: 'list', pathMatch: 'full' }
+          //{ path: '', component: CommunityComponent }
+          //{ path: '', redirectTo: 'list', pathMatch: 'full' }
         ]
     }
   ];
