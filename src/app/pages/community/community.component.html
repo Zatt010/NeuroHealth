@@ -1,0 +1,40 @@
+<div class="landing-container">
+  <header class="header">
+    <div class="logo">
+      <span class="logo-neuro">NEURO</span>
+      <span class="logo-health">HEALTH</span>
+    </div>
+    <button class="login-button" routerLink="/login">Login</button>
+  </header>
+
+  <main class="community-section">
+    <h2 class="section-title">COMUNIDAD DE APOYO</h2>
+
+    <div class="forum-container">
+      <!-- Filtros -->
+      <div class="filter-bar">
+        <button class="filter-button active">Todos los temas</button>
+        <button class="filter-button">Ansiedad</button>
+        <button class="filter-button">Depresión</button>
+        <button class="filter-button">Estrés</button>
+        <button class="new-post-button" routerLink="/community/new">+ Nueva publicación</button>
+      </div>
+
+      <!-- Lista de posts -->
+      <div class="posts-grid">
+        <div class="post-card" *ngFor="let post of posts">
+          <div class="post-header">
+            <span class="post-category">{{post.category}}</span>
+            <span class="post-date">{{post.date | date}}</span>
+          </div>
+          <h3 class="post-title">{{post.title}}</h3>
+          <p class="post-preview">{{post.content | truncate:150}}</p>
+          <div class="post-footer">
+            <span class="post-author">&#64;{{ '@' }}{{ post?.author }}</span>
+            <button class="read-more" [routerLink]="['/community', post.id]">Leer más</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+</div>

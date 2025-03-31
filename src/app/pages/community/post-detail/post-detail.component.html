@@ -1,0 +1,14 @@
+<div class="post-detail">
+  <h2>{{post.title}}</h2>
+  <p class="author">&#64;{{ post?.author }}</p>
+  <div class="content">{{post.content}}</div>
+
+  <div class="comments">
+    <div *ngFor="let comment of comments">
+      <p>{{comment.text}}</p>
+      <span>- {{comment.user}}</span>
+    </div>
+    <textarea [(ngModel)]="newComment"></textarea>
+    <button (click)="addComment()">Comentar</button>
+  </div>
+</div>
