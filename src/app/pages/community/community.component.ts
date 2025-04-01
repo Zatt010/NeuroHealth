@@ -2,7 +2,8 @@ import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
 import { TruncatePipe } from '../../shared/pipes/truncate.pipe';
-
+import { MatDialog } from '@angular/material/dialog';
+import { NewPostComponent } from './new-post/new-post.component';
 @Component({
   standalone: true,
   imports: [CommonModule, RouterModule, TruncatePipe],
@@ -54,5 +55,21 @@ export class CommunityComponent {
 
   trackByPostId(index: number, post: any): number {
     return post.id;
+  }
+  constructor(
+    private dialog: MatDialog
+  ) {}
+
+  openNewPostDialog(): void {
+    const dialogRef = this.dialog.open(NewPostComponent, {
+      width: '600px',
+      panelClass: 'custom-dialog-container'
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      if (result) {
+        console.log('Nuevo post:', result);
+      }
+    });
   }
 }

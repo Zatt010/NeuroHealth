@@ -22,7 +22,11 @@
         >
           {{ category }}
         </button>
-        <button class="new-post-button" routerLink="/community/new">+ Nueva publicación</button>
+        <button 
+          class="new-post-button" 
+          (click)="openNewPostDialog()">
+          + Nueva publicación
+        </button>
       </div>
 
       <!-- Lista de posts -->
