@@ -13,16 +13,26 @@
     <div class="forum-container">
       <!-- Filtros -->
       <div class="filter-bar">
-        <button class="filter-button active">Todos los temas</button>
-        <button class="filter-button">Ansiedad</button>
-        <button class="filter-button">Depresión</button>
-        <button class="filter-button">Estrés</button>
-        <button class="new-post-button" routerLink="/community/new">+ Nueva publicación</button>
+        <!-- Se itera sobre el array de categorías -->
+        <button 
+          *ngFor="let category of categories" 
+          class="filter-button" 
+          [class.active]="(selectedCategory === category) || (!selectedCategory && category === 'Todos los temas')"
+          (click)="setFilter(category)"
+        >
+          {{ category }}
+        </button>
+        <button 
+          class="new-post-button" 
+          (click)="openNewPostDialog()">
+          + Nueva publicación
+        </button>
       </div>
 
       <!-- Lista de posts -->
       <div class="posts-grid">
-        <div class="post-card" *ngFor="let post of posts">
+        <!-- Se utiliza filteredPosts para mostrar únicamente los posts filtrados -->
+        <div class="post-card" *ngFor="let post of filteredPosts; trackBy: trackByPostId">
           <div class="post-header">
             <span class="post-category">{{ post.tema }}</span>
             <span class="post-date">{{ post.fechaPublicacion | date:'longDate' }}</span>
