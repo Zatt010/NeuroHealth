@@ -5,11 +5,13 @@ import { TruncatePipe } from '../../shared/pipes/truncate.pipe';
 
 @Component({
   standalone: true,
-  imports: [CommonModule, RouterModule,TruncatePipe],
+  imports: [CommonModule, RouterModule, TruncatePipe],
   templateUrl: './community.component.html',
   styleUrls: ['./community.component.css']
 })
 export class CommunityComponent {
+  selectedCategory: string | null = null;
+  categories: string[] = ['Todos los temas', 'Ansiedad', 'Depresión', 'Estrés', 'Meditación'];
   posts = [
     {
       id: 1,
@@ -28,4 +30,29 @@ export class CommunityComponent {
       author: 'carlos_23'
     }
   ];
+
+  // Filtra los posts 
+  private normalizeCategory(category: string): string {
+    return category
+      .toLowerCase()
+      .normalize('NFD')
+      .replace(/[\u0300-\u036f]/g, '')
+      .trim();
+  }
+
+  get filteredPosts() {
+    if (!this.selectedCategory) return this.posts;
+    
+    return this.posts.filter(post => 
+      this.normalizeCategory(post.category) === this.normalizeCategory(this.selectedCategory!)
+    );
+  }
+
+  setFilter(category: string) {
+    this.selectedCategory = category === 'Todos los temas' ? null : category;
+  }
+
+  trackByPostId(index: number, post: any): number {
+    return post.id;
+  }
 }

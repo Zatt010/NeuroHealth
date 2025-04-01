@@ -13,24 +13,30 @@
     <div class="forum-container">
       <!-- Filtros -->
       <div class="filter-bar">
-        <button class="filter-button active">Todos los temas</button>
-        <button class="filter-button">Ansiedad</button>
-        <button class="filter-button">Depresión</button>
-        <button class="filter-button">Estrés</button>
+        <!-- Se itera sobre el array de categorías -->
+        <button 
+          *ngFor="let category of categories" 
+          class="filter-button" 
+          [class.active]="(selectedCategory === category) || (!selectedCategory && category === 'Todos los temas')"
+          (click)="setFilter(category)"
+        >
+          {{ category }}
+        </button>
         <button class="new-post-button" routerLink="/community/new">+ Nueva publicación</button>
       </div>
 
       <!-- Lista de posts -->
       <div class="posts-grid">
-        <div class="post-card" *ngFor="let post of posts">
+        <!-- Se utiliza filteredPosts para mostrar únicamente los posts filtrados -->
+        <div class="post-card" *ngFor="let post of filteredPosts; trackBy: trackByPostId">
           <div class="post-header">
-            <span class="post-category">{{post.category}}</span>
-            <span class="post-date">{{post.date | date}}</span>
+            <span class="post-category">{{ post.category }}</span>
+            <span class="post-date">{{ post.date | date }}</span>
           </div>
-          <h3 class="post-title">{{post.title}}</h3>
-          <p class="post-preview">{{post.content | truncate:150}}</p>
+          <h3 class="post-title">{{ post.title }}</h3>
+          <p class="post-preview">{{ post.content | truncate:150 }}</p>
           <div class="post-footer">
-            <span class="post-author">&#64;{{ '@' }}{{ post?.author }}</span>
+            <span class="post-author">&#64;{{ post.author }}</span>
             <button class="read-more" [routerLink]="['/community', post.id]">Leer más</button>
           </div>
         </div>
