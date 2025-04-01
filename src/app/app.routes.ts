@@ -7,7 +7,7 @@ import { BigFiveTestComponent } from './pages/big-five-test/big-five-test.compon
 import { CommunityComponent } from './pages/community/community.component';
 import { NewPostComponent } from './pages/community/new-post/new-post.component';
 import { PostDetailComponent } from './pages/community/post-detail/post-detail.component';
-
+import {MeditationsComponent} from './pages/Meditations/Meditations.component';
 
 export const routes: Routes = [
     { path: '', component: landingPage},
@@ -23,5 +23,6 @@ export const routes: Routes = [
           { path: ':id', component: PostDetailComponent },
           { path: '', redirectTo: 'list', pathMatch: 'full' }
         ]
-    }
+    },
+    { path: 'meditations', component: MeditationsComponent },
   ];
