@@ -7,6 +7,7 @@ import { Observable } from 'rxjs';
 })
 export class AuthService {
   private apiUrl = 'http://localhost:8080/usuarios';
+  private usuario: any = null;
 
   constructor(private http: HttpClient) {}
 
@@ -37,4 +38,22 @@ export class AuthService {
   
     return this.http.post(apiSignupUrl, body, { headers });
   }  
+
+  guardarUsuario(usuario: any) {
+    localStorage.setItem('usuario', JSON.stringify(usuario)); // Guardamos el usuario en localStorage
+    this.usuario = usuario;
+  }
+
+  getUsuario() {
+    if (!this.usuario) {
+      const usuarioGuardado = localStorage.getItem('usuario');
+      this.usuario = usuarioGuardado ? JSON.parse(usuarioGuardado) : null;
+    }
+    return this.usuario;
+  }
+
+  logout() {
+    localStorage.removeItem('usuario'); // Elimina el usuario guardado
+    this.usuario = null;
+  }
 }
