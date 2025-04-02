@@ -15,7 +15,7 @@ export class CommentService {
 
     const apiUrlComments = `${this.apiUrl}/publicaciones`;
 
-    return this.http.get<any[]>(apiUrlComments);``
+    return this.http.get<any[]>(apiUrlComments);
   }
 
   postComment(usuarioId: string, titulo: string, contenido: string, tema: string): Observable<any> {
