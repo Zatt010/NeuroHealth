@@ -1,4 +1,4 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 
@@ -15,6 +15,20 @@ export class CommentService {
 
     const apiUrlComments = `${this.apiUrl}/publicaciones`;
 
-    return this.http.get<any[]>(apiUrlComments);
+    return this.http.get<any[]>(apiUrlComments);``
   }
+
+  postComment(usuarioId: string, titulo: string, contenido: string, tema: string): Observable<any> {
+      const body = {
+        usuarioId,
+        titulo,
+        contenido,
+        tema
+      };
+    
+      const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
+      const apiUrlComments = `${this.apiUrl}/publicaciones`;
+    
+      return this.http.post(apiUrlComments, body, { headers });
+    }  
 }

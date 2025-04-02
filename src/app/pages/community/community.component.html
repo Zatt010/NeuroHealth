@@ -34,18 +34,18 @@
         <!-- Se utiliza filteredPosts para mostrar únicamente los posts filtrados -->
         <div class="post-card" *ngFor="let post of filteredPosts; trackBy: trackByPostId">
           <div class="post-header">
-            <span class="post-category">{{ post.category }}</span>
-            <span class="post-date">{{ post.date | date }}</span>
+            <span class="post-category">{{ post.tema }}</span>
+            <span class="post-date">{{ post.fechaPublicacion | date:'longDate' }}</span>
           </div>
-          <h3 class="post-title">{{ post.title }}</h3>
-          <p class="post-preview">{{ post.content | truncate:150 }}</p>
+          <h3 class="post-title">{{ post.titulo }}</h3>
+          <p class="post-preview">{{ post.contenido | truncate:150 }}</p>
           <div class="post-footer">
-            <span class="post-author">&#64;{{ post.author }}</span>
+            <span class="post-author">&#64;{{ post.usuario }}</span>
             <button class="read-more" [routerLink]="['/community', post.id]">Leer más</button>
           </div>
         </div>
       </div>
     </div>
   </main>
-  <router-outlet></router-outlet>
+  <!-- <router-outlet></router-outlet> -->
 </div>

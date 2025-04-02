@@ -8,6 +8,8 @@ import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
 import { MatButtonModule } from '@angular/material/button';
 import { CommonModule } from '@angular/common';
+import { CommentService } from '../../../services/comment.service';
+import { AuthService } from '../../../auth.service';
 
 @Component({
   standalone: true,
@@ -32,17 +34,35 @@ export class NewPostComponent {
     category: new FormControl('', [Validators.required])
   });
 
+  usuarioId: string | null = null;
+
   constructor(
-    public dialogRef: MatDialogRef<NewPostComponent>
-  ) {}
+    public dialogRef: MatDialogRef<NewPostComponent>,
+    private commentService: CommentService,
+    private authService: AuthService
+  ) {
+    const usuario = this.authService.getUsuario();
+    this.usuarioId = usuario ? usuario.id : null;
+  }
 
   onCancel(): void {
     this.dialogRef.close();
   }
 
   onSubmit(): void {
-    if (this.postForm.valid) {
-      this.dialogRef.close(this.postForm.value);
+    if (this.postForm.valid && this.usuarioId) {
+      this.commentService.postComment(
+        this.usuarioId,
+        this.postForm.value.title!,
+        this.postForm.value.content!,
+        this.postForm.value.category!
+      ).subscribe(response => {
+        this.dialogRef.close(response);
+      }, error => {
+        console.error('Error al publicar:', error);
+      });
+    } else {
+      console.error('No hay usuario autenticado o el formulario es inválido');
     }
   }
 }
