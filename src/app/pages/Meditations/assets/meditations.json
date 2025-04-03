@@ -3,7 +3,7 @@
       "id": 1,
       "title": "Relajación Profunda",
       "description": "Meditación guiada para aliviar el estrés y la ansiedad",
-      "duration": "15:00 min",
+      "duration": "10:33 min",
       "type": "audio",
       "url": "meditations-assets/audios/armonia.mp3"
     },
@@ -11,7 +11,7 @@
       "id": 2,
       "title": "Yoga Nidra",
       "description": "Práctica de sueño consciente para renovar energía",
-      "duration": "25:00 min",
+      "duration": "10:26 min",
       "type": "audio",
       "url": "meditations-assets/audios/respira.mp3"
     }

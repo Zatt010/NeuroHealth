@@ -8,20 +8,20 @@
 <div class="meditations-container">
 
   <h1 class="section-title">Meditaciones Guiadas</h1>
-  
+
   <div class="meditations-grid">
     <mat-card *ngFor="let meditation of meditations" class="meditation-card">
       <mat-card-header>
         <mat-card-title>{{ meditation.title }}</mat-card-title>
         <mat-card-subtitle>Duración: {{ meditation.duration }}</mat-card-subtitle>
       </mat-card-header>
-      
+
       <mat-card-content>
         <p>{{ meditation.description }}</p>
       </mat-card-content>
-      
+
       <mat-card-actions>
-        <button mat-raised-button color="primary" 
+        <button mat-raised-button color="primary"
                 (click)="playMeditation(meditation)">
           <mat-icon>play_circle</mat-icon>
           Reproducir
@@ -31,7 +31,7 @@
   </div>
 
   <div class="player-overlay" *ngIf="playerVisible && selectedMeditation">
-    <app-meditation-player 
+    <app-meditation-player
       [meditation]="selectedMeditation"
       (close)="closePlayer()"></app-meditation-player>
   </div>
