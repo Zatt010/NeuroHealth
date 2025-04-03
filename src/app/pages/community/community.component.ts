@@ -66,6 +66,14 @@ export class CommunityComponent {
       if (result) {
         console.log('Nuevo post:', result);
       }
+      this.commentService.getComments().subscribe({
+        next: (data) => {
+          this.posts = data;
+        },
+        error: (error) => {
+          console.error('Error al cargar los comentarios:', error);
+        }
+      });
     });
   }
 }
