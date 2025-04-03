@@ -3,12 +3,12 @@ import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 
 export interface Meditation {
-  id: number;
-  title: string;
-  description: string;
-  duration: string;
-  type: 'audio' | 'video';
-  url: string;
+    id: number;
+    url: string;
+    type: 'audio' | 'video' | 'youtube';
+    title?: string;
+    description?: string;
+    duration?: string;
 }
 
 @Injectable({
