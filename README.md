@@ -1,5 +1,8 @@
 # NeuroHealth
 
+![image](https://github.com/user-attachments/assets/9b94eab8-79f1-401b-aac9-cedebe0ff89e)
+
+
 This project was generated using [Angular CLI](https://github.com/angular/angular-cli) version 19.1.8.
 
 ## Development server
