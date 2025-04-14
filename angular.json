@@ -30,8 +30,8 @@
                 "src/assets",
                 {
                   "glob": "**/*",
-                  "input": "src/app/pages/landingPage/Assets", 
-                  "output": "/" 
+                  "input": "src/app/pages/landingPage/Assets",
+                  "output": "/"
                 }
               ],
             "styles": [
@@ -87,11 +87,9 @@
         "test": {
           "builder": "@angular-devkit/build-angular:karma",
           "options": {
-            "polyfills": [
-              "zone.js",
-              "zone.js/testing"
-            ],
+            "polyfills": ["zone.js", "zone.js/testing"],
             "tsConfig": "tsconfig.spec.json",
+            "karmaConfig": "karma.conf.js",
             "assets": [
               {
                 "glob": "**/*",
@@ -102,7 +100,7 @@
               "@angular/material/prebuilt-themes/azure-blue.css",
               "src/styles.css"
             ],
-            "scripts": []
+            "scripts": [],
           }
         }
       }
