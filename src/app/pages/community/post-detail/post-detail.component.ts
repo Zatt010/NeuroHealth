@@ -35,7 +35,7 @@ export class PostDetailComponent implements OnInit {
 
     if (foundPost) {
       this.post = foundPost;
-      // Cargar comentarios (aquí deberías implementar un servicio real)
+      // Cargar comentarios 
       this.comments = [
         { text: '¡Muy interesante!', user: 'juan' },
         { text: 'Gracias por compartir.', user: 'ana' }
