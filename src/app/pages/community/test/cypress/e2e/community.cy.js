@@ -78,3 +78,27 @@ describe('Pruebas del Componente Community', () => {
     cy.get('form').should('exist');
   });
 });
+
+describe('Flujo de Nueva Publicación', () => {
+  beforeEach(() => {
+    cy.intercept('POST', '**/publicaciones', {
+      statusCode: 201,
+      body: { success: true }
+    }).as('postComment');
+    
+    cy.visit('http://localhost:4200/community');
+    cy.get('.new-post-button').click();
+  });
+
+  it('1. Debería mostrar el diálogo de nueva publicación', () => {
+    cy.get('mat-dialog-container').should('be.visible');
+    cy.contains('Título').should('exist');
+  });
+
+  it('2. Debería validar el formulario para no mandar sin info', () => {
+    cy.get('button[color="primary"]').click();
+    cy.get('mat-error').should('have.length.at.least', 1);
+  });
+
+  
+});
