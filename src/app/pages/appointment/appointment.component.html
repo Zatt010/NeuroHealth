@@ -1,0 +1,55 @@
+<!-- appointment.component.html -->
+<div class="appointment-container">
+  <header class="header">
+    <div class="logo">
+      <span class="logo-neuro">NEURO</span>
+      <span class="logo-health">HEALTH</span>
+    </div>
+    <button class="login-button" routerLink="/login">Mi Cuenta</button>
+  </header>
+
+  <main class="calendar-section">
+    <h2 class="section-title">Agendar Cita con Especialista</h2>
+
+    <div class="doctor-selection">
+      <div class="selection-header">
+        <span class="selection-title">Seleccione especialista</span>
+        <span class="required-asterisk">*</span>
+      </div>
+      
+      <!-- Añadir evento (change) -->
+      <select [(ngModel)]="selectedDoctor" 
+              class="doctor-select"
+              (change)="onDoctorChange()">
+        <option [value]="null" disabled selected>-- Elija un especialista --</option>
+        <option *ngFor="let doctor of doctors" [value]="doctor.id">
+          {{ doctor.name }}
+        </option>
+      </select>
+    </div>
+
+    <!-- Mostrar solo si hay doctor seleccionado -->
+    <div *ngIf="selectedDoctor !== null">
+      <h3>Horarios disponibles para {{ getFormattedDate() }}</h3>
+      
+      <div class="time-slots">
+        <div *ngFor="let slot of availableSlots" 
+             class="time-slot"
+             [class.available]="slot.isAvailable"
+             [class.booked]="!slot.isAvailable"
+             (click)="slot.isAvailable ? confirmAppointment(slot.time) : null">
+          {{ slot.time }}
+        </div>
+      </div>
+
+      <div *ngIf="availableSlots.length === 0" class="no-slots">
+        No hay horarios disponibles para esta fecha
+      </div>
+    </div>
+
+    <!-- Mensaje cuando no hay doctor seleccionado -->
+    <div *ngIf="selectedDoctor === null" class="large-warning">
+      ⚠️ Por favor seleccione un especialista para ver la disponibilidad
+    </div>
+  </main>
+</div>
