@@ -34,7 +34,7 @@
              class="time-slot"
              [class.available]="slot.isAvailable"
              [class.booked]="!slot.isAvailable"
-             (click)="slot.isAvailable ? confirmAppointment(slot.time) : null">
+             (click)="slot.isAvailable ? selectedHour(slot.time) : null">
           {{ slot.time }}
           <span *ngIf="!slot.isAvailable" class="occupied-badge"></span>
         </div>
@@ -49,6 +49,20 @@
       ⚠️ Por favor seleccione un especialista para ver la disponibilidad
     </div>
   </main>
-  <button class="confirm-button" routerLink="/login">Confirmar Cita</button>
+
+  <div *ngIf="selectedTime && selectedEspecialista" class="appointment-summary">
+    <p>
+      Cita con {{ selectedEspecialistaName }}, el {{ getFormattedDate() }} a las {{ selectedTime }}
+    </p>
+  </div>
+  
+
+  <button 
+  class="confirm-button" 
+  [disabled]="!selectedTime || !selectedEspecialista"
+  (click)="confirmarCita()">
+  Confirmar Cita
+</button>
+
 
 </div>

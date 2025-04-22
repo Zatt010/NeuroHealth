@@ -4,6 +4,7 @@ import { DatePipe, CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { EspecialistaService } from '../../services/especialista.service';
 import { HttpClientModule } from '@angular/common/http';
+import { AuthService } from '../../auth.service';
 
 @Component({
   selector: 'app-appointment',
@@ -19,12 +20,19 @@ export class AppointmentComponent implements OnInit {
   especialistas: any[] = [];
   selectedEspecialista: string | null = null;
   horarios: {hours: string[], occupiedHours: string[]} = {hours: [], occupiedHours: []};
+  selectedTime: string | null = null;
+  usuarioId: string | null = null;
+
 
   constructor(
     private route: ActivatedRoute,
     private datePipe: DatePipe,
-    private especialistaService: EspecialistaService
-  ) {}
+    private especialistaService: EspecialistaService,
+    private authService: AuthService
+  ) {
+    // const usuario = this.authService.getUsuario();
+    // this.usuarioId = usuario ? usuario.id : null;
+  }
 
   ngOnInit(): void {
     this.loadEspecialistas();
@@ -72,14 +80,40 @@ export class AppointmentComponent implements OnInit {
     return this.datePipe.transform(this.selectedDate, 'fullDate', '', 'es') || '';
   }
 
-  confirmAppointment(time: string): void {
+  selectedHour(time: string): void {
+    this.selectedTime = time;
+  
     if (this.selectedEspecialista) {
       const selectedEspecialista = this.especialistas.find(e => e.id === this.selectedEspecialista);
-      console.log('Cita confirmada:', {
+      console.log('Horario Escogido:', {
         fecha: this.getFormattedDate(),
         hora: time,
         especialista: selectedEspecialista?.name
       });
     }
   }
+
+  get selectedEspecialistaName(): string {
+    const especialista = this.especialistas.find(e => e.id === this.selectedEspecialista);
+    return especialista ? especialista.name : '';
+  }
+
+  confirmarCita(): void {
+    if (this.selectedEspecialista && this.selectedTime) {
+      this.especialistaService.ocuparHora(this.selectedEspecialista, this.selectedTime)
+        .subscribe({
+          next: () => {
+            alert('Cita confirmada correctamente');
+            this.onEspecialistaChange(); // refrescar horarios
+          },
+          error: (err) => {
+            console.error('Error al confirmar la cita', err);
+            alert('Ocurrió un error al confirmar la cita');
+          }
+        });
+    }
+  }
+  
+  
+  
 }
