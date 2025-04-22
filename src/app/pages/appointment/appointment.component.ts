@@ -1,50 +1,34 @@
-import { Component, OnInit, LOCALE_ID } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { DatePipe, CommonModule, registerLocaleData } from '@angular/common';
+import { DatePipe, CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import localeEs from '@angular/common/locales/es';
-
-registerLocaleData(localeEs);
+import { EspecialistaService } from '../../services/especialista.service';
+import { HttpClientModule } from '@angular/common/http';
 
 @Component({
   selector: 'app-appointment',
   templateUrl: './appointment.component.html',
   standalone: true,
-  imports: [FormsModule, CommonModule],
-  providers: [
-    DatePipe,
-    { provide: LOCALE_ID, useValue: 'es' } 
-  ],
+  imports: [FormsModule, CommonModule, HttpClientModule],
+  providers: [DatePipe],
   styleUrls: ['./appointment.component.css']
 })
 export class AppointmentComponent implements OnInit {
   selectedDate: Date = new Date();
   availableSlots: { time: string, isAvailable: boolean }[] = [];
-  doctors = [
-    { 
-      id: 1, 
-      name: 'Dra. María Gómez - Psiquiatría',
-      specialty: 'Trastornos de ansiedad' 
-    },
-    { 
-      id: 2, 
-      name: 'Dr. Carlos Ruiz - Psicología Clínica',
-      specialty: 'Terapia cognitivo-conductual' 
-    },
-    { 
-      id: 3, 
-      name: 'Dra. Laura Pérez - Terapia Cognitiva',
-      specialty: 'Mindfulness y relajación' 
-    }
-  ];
-  selectedDoctor: number | null = null;
+  especialistas: any[] = [];
+  selectedEspecialista: string | null = null;
+  horarios: {hours: string[], occupiedHours: string[]} = {hours: [], occupiedHours: []};
 
   constructor(
     private route: ActivatedRoute,
-    private datePipe: DatePipe
+    private datePipe: DatePipe,
+    private especialistaService: EspecialistaService
   ) {}
 
   ngOnInit(): void {
+    this.loadEspecialistas();
+    
     this.route.queryParams.subscribe(params => {
       const dateParam = params['date'];
       
@@ -54,38 +38,47 @@ export class AppointmentComponent implements OnInit {
           this.selectedDate = parsedDate;
         }
       }
-      
-      this.loadAvailability();
     });
   }
 
-  private loadAvailability(): void {
-    if (!this.selectedDoctor) return;
-    
-    const baseSlots = ['8:30 AM', '10:30 AM', '2:30 PM', '4:00 PM'];
-    this.availableSlots = baseSlots.map(slot => ({
+  private loadEspecialistas(): void {
+    this.especialistaService.getAllEspecialistas().subscribe(data => {
+      this.especialistas = data.map(esp => ({
+        id: esp.id,
+        name: `Dr./Dra. ${esp.name} - ${esp.speciality}`,
+        specialty: esp.speciality
+      }));
+    });
+  }
+
+  onEspecialistaChange(): void {
+    if (this.selectedEspecialista) {
+      this.especialistaService.getHorariosByEspecialistaId(this.selectedEspecialista)
+        .subscribe(horarios => {
+          this.horarios = horarios;
+          this.updateAvailableSlots();
+        });
+    }
+  }
+
+  private updateAvailableSlots(): void {
+    this.availableSlots = this.horarios.hours.map(slot => ({
       time: slot,
-      isAvailable: slot !== '8:30 AM'
+      isAvailable: !this.horarios.occupiedHours.includes(slot)
     }));
   }
-  onDoctorChange(): void {
-    this.loadAvailability();
-  }
+
   getFormattedDate(): string {
-    return this.datePipe.transform(
-      this.selectedDate, 
-      'fullDate', 
-      '', 
-      'es' 
-    ) || '';
+    return this.datePipe.transform(this.selectedDate, 'fullDate', '', 'es') || '';
   }
 
   confirmAppointment(time: string): void {
-    if (this.selectedDoctor) {
+    if (this.selectedEspecialista) {
+      const selectedEspecialista = this.especialistas.find(e => e.id === this.selectedEspecialista);
       console.log('Cita confirmada:', {
         fecha: this.getFormattedDate(),
         hora: time,
-        doctor: this.doctors.find(d => d.id === this.selectedDoctor)?.name
+        especialista: selectedEspecialista?.name
       });
     }
   }
