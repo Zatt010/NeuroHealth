@@ -21,7 +21,7 @@ export class AppointmentComponent implements OnInit {
   selectedEspecialista: string | null = null;
   horarios: {hours: string[], occupiedHours: string[]} = {hours: [], occupiedHours: []};
   selectedTime: string | null = null;
-  usuarioId: string | null = null;
+  usuarioId: string ;
 
 
   constructor(
@@ -30,8 +30,8 @@ export class AppointmentComponent implements OnInit {
     private especialistaService: EspecialistaService,
     private authService: AuthService
   ) {
-    // const usuario = this.authService.getUsuario();
-    // this.usuarioId = usuario ? usuario.id : null;
+    const usuario = this.authService.getUsuario();
+    this.usuarioId = usuario ? usuario.id : null;
   }
 
   ngOnInit(): void {
@@ -100,7 +100,7 @@ export class AppointmentComponent implements OnInit {
 
   confirmarCita(): void {
     if (this.selectedEspecialista && this.selectedTime) {
-      this.especialistaService.ocuparHora(this.selectedEspecialista, this.selectedTime)
+      this.especialistaService.ocuparHora(this.selectedEspecialista, this.selectedTime, this.usuarioId)
         .subscribe({
           next: () => {
             alert('Cita confirmada correctamente');

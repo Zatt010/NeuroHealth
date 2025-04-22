@@ -26,8 +26,8 @@ export class EspecialistaService {
     return this.http.get<{hours: string[], occupiedHours: string[]}>(`${this.apiUrl}/${id}/horarios`);
   }
 
-  ocuparHora(id: string, hour: string): Observable<any> {
-    return this.http.put(`${this.apiUrl}/${id}/ocupar-hora`, { hour });
+  ocuparHora(id: string, hour: string, userId: string): Observable<any> {
+    return this.http.put(`${this.apiUrl}/${id}/ocupar-hora`, { hour, userId });
   }
   
 }
