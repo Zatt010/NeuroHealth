@@ -2,19 +2,21 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
-
+import { Router } from '@angular/router';
+import { DatePipe } from '@angular/common';
 @Component({
   selector: 'app-landingPage',
   standalone: true,
   imports: [CommonModule, RouterModule],
   templateUrl: './landingPage.component.html',
-  styleUrls: ['./landingPage.component.css']
+  styleUrls: ['./landingPage.component.css'],
+  providers: [DatePipe]
 })
 export class landingPage implements OnInit {
   selectedDate: Date | null = null;
   currentDate = new Date();
   calendarDays: (number | null)[][] = [];
-
+  constructor(private router: Router, private datePipe: DatePipe) {}
   ngOnInit() {
     this.generateCalendar(this.currentDate);
   }
@@ -82,5 +84,13 @@ export class landingPage implements OnInit {
       this.currentDate.getMonth() + 1
     );
     this.generateCalendar(this.currentDate);
+  }
+  confirmSelection(): void {
+    if (this.selectedDate) {
+      const formattedDate = this.datePipe.transform(this.selectedDate, 'yyyy-MM-dd');
+      this.router.navigate(['/appointments'], { 
+        queryParams: { date: formattedDate } 
+      });
+    }
   }
 }

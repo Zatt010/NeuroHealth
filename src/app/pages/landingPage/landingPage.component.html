@@ -119,7 +119,12 @@
         </tbody>
       </table>
 
-      <button class="confirm-button">Confirmar</button>
+      <button 
+        class="confirm-button" 
+        (click)="confirmSelection()"
+        [disabled]="!selectedDate">
+        Confirmar
+      </button>
     </div>
   </section>
 </div>
