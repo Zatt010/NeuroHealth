@@ -22,12 +22,12 @@ export class EspecialistaService {
     return this.http.get<Especialista[]>(this.apiUrl);
   }
 
-  getHorariosByEspecialistaId(id: string): Observable<{hours: string[], occupiedHours: string[]}> {
-    return this.http.get<{hours: string[], occupiedHours: string[]}>(`${this.apiUrl}/${id}/horarios`);
-  }
-
-  ocuparHora(id: string, hour: string, userId: string): Observable<any> {
-    return this.http.put(`${this.apiUrl}/${id}/ocupar-hora`, { hour, userId });
+  getHorariosByEspecialistaId(id: string, fecha: string): Observable<{hours: string[], occupiedHours: string[]}> {
+    return this.http.get<{hours: string[], occupiedHours: string[]}>(`${this.apiUrl}/${id}/horarios?fecha=${fecha}`);
   }
   
+  ocuparHora(id: string, hour: string, fecha: string, userId: string): Observable<any> {
+    return this.http.put(`${this.apiUrl}/${id}/ocupar-hora`, { hour, fecha, userId });
+  }
+    
 }

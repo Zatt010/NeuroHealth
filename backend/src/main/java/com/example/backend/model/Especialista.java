@@ -3,20 +3,22 @@ package com.example.backend.model;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 import java.util.List;
+import java.util.Map;
 
-@Document(collection = "especialistas")
+@Document(collection = "especialistasHorario")
 public class Especialista {
     @Id
     private String id;
     private String name;
     private String speciality;
     private List<String> hours;
-    private List<String> occupiedHours;
+    private Map<String, List<String>> occupiedHours;
+
 
     // Constructores
     public Especialista() {}
 
-    public Especialista(String name, String speciality, List<String> hours, List<String> occupiedHours) {
+    public Especialista(String name, String speciality, List<String> hours, Map<String, List<String>> occupiedHours) {
         this.name = name;
         this.speciality = speciality;
         this.hours = hours;
@@ -56,11 +58,11 @@ public class Especialista {
         this.hours = hours;
     }
 
-    public List<String> getOccupiedHours() {
+    public Map<String, List<String>> getOccupiedHours() {
         return occupiedHours;
     }
 
-    public void setOccupiedHours(List<String> occupiedHours) {
+    public void setOccupiedHours(Map<String, List<String>> occupiedHours) {
         this.occupiedHours = occupiedHours;
     }
 }

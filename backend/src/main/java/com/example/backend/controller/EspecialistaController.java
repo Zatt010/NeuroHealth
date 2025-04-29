@@ -36,38 +36,37 @@ public class EspecialistaController {
 
     // Obtener horarios de un especialista por ID
     @GetMapping("/{id}/horarios")
-    public ResponseEntity<Map<String, List<String>>> getHorariosByEspecialistaId(@PathVariable String id) {
-        return ResponseEntity.ok(especialistaService.getHorariosByEspecialistaId(id));
+    public ResponseEntity<Map<String, List<String>>> getHorariosByEspecialistaId(
+            @PathVariable String id,
+            @RequestParam String fecha) {
+        return ResponseEntity.ok(especialistaService.getHorariosByEspecialistaId(id, fecha));
     }
 
+
     @PutMapping("/{id}/ocupar-hora")
-    public ResponseEntity<Map> ocuparHora(
-            @PathVariable String id,
-            @RequestBody Map<String, String> body
-    ) {
+    public ResponseEntity<Map> ocuparHora(@PathVariable String id, @RequestBody Map<String, String> body) {
         String hour = body.get("hour");
+        String fecha = body.get("fecha");
         String userId = body.get("userId");
+
         Usuario usuario = usuarioService.obtenerUsuarioPorId(userId);
         Optional<Especialista> doctor = especialistaRepository.findById(id);
 
-        boolean success = especialistaService.addOccupiedHour(id, hour);
+        boolean success = especialistaService.addOccupiedHour(id, hour, fecha);
         if (success) {
-            System.out.println("Hora ocupada correctamente");
             try {
                 emailService.sendEmail(usuario.getEmail(),
                         "Cita Confirmada",
-                        "<h1>Hola " + usuario.getNombre() + "!</h1><p>Tu cita con " + doctor.get().getName() + "!"
-                                + " a las " + hour + " fue confirmada.</p>");
+                        "<h1>Hola " + usuario.getNombre() + "!</h1><p>Tu cita con " + doctor.get().getName() + " a las " + hour +
+                                " el día " + fecha + " fue confirmada.</p>");
             } catch (Exception e) {
-
                 System.err.println("Error al enviar el correo: " + e.getMessage());
             }
             return ResponseEntity.ok(Map.of("message", "Hora ocupada con éxito"));
-
         } else {
-            System.out.println("Hora no ocupada correctamente");
             return ResponseEntity.badRequest().body(Map.of("message", "No se pudo ocupar la hora"));
         }
     }
+
 
 }

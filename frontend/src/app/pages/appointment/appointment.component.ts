@@ -15,7 +15,7 @@ import { AuthService } from '../../auth.service';
   styleUrls: ['./appointment.component.css']
 })
 export class AppointmentComponent implements OnInit {
-  selectedDate: Date = new Date();
+  selectedDate = new Date(new Date().setHours(0, 0, 0, 0));
   availableSlots: { time: string, isAvailable: boolean }[] = [];
   especialistas: any[] = [];
   selectedEspecialista: string | null = null;
@@ -41,8 +41,11 @@ export class AppointmentComponent implements OnInit {
       const dateParam = params['date'];
       
       if (dateParam) {
-        const parsedDate = new Date(dateParam);
+        const parts = dateParam.split('-'); // ["2025", "04", "24"]
+        const parsedDate = new Date(+parts[0], +parts[1] - 1, +parts[2]);
+
         if (!isNaN(parsedDate.getTime())) {
+          parsedDate.setHours(0, 0, 0, 0);
           this.selectedDate = parsedDate;
         }
       }
@@ -61,13 +64,15 @@ export class AppointmentComponent implements OnInit {
 
   onEspecialistaChange(): void {
     if (this.selectedEspecialista) {
-      this.especialistaService.getHorariosByEspecialistaId(this.selectedEspecialista)
+      const fecha = this.datePipe.transform(this.selectedDate, 'yyyy-MM-dd')!;
+      this.especialistaService.getHorariosByEspecialistaId(this.selectedEspecialista, fecha)
         .subscribe(horarios => {
           this.horarios = horarios;
           this.updateAvailableSlots();
         });
     }
   }
+  
 
   private updateAvailableSlots(): void {
     this.availableSlots = this.horarios.hours.map(slot => ({
@@ -100,7 +105,8 @@ export class AppointmentComponent implements OnInit {
 
   confirmarCita(): void {
     if (this.selectedEspecialista && this.selectedTime) {
-      this.especialistaService.ocuparHora(this.selectedEspecialista, this.selectedTime, this.usuarioId)
+      const fecha = this.datePipe.transform(this.selectedDate, 'yyyy-MM-dd')!;
+      this.especialistaService.ocuparHora(this.selectedEspecialista, this.selectedTime, fecha, this.usuarioId)
         .subscribe({
           next: () => {
             alert('Cita confirmada correctamente');
@@ -113,6 +119,7 @@ export class AppointmentComponent implements OnInit {
         });
     }
   }
+  
   
   
   

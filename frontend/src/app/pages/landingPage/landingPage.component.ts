@@ -88,6 +88,7 @@ export class landingPage implements OnInit {
   confirmSelection(): void {
     if (this.selectedDate) {
       const formattedDate = this.datePipe.transform(this.selectedDate, 'yyyy-MM-dd');
+      console.log('Fecha seleccionada:', formattedDate);
       this.router.navigate(['/appointments'], { 
         queryParams: { date: formattedDate } 
       });
