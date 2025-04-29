@@ -8,6 +8,8 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 import java.util.Map;
 import java.util.HashMap;
+import java.util.Map;
+import java.util.ArrayList;
 import java.util.Optional;
 
 @Service
@@ -23,31 +25,40 @@ public class EspecialistaService {
     }
 
     // Obtener horarios de un especialista por ID
-    public Map<String, List<String>> getHorariosByEspecialistaId(String id) {
+    public Map<String, List<String>> getHorariosByEspecialistaId(String id, String fecha) {
         Optional<Especialista> especialista = especialistaRepository.findById(id);
         Map<String, List<String>> horarios = new HashMap<>();
 
         if (especialista.isPresent()) {
             horarios.put("hours", especialista.get().getHours());
-            horarios.put("occupiedHours", especialista.get().getOccupiedHours());
+            Map<String, List<String>> ocupadas = especialista.get().getOccupiedHours();
+            horarios.put("occupiedHours", ocupadas.getOrDefault(fecha, List.of()));
         }
 
         return horarios;
     }
 
-    public boolean addOccupiedHour(String id, String hour) {
+
+    public boolean addOccupiedHour(String id, String hour, String fecha) {
         Optional<Especialista> especialistaOpt = especialistaRepository.findById(id);
         if (especialistaOpt.isPresent()) {
             Especialista especialista = especialistaOpt.get();
-            List<String> occupied = especialista.getOccupiedHours();
-            if (!occupied.contains(hour)) {
-                occupied.add(hour);
-                especialista.setOccupiedHours(occupied);
+            Map<String, List<String>> ocupadas = especialista.getOccupiedHours();
+
+            if (!ocupadas.containsKey(fecha)) {
+                ocupadas.put(fecha, new ArrayList<>());
+            }
+
+            List<String> horasEnFecha = ocupadas.get(fecha);
+            if (!horasEnFecha.contains(hour)) {
+                horasEnFecha.add(hour);
+                especialista.setOccupiedHours(ocupadas);
                 especialistaRepository.save(especialista);
                 return true;
             }
         }
         return false;
     }
+
 
 }
