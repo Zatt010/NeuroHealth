@@ -1,9 +1,8 @@
-# emociones_modelo_trainer.py
 import pandas as pd
 import torch
 from sklearn.preprocessing import LabelEncoder
 from sklearn.model_selection import train_test_split
-from transformers import BertTokenizer, BertForSequenceClassification, Trainer, TrainingArguments
+from transformers import BertTokenizer, BertForSequenceClassification, Trainer, TrainingArguments, EarlyStoppingCallback
 from datasets import Dataset
 
 # Cargar y balancear datos
@@ -37,14 +36,15 @@ training_args = TrainingArguments(
     output_dir="./results",
     evaluation_strategy="epoch",
     save_strategy="epoch",
-    num_train_epochs=5,
+    logging_strategy="epoch",
+    learning_rate=2e-5,
     per_device_train_batch_size=16,
     per_device_eval_batch_size=16,
+    num_train_epochs=3,
+    weight_decay=0.01,
     load_best_model_at_end=True,
-    metric_for_best_model="eval_loss",
-    logging_dir="./logs",
-    save_total_limit=2,
-    early_stopping_patience=2
+    metric_for_best_model="accuracy",
+    save_total_limit=1
 )
 
 from sklearn.metrics import accuracy_score, f1_score
@@ -62,7 +62,8 @@ trainer = Trainer(
     train_dataset=train_ds,
     eval_dataset=test_ds,
     tokenizer=tokenizer,
-    compute_metrics=compute_metrics
+    compute_metrics=compute_metrics,
+    callbacks=[EarlyStoppingCallback(early_stopping_patience=2)]  # <- aquí va el early stopping
 )
 
 trainer.train()

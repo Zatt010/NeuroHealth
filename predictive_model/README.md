@@ -47,6 +47,7 @@ Accede a la documentación interactiva en:
 
     http://localhost:8000/redoc
 ## Estructura del proyecto
+```bash
 .
 ├── api_chatbot.py         # API FastAPI
 ├── chatbot.py             # Chatbot interactivo
@@ -55,7 +56,7 @@ Accede a la documentación interactiva en:
 ├── label_encoder.pkl      # Codificador de etiquetas
 ├── requirements.txt       # Dependencias
 └── diario_emociones.csv   # Dataset de entrenamiento
-
+```
 ## Uso del modelo
 ### Desde Python:
 ```python
