@@ -1,8 +1,8 @@
 package com.example.backend.service;
 
-import com.example.backend.model.Emocion;
+import com.example.backend.model.Examen;
 import com.example.backend.model.Usuario;
-import com.example.backend.repository.EmocionRepository;
+import com.example.backend.repository.ExamenRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import java.util.*;
@@ -11,15 +11,15 @@ import java.util.Optional;
 import java.util.function.Supplier;
 
 @Service
-public class EmocionService {
+public class ExamenService {
     @Autowired
-    private EmocionRepository emocionRepository;
+    private ExamenRepository examenRepository;
 
     @Autowired
     private UsuarioService usuarioService;
 
 
-    public Map<String, Object> escribirEnDiario(String usuarioId, String contenido, String emocion) {
+    public Map<String, Object> aumentarExamen(String usuarioId, String description, String name, String result) {
 
         Usuario usuario = usuarioService.obtenerUsuarioPorId(usuarioId);
         if (usuario == null) {
@@ -27,15 +27,15 @@ public class EmocionService {
         }
 
 
-        Emocion diario = emocionRepository.findByUsuario_Id(usuarioId)
+        Examen diario = examenRepository.findByUsuario_Id(usuarioId)
                 .orElseGet(() -> {
-                    Emocion nuevoDiario = new Emocion(usuario);
+                    Examen nuevoDiario = new Examen(usuario);
                     nuevoDiario.setUsuario(usuario);
-                    return emocionRepository.save(nuevoDiario);
+                    return examenRepository.save(nuevoDiario);
                 });
 
-        diario.setListaDiario(contenido, emocion);
-        emocionRepository.save(diario);
+        diario.setExamenes(description, name, result);
+        examenRepository.save(diario);
 
         Map<String, Object> respuesta = new HashMap<>();
         respuesta.put("id", diario.getId());
@@ -44,12 +44,12 @@ public class EmocionService {
     }
 
 
-    public Map<String, Object> obtenerDiarioCompleto(String usuarioId) {
-        Emocion diario = emocionRepository.findByUsuario_Id(usuarioId)
+    public Map<String, Object> obtenerExamenes(String usuarioId) {
+        Examen diario = examenRepository.findByUsuario_Id(usuarioId)
                 .orElseThrow(() -> new RuntimeException("Diario no encontrado"));
 
         // Ordenar las entradas por fecha de publicación (más reciente primero)
-        List<Emocion.ListaDiario> entradasOrdenadas = diario.getListaDiario().stream()
+        List<Examen.Examenes> entradasOrdenadas = diario.getExamenes().stream()
                 .sorted((e1, e2) -> e2.getFechaPublicacion().compareTo(e1.getFechaPublicacion()))
                 .collect(Collectors.toList());
 
@@ -61,8 +61,9 @@ public class EmocionService {
                 .map(entrada -> {
                     Map<String, Object> entradaMap = new HashMap<>();
                     entradaMap.put("type", entrada.getType());
-                    entradaMap.put("emotion", entrada.getEmocion());
-                    entradaMap.put("notes", entrada.getContenido());
+                    entradaMap.put("description", entrada.getDescription());
+                    entradaMap.put("name", entrada.getName());
+                    entradaMap.put("result", entrada.getResult());
                     entradaMap.put("date", entrada.getFechaPublicacion());
                     return entradaMap;
                 })

@@ -8,6 +8,7 @@ interface Especialista {
   speciality: string;
   hours: string[];
   occupiedHours: string[];
+  patients: string[];
 }
 
 @Injectable({
@@ -28,6 +29,10 @@ export class EspecialistaService {
   
   ocuparHora(id: string, hour: string, fecha: string, userId: string): Observable<any> {
     return this.http.put(`${this.apiUrl}/${id}/ocupar-hora`, { hour, fecha, userId });
+  }
+
+  getPatientsByEspecialistaId(id: string): Observable<any> {
+    return this.http.get(`${this.apiUrl}/${id}/patients`);
   }
     
 }

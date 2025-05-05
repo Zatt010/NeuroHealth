@@ -7,22 +7,27 @@ import java.util.Map;
 
 @Document(collection = "especialistasHorario")
 public class Especialista {
+
     @Id
     private String id;
     private String name;
     private String speciality;
     private List<String> hours;
     private Map<String, List<String>> occupiedHours;
+    private List<String> patients;
+    private String especialistaId;
 
 
     // Constructores
     public Especialista() {}
 
-    public Especialista(String name, String speciality, List<String> hours, Map<String, List<String>> occupiedHours) {
+    public Especialista(String name, String speciality, List<String> hours, Map<String, List<String>> occupiedHours, List<String> patients, String especialistaId) {
         this.name = name;
         this.speciality = speciality;
         this.hours = hours;
         this.occupiedHours = occupiedHours;
+        this.patients = patients;
+        this.especialistaId = especialistaId;
     }
 
     // Getters y Setters
@@ -65,4 +70,10 @@ public class Especialista {
     public void setOccupiedHours(Map<String, List<String>> occupiedHours) {
         this.occupiedHours = occupiedHours;
     }
+
+    public List<String> getPatients() {return patients;}
+    public void setPatients(List<String> patients) {this.patients = patients;}
+
+    public String getEspecialistaId() {return especialistaId;}
+    public void setEspecialistaId(String especialistaId) {this.especialistaId = especialistaId;}
 }
