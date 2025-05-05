@@ -1,0 +1,127 @@
+<div class="update-container">
+    <h2 class="section-title">Actualizar Información del Paciente</h2>
+  
+    <div class="form-container">
+      <!-- Selección de paciente -->
+      <div class="form-group">
+        <label>Paciente:</label>
+        <select [(ngModel)]="selectedPatientId" class="form-select" required>
+          <option value="">Seleccionar paciente</option>
+          <option *ngFor="let patient of patients" [value]="patient.id">{{ patient.name }}</option>
+        </select>
+      </div>
+  
+      <!-- Tipo de registro -->
+      <div class="form-group">
+        <label>Tipo de registro:</label>
+        <div class="radio-group">
+          <label>
+            <input type="radio" [(ngModel)]="updateForm.type" value="emotion" (change)="onTypeChange()"> Emoción
+          </label>
+          <label>
+            <input type="radio" [(ngModel)]="updateForm.type" value="observation" (change)="onTypeChange()"> Observación
+          </label>
+          <label>
+            <input type="radio" [(ngModel)]="updateForm.type" value="exam" (change)="onTypeChange()"> Examen
+          </label>
+        </div>
+      </div>
+  
+      <!-- Campos para Emoción -->
+      <div *ngIf="updateForm.type === 'emotion'">
+        <div class="form-group">
+          <label>Emoción:</label>
+          <select [(ngModel)]="updateForm.emotion" class="form-select" required>
+            <option value="">Seleccionar emoción</option>
+            <option *ngFor="let emotion of availableEmotions" [value]="emotion">{{ emotion }}</option>
+          </select>
+        </div>
+  
+        <div class="form-group">
+          <label>Intensidad:</label>
+          <div class="intensity-display">{{ updateForm.intensity }}/5</div>
+          <input type="range" [(ngModel)]="updateForm.intensity" min="1" max="5" class="form-range">
+        </div>
+      </div>
+  
+      <!-- Campos para Observación -->
+      <div *ngIf="updateForm.type === 'observation'">
+        <div class="form-group">
+          <label>Tipo de observación:</label>
+          <select [(ngModel)]="updateForm.observationType" class="form-select" required>
+            <option value="">Seleccionar tipo</option>
+            <option *ngFor="let type of availableObservationTypes" [value]="type">{{ type }}</option>
+          </select>
+        </div>
+  
+        <div class="form-group">
+          <label>Síntomas relacionados:</label>
+          <div class="tags-container">
+            <button *ngFor="let symptom of availableSymptoms" 
+                    [class.selected]="(updateForm.relatedSymptoms || []).includes(symptom)"
+                    (click)="toggleSelection(updateForm.relatedSymptoms || [], symptom)"
+                    type="button" class="tag-button">
+              {{ symptom }}
+            </button>
+          </div>
+        </div>
+  
+        <div class="form-group">
+          <label>Intensidad:</label>
+          <div class="intensity-display">{{ updateForm.intensity }}/5</div>
+          <input type="range" [(ngModel)]="updateForm.intensity" min="1" max="5" class="form-range">
+        </div>
+      </div>
+  
+      <div *ngIf="updateForm.type === 'exam'">
+        <div class="form-group">
+          <label>Tipo de examen:</label>
+          <select [(ngModel)]="updateForm.examName" class="form-select" required>
+            <option value="">Seleccionar examen</option>
+            <option *ngFor="let exam of availableExamTypes" [value]="exam">{{ exam }}</option>
+          </select>
+        </div>
+  
+        <div class="form-group">
+          <label>Resultado:</label>
+          <input type="text" [(ngModel)]="updateForm.result" class="form-select" required>
+        </div>
+  
+        <div class="form-group">
+          <label>Descripción:</label>
+          <textarea [(ngModel)]="updateForm.description" class="form-textarea" rows="3"></textarea>
+        </div>
+      </div>
+  
+      <div class="form-group">
+        <label>Notas detalladas:</label>
+        <textarea [(ngModel)]="updateForm.notes" class="form-textarea" rows="4" required></textarea>
+      </div>
+  
+      <div class="form-group">
+        <label>Etiquetas:</label>
+        <div class="tags-container">
+          <button *ngFor="let tag of availableTags" 
+                  [class.selected]="updateForm.tags.includes(tag)"
+                  (click)="toggleTag(tag)"
+                  type="button" class="tag-button">
+            {{ tag }}
+          </button>
+        </div>
+      </div>
+  
+      <div class="form-group">
+        <label class="checkbox-label">
+          <input type="checkbox" [(ngModel)]="updateForm.notifyPatient">
+          Notificar al paciente sobre esta actualización
+        </label>
+      </div>
+  
+      <button (click)="submitUpdate()" class="submit-button" 
+              [disabled]="!selectedPatientId || !isFormValid()">
+        <span *ngIf="updateForm.type === 'emotion'">Registrar Emoción</span>
+        <span *ngIf="updateForm.type === 'observation'">Guardar Observación</span>
+        <span *ngIf="updateForm.type === 'exam'">Registrar Examen</span>
+      </button>
+    </div>
+  </div>

@@ -1,0 +1,199 @@
+.update-container {
+    padding: 2rem;
+    max-width: 800px;
+    margin: 0 auto;
+  }
+  
+  .section-title {
+    color: #2A4E6E;
+    text-align: center;
+    margin-bottom: 2rem;
+  }
+  
+  .form-container {
+    background: white;
+    padding: 2rem;
+    border-radius: 15px;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+  }
+  
+  .form-group {
+    margin-bottom: 1.5rem;
+  }
+  
+  .form-group label {
+    display: block;
+    margin-bottom: 0.5rem;
+    color: #2A4E6E;
+    font-weight: 500;
+  }
+  
+  .form-select, .form-textarea {
+    width: 100%;
+    padding: 0.8rem;
+    border: 2px solid #5A92C2;
+    border-radius: 10px;
+    font-size: 1rem;
+  }
+  
+  .form-textarea {
+    resize: vertical;
+  }
+  
+  .radio-group {
+    display: flex;
+    gap: 1rem;
+  }
+  
+  .radio-group label {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+  }
+  
+  .tags-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+  }
+  
+  .tag-button {
+    background: #E8F0FE;
+    border: none;
+    padding: 0.5rem 1rem;
+    border-radius: 20px;
+    cursor: pointer;
+    transition: all 0.3s;
+    color: #2A4E6E;
+  }
+  
+  .tag-button.selected {
+    background: #5A92C2;
+    color: white;
+  }
+  
+  .checkbox-label {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    cursor: pointer;
+  }
+  
+  .submit-button {
+    background: #7FB685;
+    color: white;
+    border: none;
+    padding: 1rem 2rem;
+    border-radius: 30px;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: all 0.3s;
+    display: block;
+    width: 100%;
+    margin-top: 1rem;
+  }
+  
+  .submit-button:hover {
+    background: #5A8F6E;
+  }
+  
+  .submit-button:disabled {
+    background: #cccccc;
+    cursor: not-allowed;
+  }
+  /* Estilos para el contenedor principal */
+.update-container {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 2rem;
+  }
+  
+  /* Estilos para el contenedor del formulario */
+  .form-container {
+    background: white;
+    padding: 2rem;
+    border-radius: 15px;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+  }
+  
+  /* Estilos para grupos de radio */
+  .radio-group {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+    gap: 1rem;
+    margin-top: 0.5rem;
+  }
+  
+  .radio-group label {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    cursor: pointer;
+  }
+  
+  /* Estilos para la visualización de intensidad */
+  .intensity-display {
+    text-align: center;
+    font-weight: bold;
+    color: #2A4E6E;
+    margin-bottom: 0.5rem;
+  }
+  
+  
+  .form-range::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    width: 20px;
+    height: 20px;
+    background: #5A92C2;
+    border-radius: 50%;
+    cursor: pointer;
+  }
+  
+  /* Estilos para el botón de submit */
+  .submit-button {
+    background: #7FB685;
+    color: white;
+    border: none;
+    padding: 1rem;
+    border-radius: 30px;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: all 0.3s;
+    display: block;
+    width: 100%;
+    margin-top: 1.5rem;
+    font-weight: bold;
+  }
+  
+  .submit-button:hover {
+    background: #5A8F6E;
+  }
+  
+  .submit-button:disabled {
+    background: #cccccc;
+    cursor: not-allowed;
+  }
+  
+  /* Estilos responsivos */
+  @media (max-width: 768px) {
+    .update-container {
+      padding: 1rem;
+    }
+    
+    .form-container {
+      padding: 1.5rem;
+    }
+    
+    .radio-group {
+      grid-template-columns: 1fr;
+    }
+  }
+  @media (max-width: 768px) {
+    .update-container {
+      padding: 1rem;
+    }
+    
+    .form-container {
+      padding: 1.5rem;
+    }
+  }
