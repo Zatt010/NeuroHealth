@@ -1,0 +1,75 @@
+/* emotion-tracker.component.css */
+.emotion-container {
+  padding: 2rem;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.tracker-section {
+  display: grid;
+  gap: 2rem;
+  grid-template-columns: 1fr 2fr;
+}
+
+.form-container {
+  background: white;
+  padding: 2rem;
+  border-radius: 15px;
+  box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+}
+
+.form-group {
+  margin-bottom: 1.5rem;
+}
+
+label {
+  display: block;
+  margin-bottom: 0.5rem;
+  color: #2A4E6E;
+  font-weight: 500;
+}
+
+select, textarea {
+  width: 100%;
+  padding: 0.8rem;
+  border: 2px solid #5A92C2;
+  border-radius: 8px;
+  font-size: 1rem;
+}
+
+textarea {
+  resize: vertical;
+  min-height: 100px;
+}
+
+.chart-container {
+  background: white;
+  padding: 2rem;
+  border-radius: 15px;
+  box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+}
+.btn-primary {
+  background-color: #7FB685;
+  color: #FAFAF9;
+  border: none;
+  padding: 0.8rem 2rem;
+  border-radius: 20px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  font-weight: bold;
+  text-transform: uppercase;
+}
+
+.btn-primary:hover {
+  background-color: #5A8F6E;
+}
+@media (max-width: 768px) {
+  .tracker-section {
+    grid-template-columns: 1fr;
+  }
+  
+  .form-container,
+  .chart-container {
+    padding: 1.5rem;
+  }
+}

@@ -9,6 +9,8 @@ import { NewPostComponent } from './pages/community/new-post/new-post.component'
 import { PostDetailComponent } from './pages/community/post-detail/post-detail.component';
 import {MeditationsComponent} from './pages/Meditations/Meditations.component';
 import {AppointmentComponent} from './pages/appointment/appointment.component'
+import {EmotionTrackerComponent} from './pages/emotion-tracker/emotion-tracker.component'
+
 export const routes: Routes = [
     { path: '', component: landingPage},
     { path: 'login', component: LoginComponent },
@@ -26,4 +28,5 @@ export const routes: Routes = [
     },
     { path: 'meditations', component: MeditationsComponent },
     { path: 'appointments', component: AppointmentComponent },
+    { path: 'emotion-tracker', component: EmotionTrackerComponent },
   ];
