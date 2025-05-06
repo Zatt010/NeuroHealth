@@ -68,5 +68,9 @@ public class EspecialistaController {
         }
     }
 
+    @GetMapping("/{id}/patients")
+    public List<Map<String, String>> getPatientsByEspecialistaId(@PathVariable("id") String especialistaId) {
+        return especialistaService.getPatientsByEspecialistaId(especialistaId);
+    }
 
 }

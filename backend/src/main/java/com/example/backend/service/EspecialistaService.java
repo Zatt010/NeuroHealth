@@ -1,7 +1,9 @@
 package com.example.backend.service;
 
 import com.example.backend.model.Especialista;
+import com.example.backend.model.Usuario;
 import com.example.backend.repository.EspecialistaRepository;
+import com.example.backend.repository.UsuarioRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -18,6 +20,9 @@ public class EspecialistaService {
     // Aumentar registro de citas
     @Autowired
     private EspecialistaRepository especialistaRepository;
+
+    @Autowired
+    private UsuarioRepository usuarioRepository;
 
     // Obtener todos los especialistas
     public List<Especialista> getAllEspecialistas() {
@@ -58,6 +63,27 @@ public class EspecialistaService {
             }
         }
         return false;
+    }
+
+    public List<Map<String, String>> getPatientsByEspecialistaId(String especialistaId) {
+        Optional<Especialista> especialistaOpt = especialistaRepository.findByEspecialistaId(especialistaId);
+        List<Map<String, String>> pacientesInfo = new ArrayList<>();
+
+        if (especialistaOpt.isPresent()) {
+            Especialista especialista = especialistaOpt.get();
+            List<String> pacientesIds = especialista.getPatients();
+
+            List<Usuario> usuarios = usuarioRepository.findAllById(pacientesIds);
+
+            for (Usuario usuario : usuarios) {
+                Map<String, String> data = new HashMap<>();
+                data.put("id", usuario.getId());
+                data.put("nombre", usuario.getNombre());
+                pacientesInfo.add(data);
+            }
+        }
+
+        return pacientesInfo;
     }
 
 

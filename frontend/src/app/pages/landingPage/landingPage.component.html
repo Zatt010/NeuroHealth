@@ -4,7 +4,8 @@
       <span class="logo-neuro">NEURO</span>
       <span class="logo-health">HEALTH</span>
     </div>
-    <button class="login-button" routerLink="/login">Login</button>
+    <button *ngIf="!isLoggedIn" class="login-button" routerLink="/login">Login</button>
+    <button *ngIf="isLoggedIn" class="login-button" (click)="logout()">Logout</button>
   </header>
 
   <main class="hero-section">

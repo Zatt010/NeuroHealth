@@ -19,7 +19,7 @@ public class EmocionService {
     private UsuarioService usuarioService;
 
 
-    public Map<String, Object> escribirEnDiario(String usuarioId, String contenido) {
+    public Map<String, Object> escribirEnDiario(String usuarioId, String contenido, String emocion) {
 
         Usuario usuario = usuarioService.obtenerUsuarioPorId(usuarioId);
         if (usuario == null) {
@@ -34,7 +34,7 @@ public class EmocionService {
                     return emocionRepository.save(nuevoDiario);
                 });
 
-        diario.setListaDiario(contenido);
+        diario.setListaDiario(contenido, emocion);
         emocionRepository.save(diario);
 
         Map<String, Object> respuesta = new HashMap<>();
@@ -60,13 +60,15 @@ public class EmocionService {
         List<Map<String, Object>> entradasMapeadas = entradasOrdenadas.stream()
                 .map(entrada -> {
                     Map<String, Object> entradaMap = new HashMap<>();
-                    entradaMap.put("contenido", entrada.getContenido());
-                    entradaMap.put("fechaPublicacion", entrada.getFechaPublicacion());
+                    entradaMap.put("type", entrada.getType());
+                    entradaMap.put("emotion", entrada.getEmocion());
+                    entradaMap.put("notes", entrada.getContenido());
+                    entradaMap.put("date", entrada.getFechaPublicacion());
                     return entradaMap;
                 })
                 .collect(Collectors.toList());
 
-        respuesta.put("emociones", entradasMapeadas);
+        respuesta.put("entries", entradasMapeadas);
         return respuesta;
     }
 }

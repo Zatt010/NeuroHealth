@@ -13,13 +13,14 @@ public class EmocionController {
     @Autowired
     private EmocionService emocionService;
 
-    @PostMapping("añadir")
+    @PostMapping("aniadir")
     public ResponseEntity<?> escribirEnDiario(@RequestBody Map<String, String> request) {
         try {
             String usuarioId = request.get("usuarioId");
             String contenido = request.get("contenido");
+            String emocion = request.get("emocion");
 
-            Map<String, Object> respuesta = emocionService.escribirEnDiario(usuarioId, contenido);
+            Map<String, Object> respuesta = emocionService.escribirEnDiario(usuarioId, contenido, emocion);
             return ResponseEntity.ok(respuesta);
         } catch (Exception e) {
             return ResponseEntity.status(500).body("Error: " + e.getMessage());

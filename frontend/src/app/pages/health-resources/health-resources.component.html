@@ -1,11 +1,61 @@
+<header class="header">
+  <div class="logo" (click)="goToHome()" style="cursor: pointer;">
+    <span class="logo-neuro">NEURO</span>
+    <span class="logo-health">HEALTH</span>
+  </div>
+</header>
 <div class="landing-container">
-  <h2>Health Resources</h2>
+  <!-- Sección Test Big Five -->
   <section class="tests-section">
-    <h3>Tests</h3>
-    <div class="test-item">
-      <h4>Test Big Five</h4>
-      <p>Evalúa tu personalidad en base a cinco grandes rasgos.</p>
-      <a routerLink="/bigfive" target="_blank" class="btn">Realizar Test</a>
+    <h2 class="section-title">Tests Disponibles</h2>
+    <div class="test-item card">
+      <h3>Test Big Five</h3>
+      <p>Evalúa tu personalidad en base a cinco grandes rasgos: apertura, responsabilidad, extraversión, amabilidad y estabilidad emocional.</p>
+      <a routerLink="/bigfive" class="btn primary">Realizar Test</a>
     </div>
   </section>
+
+  <!-- Sección de Artículos -->
+  <section class="articles-section">
+    <h2 class="section-title">Artículos sobre Trastornos Comunes</h2>
+    
+    <div class="article-grid">
+      <!-- Artículos dinámicos -->
+      <div class="article-card card" *ngFor="let article of articles">
+        <h3>{{ article.title }}</h3>
+        <p class="article-description">{{ article.description }}</p>
+        
+        <div class="resources-links">
+          <ng-container *ngFor="let link of article.links">
+            <!-- Enlaces de navegación -->
+            <a *ngIf="link.type === 'route'"
+               [routerLink]="link.target"
+               class="btn secondary">
+              {{ link.text }}
+            </a>
+
+            <!-- Botones de video -->
+            <button *ngIf="link.type === 'video'"
+                    class="btn secondary"
+                    (click)="handleLinkClick(link)">
+              {{ link.text }}
+            </button>
+          </ng-container>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Modal de Video -->
+  <div class="video-modal" *ngIf="selectedVideoUrl">
+    <div class="modal-content">
+      <span class="close-btn" (click)="closeVideoModal()">&times;</span>
+      <iframe 
+        [src]="selectedVideoUrl | safeUrl" 
+        frameborder="0" 
+        allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" 
+        allowfullscreen>
+      </iframe>
+    </div>
+  </div>
 </div>

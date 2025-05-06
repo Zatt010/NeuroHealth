@@ -4,6 +4,8 @@ import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
 import { Router } from '@angular/router';
 import { DatePipe } from '@angular/common';
+import { AuthService } from '../../auth.service';
+
 @Component({
   selector: 'app-landingPage',
   standalone: true,
@@ -16,11 +18,25 @@ export class landingPage implements OnInit {
   selectedDate: Date | null = null;
   currentDate = new Date();
   calendarDays: (number | null)[][] = [];
-  constructor(private router: Router, private datePipe: DatePipe) {}
+  isLoggedIn: boolean = false;
+  constructor(private router: Router, private datePipe: DatePipe, private authService: AuthService ) {}
   ngOnInit() {
     this.generateCalendar(this.currentDate);
+    this.checkAuthStatus();
   }
+  checkAuthStatus() {
+    this.isLoggedIn = !!this.authService.getUsuario();
 
+  }
+  logout() {
+    if (confirm('¿Estás seguro de que deseas cerrar sesión?')) {
+      this.authService.logout();
+      this.isLoggedIn = false;
+      this.router.navigate(['/']).then(() => {
+        window.location.reload(); // Recarga para actualizar el estado
+      });
+    }
+  }
   generateCalendar(date: Date) {
         const month = date.getMonth();
         const year = date.getFullYear();
