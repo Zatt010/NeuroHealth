@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
 import { SafeUrlPipe } from './safe-url.pipe';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-health-resources',
@@ -12,7 +13,12 @@ import { SafeUrlPipe } from './safe-url.pipe';
 })
 export class HealthResourcesComponent {
   selectedVideoUrl: string | null = null;
+  
+  constructor(private router: Router) {}
 
+  goToHome() {
+    this.router.navigate(['/']);
+  }
   articles = [
     {
       title: 'Trastorno de Ansiedad Generalizada',

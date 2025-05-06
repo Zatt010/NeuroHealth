@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-
+import { Router } from '@angular/router';
 import { AuthService } from '../../auth.service';
 import { EspecialistaService } from '../../services/especialista.service';
 import { EmocionService } from '../../services/emocion.service';
@@ -61,7 +61,9 @@ export class PatientsHistorialComponent implements OnInit {
     private authService: AuthService,
     private especialistaService: EspecialistaService,
     private emocionService: EmocionService,
-    private examenService: ExamenService
+    private examenService: ExamenService,
+    private router: Router
+
   ) {}
 
   ngOnInit(): void {
@@ -159,5 +161,8 @@ export class PatientsHistorialComponent implements OnInit {
     this.filteredEntries = this.selectedPatient ? [...this.selectedPatient.entries] : [];
     const selects = document.querySelectorAll<HTMLSelectElement>('.filter-select');
     selects.forEach(select => select.value = 'all');
+  }
+  goToHome() {
+    this.router.navigate(['/']);
   }
 }
