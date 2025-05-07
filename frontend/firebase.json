@@ -1,6 +1,6 @@
 {
   "hosting": {
-    "public": "dist/neuro-health",
+    "public": "src",
     "ignore": [
       "firebase.json",
       "**/.*",
