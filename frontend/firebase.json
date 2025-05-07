@@ -9,8 +9,7 @@
     "rewrites": [
       {
         "source": "**",
-        "destination": "/index.html",
-        "render": "client"
+        "destination": "/index.html"
       }
     ]
   }
