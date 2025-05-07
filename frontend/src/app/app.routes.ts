@@ -19,14 +19,20 @@ export const routes: Routes = [
     { path: 'home', component: landingPage },
     { path: 'resources', component: HealthResourcesComponent },
     { path: 'bigfive', component:BigFiveTestComponent },
-    { path: 'community',
-        component: CommunityComponent,
-        children: [
-          { path: 'new', component: NewPostComponent },
-          { path: ':id', component: PostDetailComponent , data: { renderMode: 'client' }},
-          { path: '', redirectTo: 'list', pathMatch: 'full' }
-        ]
-    },
+    { 
+      path: 'community', 
+      loadComponent: () => import('./pages/community/community.component').then(m => m.CommunityComponent),
+      children: [
+          { 
+              path: 'new', 
+              loadComponent: () => import('./pages/community/new-post/new-post.component').then(m => m.NewPostComponent) 
+          },
+          { 
+              path: ':id', 
+              loadComponent: () => import('./pages/community/post-detail/post-detail.component').then(m => m.PostDetailComponent) 
+          }
+      ]
+  },
     { path: 'meditations', component: MeditationsComponent },
     { path: 'appointments', component: AppointmentComponent },
     { path: 'historials', component: PatientsHistorialComponent },
