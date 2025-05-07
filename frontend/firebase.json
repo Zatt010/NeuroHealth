@@ -1,0 +1,16 @@
+{
+  "hosting": {
+    "public": "dist/neuro-health",
+    "ignore": [
+      "firebase.json",
+      "**/.*",
+      "**/node_modules/**"
+    ],
+    "rewrites": [
+      {
+        "source": "**",
+        "destination": "/index.html"
+      }
+    ]
+  }
+}
