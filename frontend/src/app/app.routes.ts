@@ -23,7 +23,7 @@ export const routes: Routes = [
         component: CommunityComponent,
         children: [
           { path: 'new', component: NewPostComponent },
-          { path: ':id', component: PostDetailComponent ,data: { renderMode: 'ssg' }},
+          { path: ':id', component: PostDetailComponent , data: { renderMode: 'client' }},
           { path: '', redirectTo: 'list', pathMatch: 'full' }
         ]
     },
