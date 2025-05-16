@@ -42,10 +42,16 @@ input[type="password"]::-ms-clear {
     border: 1px solid #E0E0E0; /* Gris Suave */
     border-radius: 4px;
     font-size: 1rem;
-    font-family: 'Julius Sans One', sans-serif;
     transition: border-color 0.3s ease;
   }
-  
+  .password-container input::placeholder {
+    text-transform: none;
+}
+
+.password-container input:valid,
+.password-container input:invalid {
+    text-transform: none;
+}
   /* Estilos para inputs inválidos */
   .signup-form input.invalid {
     border-color: #ff0000; /* Rojo para errores */
