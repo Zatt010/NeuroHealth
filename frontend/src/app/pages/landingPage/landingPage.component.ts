@@ -5,6 +5,8 @@ import { RouterModule } from '@angular/router';
 import { Router } from '@angular/router';
 import { DatePipe } from '@angular/common';
 import { AuthService } from '../../auth.service';
+import { EspecialistaService } from '../../services/especialista.service';
+
 
 @Component({
   selector: 'app-landingPage',
@@ -19,14 +21,16 @@ export class landingPage implements OnInit {
   currentDate = new Date();
   calendarDays: (number | null)[][] = [];
   isLoggedIn: boolean = false;
-  constructor(private router: Router, private datePipe: DatePipe, private authService: AuthService ) {}
+  isEspecialista: boolean = false;
+  constructor(private router: Router, private datePipe: DatePipe, private authService: AuthService,private especialistaService: EspecialistaService ) {}
   ngOnInit() {
     this.generateCalendar(this.currentDate);
     this.checkAuthStatus();
   }
   checkAuthStatus() {
-    this.isLoggedIn = !!this.authService.getUsuario();
-
+    const usuario = this.authService.getUsuario();
+    this.isLoggedIn = !!usuario;
+    this.isEspecialista = usuario?.rol === 'especialista';
   }
   logout() {
     if (confirm('¿Estás seguro de que deseas cerrar sesión?')) {
