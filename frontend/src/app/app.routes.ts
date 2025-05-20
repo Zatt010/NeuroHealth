@@ -10,6 +10,8 @@ import { PostDetailComponent } from './pages/community/post-detail/post-detail.c
 import {MeditationsComponent} from './pages/Meditations/Meditations.component';
 import {AppointmentComponent} from './pages/appointment/appointment.component'
 import {PatientsHistorialComponent} from './pages/pacientsHistorial/pacientsHistorial.component'
+import { ConversationListComponent } from './messaging/conversation-list/conversation-list.component';
+import { ChatWindowComponent } from './messaging/chat-window/chat-window.component';
 
 
 export const routes: Routes = [
@@ -19,17 +21,24 @@ export const routes: Routes = [
   { path: 'home', component: landingPage },
   { path: 'resources', component: HealthResourcesComponent },
   { path: 'bigfive', component: BigFiveTestComponent },
-  { 
+  {
     path: 'community',
     component: CommunityComponent,
     children: [
       { path: 'new', component: NewPostComponent },
-      //{ path: ':id', component: PostDetailComponent, data: { renderMode: 'client' } }, 
+      //{ path: ':id', component: PostDetailComponent, data: { renderMode: 'client' } },
       { path: '', redirectTo: 'list', pathMatch: 'full' }
     ]
   },
   { path: 'meditations', component: MeditationsComponent },
   { path: 'appointments', component: AppointmentComponent },
   { path: 'historials', component: PatientsHistorialComponent },
+   {
+      path: 'messaging',
+      children: [
+        { path: '', component: ConversationListComponent },
+        { path: 'chat/:id', component: ChatWindowComponent }
+      ]
+    },
 ];
 

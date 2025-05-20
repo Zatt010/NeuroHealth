@@ -5,11 +5,12 @@ import { RouterModule } from '@angular/router';
 import { Router } from '@angular/router';
 import { DatePipe } from '@angular/common';
 import { AuthService } from '../../auth.service';
+import { MatIconModule } from '@angular/material/icon';
 
 @Component({
   selector: 'app-landingPage',
   standalone: true,
-  imports: [CommonModule, RouterModule],
+  imports: [CommonModule, RouterModule,MatIconModule],
   templateUrl: './landingPage.component.html',
   styleUrls: ['./landingPage.component.css'],
   providers: [DatePipe]
@@ -105,8 +106,8 @@ export class landingPage implements OnInit {
     if (this.selectedDate) {
       const formattedDate = this.datePipe.transform(this.selectedDate, 'yyyy-MM-dd');
       console.log('Fecha seleccionada:', formattedDate);
-      this.router.navigate(['/appointments'], { 
-        queryParams: { date: formattedDate } 
+      this.router.navigate(['/appointments'], {
+        queryParams: { date: formattedDate }
       });
     }
   }

@@ -1,0 +1,24 @@
+<div class="conversations-container">
+  <div *ngFor="let conv of conversations"
+       class="conversation-card"
+       [class.unread]="conv.unreadCount > 0"
+       [routerLink]="['/messaging/chat', conv.id]">
+
+    <div class="user-avatar">
+      <img src="assets/doctor-icon.png" *ngIf="isDoctor(conv)" alt="Doctor">
+      <img src="assets/patient-icon.png" *ngIf="!isDoctor(conv)" alt="Paciente">
+    </div>
+
+    <div class="conversation-info">
+      <h3>{{ getParticipantName(conv) }}</h3>
+      <p class="last-message">{{ conv.lastMessage.content }}</p>
+    </div>
+
+    <div class="conversation-meta">
+      <span class="timestamp">{{ conv.lastMessage.timestamp | date:'shortTime' }}</span>
+      <span *ngIf="conv.unreadCount > 0" class="unread-badge">
+        {{ conv.unreadCount }}
+      </span>
+    </div>
+  </div>
+</div>

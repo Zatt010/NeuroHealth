@@ -1,0 +1,21 @@
+<div class="chat-container">
+  <div class="message-history">
+    <div *ngFor="let msg of messages"
+         [class.sent]="msg.senderId === currentUserId"
+         class="message-bubble">
+      <div class="message-content">
+        <p>{{ msg.content }}</p>
+        <div class="message-meta">
+          <span class="time">{{ msg.timestamp | date:'shortTime' }}</span>
+          <span *ngIf="msg.status === 'read'" class="status">✓✓</span>
+          <span *ngIf="msg.status === 'delivered'" class="status">✓</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="message-input">
+    <textarea [(ngModel)]="newMessage" placeholder="Escribe tu mensaje..."></textarea>
+    <button (click)="sendMessage()">Enviar</button>
+  </div>
+</div>

@@ -4,9 +4,13 @@
       <span class="logo-neuro">NEURO</span>
       <span class="logo-health">HEALTH</span>
     </div>
-    <button *ngIf="!isLoggedIn" class="login-button" routerLink="/login">Login</button>
-    <button *ngIf="isLoggedIn" class="login-button" (click)="logout()">Logout</button>
+    <div class="header-actions">
+      <button *ngIf="isLoggedIn" class="messaging-button" routerLink="/messaging"> <mat-icon>message</mat-icon>Mensajes</button>
+      <button *ngIf="!isLoggedIn" class="login-button" routerLink="/login">Login</button>
+      <button *ngIf="isLoggedIn" class="login-button" (click)="logout()">Logout</button>
+    </div>
   </header>
+
 
   <main class="hero-section">
     <div class="content-overlay">
@@ -120,8 +124,8 @@
         </tbody>
       </table>
 
-      <button 
-        class="confirm-button" 
+      <button
+        class="confirm-button"
         (click)="confirmSelection()"
         [disabled]="!selectedDate">
         Confirmar

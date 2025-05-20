@@ -463,3 +463,31 @@ html, body {
     padding: 1.5rem;
   }
 }
+.header-actions {
+  display: flex;
+  gap: 1rem;
+  align-items: center;
+}
+
+.messaging-button {
+  background: #7FB685;
+  color: #FAFAF9;
+  border: none;
+  padding: 0.8rem 1.5rem;
+  border-radius: 20px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  transition: all 0.3s ease;
+}
+
+.messaging-button:hover {
+  background: #5A8F6E;
+}
+
+.messaging-button mat-icon {
+  font-size: 1.2rem;
+  height: 1.2rem;
+  width: 1.2rem;
+}
