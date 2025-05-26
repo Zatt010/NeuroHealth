@@ -62,7 +62,7 @@
           leer testimonios y participar en foros. Conéctate con personas
           que entienden tu camino.
         </p>
-        <button class="explore-button" routerLink="/community">Explora</button>
+        <button routerLink="/community" [queryParams]="{ category: 'Meditación' }"> Explora </button>
       </div>
 
       <!-- TestPsicologico -->
@@ -120,8 +120,8 @@
         </tbody>
       </table>
 
-      <button 
-        class="confirm-button" 
+      <button
+        class="confirm-button"
         (click)="confirmSelection()"
         [disabled]="!selectedDate">
         Confirmar

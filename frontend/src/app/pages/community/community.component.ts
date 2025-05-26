@@ -5,6 +5,7 @@ import { TruncatePipe } from '../../shared/pipes/truncate.pipe';
 import { MatDialog } from '@angular/material/dialog';
 import { NewPostComponent } from './new-post/new-post.component';
 import { CommentService } from '../../services/comment.service';
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
   standalone: true,
@@ -17,20 +18,32 @@ export class CommunityComponent {
   categories: string[] = ['Todos los temas', 'Ansiedad', 'Depresión', 'Estrés', 'Meditación'];
   posts: any[] = [];
 
-  constructor(private commentService: CommentService, private dialog: MatDialog) {}
+  constructor(private commentService: CommentService, private dialog: MatDialog, private route: ActivatedRoute) {}
 
   ngOnInit(): void {
-    this.commentService.getComments().subscribe({
-      next: (data) => {
-        this.posts = data;
-      },
-      error: (error) => {
-        console.error('Error al cargar los comentarios:', error);
+    // Leer parámetros de la ruta
+    this.route.queryParams.subscribe(params => {
+      const categoryParam = params['category'];
+      if (categoryParam) {
+        // Normalizar y buscar coincidencia en las categorías
+        const normalizedParam = this.normalizeCategory(categoryParam);
+        const matchedCategory = this.categories.find(cat =>
+          this.normalizeCategory(cat) === normalizedParam
+        );
+        this.selectedCategory = matchedCategory || null;
+      } else {
+        this.selectedCategory = null;
       }
+    });
+
+    // Cargar posts
+    this.commentService.getComments().subscribe({
+      next: (data) => this.posts = data,
+      error: (error) => console.error('Error:', error)
     });
   }
 
-  // Filtra los posts 
+  // Filtra los posts
   private normalizeCategory(category: string): string {
     return category
       .toLowerCase()
@@ -41,8 +54,8 @@ export class CommunityComponent {
 
   get filteredPosts() {
     if (!this.selectedCategory) return this.posts;
-    
-    return this.posts.filter(post => 
+
+    return this.posts.filter(post =>
       this.normalizeCategory(post.tema) === this.normalizeCategory(this.selectedCategory!)
     );
   }
@@ -54,7 +67,7 @@ export class CommunityComponent {
   trackByPostId(index: number, post: any): number {
     return post.id;
   }
-  
+
 
   openNewPostDialog(): void {
     const dialogRef = this.dialog.open(NewPostComponent, {
