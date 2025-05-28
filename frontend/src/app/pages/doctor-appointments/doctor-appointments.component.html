@@ -11,7 +11,14 @@
 
   <main class="da-main-content">
     <h2 class="da-section-title">Gestión de Agenda</h2>
-    <p class="da-description">
+
+    <!-- RESCHEDULE PROMPT -->
+    <div *ngIf="isRescheduling && reschedulePromptMessage" class="da-reschedule-prompt">
+      <p>{{ reschedulePromptMessage }}</p>
+      <button class="da-action-button da-button-cancel-reschedule" (click)="cancelRescheduleProcess()">Cancelar Reagendamiento</button>
+    </div>
+
+    <p *ngIf="!isRescheduling" class="da-description">
       Visualiza y gestiona tus citas programadas. Selecciona un día en el calendario para ver los detalles.
     </p>
 
@@ -39,9 +46,10 @@
             <tr *ngFor="let week of calendarDays">
               <td *ngFor="let day of week"
                   [class.da-day-selected]="isSelected(day?.date)"
-                  [class.da-day-empty]="!day?.isCurrentMonth" 
+                  [class.da-day-empty]="!day?.isCurrentMonth"
                   [class.da-day-today]="isToday(day?.date)"
                   [class.da-day-has-appointments]="day?.hasAppointments"
+                  [class.da-day-rescheduling-active]="isRescheduling"
                   (click)="day && selectDate(day.date)">
                 <span *ngIf="day">{{ day.dayNumber }}</span>
                 <span *ngIf="day?.hasAppointments" class="da-appointment-indicator"></span>
@@ -51,7 +59,7 @@
         </table>
       </div>
 
-      <div class="da-appointments-list-container">
+      <div class="da-appointments-list-container" *ngIf="!isRescheduling"> 
         <h3 class="da-list-title">
           Citas para {{ selectedDate ? (selectedDate | date:'fullDate':'':'es') : 'el día seleccionado' }}
         </h3>
@@ -69,6 +77,7 @@
             </div>
             <div class="da-appointment-actions" *ngIf="app.estado !== 'cancelada_especialista' && app.estado !== 'cancelada_paciente'">
               <button class="da-action-button da-button-cancel" (click)="cancelAppointment(app.id)">Cancelar</button>
+              <button class="da-action-button da-button-reschedule" (click)="openRescheduleModal(app)">Reagendar</button>
             </div>
             <div *ngIf="app.estado === 'cancelada_especialista' || app.estado === 'cancelada_paciente'" class="da-appointment-cancelled-info">
               Cita cancelada.
