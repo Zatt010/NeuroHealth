@@ -10,6 +10,7 @@ import { PostDetailComponent } from './pages/community/post-detail/post-detail.c
 import {MeditationsComponent} from './pages/Meditations/Meditations.component';
 import {AppointmentComponent} from './pages/appointment/appointment.component'
 import {PatientsHistorialComponent} from './pages/pacientsHistorial/pacientsHistorial.component'
+import {DoctorAppointmentsComponent} from './pages/doctor-appointments/doctor-appointments.component'
 
 
 export const routes: Routes = [
@@ -31,5 +32,6 @@ export const routes: Routes = [
   { path: 'meditations', component: MeditationsComponent },
   { path: 'appointments', component: AppointmentComponent },
   { path: 'historials', component: PatientsHistorialComponent },
+  { path: 'doctor-appointments', component: DoctorAppointmentsComponent },
 ];
 
