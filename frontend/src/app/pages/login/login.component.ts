@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { CommonModule, NgFor, NgIf } from '@angular/common';
+import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { AuthService } from '../../auth.service';
 import { Router } from '@angular/router';
@@ -11,7 +11,6 @@ import { Router } from '@angular/router';
   templateUrl: './login.component.html',
   styleUrls: ['./login.component.css']
 })
-
 export class LoginComponent {
   email: string = '';
   contrasena: string = '';
@@ -20,12 +19,17 @@ export class LoginComponent {
   constructor(private authService: AuthService, private router: Router) {}
 
   onSubmit() {
-
     this.authService.login(this.email, this.contrasena).subscribe({
       next: (response) => {
         console.log('Login exitoso:', response);
         this.authService.guardarUsuario(response);
-        this.router.navigate(['/home']); // Redirige a otra página
+        
+        // Redirigir según el rol
+        if (response.rol === 'administrador') {
+          this.router.navigate(['/admin']); 
+        } else {
+          this.router.navigate(['/home']); 
+        }
       },
       error: (error) => {
         if (error.status === 401) {
@@ -38,7 +42,6 @@ export class LoginComponent {
   }
 
   onGoogleLogin() {
-    // Lógica para manejar el login con Google
     console.log('Login con Google');
   }
 
@@ -47,4 +50,3 @@ export class LoginComponent {
     this.mailIcon = isHovered ? 'mark_email_read' : 'mail';
   }
 }
-
