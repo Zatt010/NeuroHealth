@@ -1,66 +1,300 @@
+:host {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  overflow: hidden;
+  background-color: #f5f7fb;
+}
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem 1.5rem;
+  background-color: #5A92C2;
+  width: 100%;
+  position: sticky;
+  top: 0;
+  left: 0;
+  z-index: 1000;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+}
+
+.logo-container {
+  display: flex;
+  cursor: pointer;
+  text-decoration: none !important;
+}
+
+.logo {
+  display: flex;
+  flex-direction: column;
+  line-height: 1;
+  color: #FAFAF9;
+  text-decoration: none !important;
+}
+
+.logo-neuro {
+  font-size: 2rem;
+  font-weight: bold;
+  letter-spacing: -0.05em;
+}
+
+.logo-health {
+  font-size: 1.5rem;
+  font-weight: 300;
+  letter-spacing: 0.1em;
+}
+
+.header-actions {
+  display: flex;
+  gap: 0.8rem;
+  align-items: center;
+  flex-wrap: nowrap;
+}
+
+.login-button {
+  background-color: #7FB685;
+  color: #FAFAF9;
+  border: none;
+  padding: 0.8rem 1.5rem;
+  border-radius: 20px;
+  cursor: pointer;
+  font-weight: bold;
+  text-transform: uppercase;
+  transition: all 0.3s ease;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  text-decoration: none;
+}
+
+.login-button:hover {
+  background-color: #5A8F6E;
+}
+
 .conversations-container {
+  flex: 1;
+  padding: 1.5rem;
+  overflow-y: auto;
+  background-color: #f5f7fb;
+}
+
+.loading-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+  color: #5A92C2;
+}
+
+.spinner {
+  font-size: 3rem;
+  width: 3rem;
+  height: 3rem;
+  animation: spin 1.5s linear infinite;
+  margin-bottom: 1rem;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+.empty-state {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+  color: #a0aec0;
+  text-align: center;
   padding: 2rem;
-  background-color: #FAFAF9;
-  min-height: 100vh;
+}
+
+.empty-state mat-icon {
+  font-size: 3rem;
+  width: 3rem;
+  height: 3rem;
+  margin-bottom: 1rem;
+  opacity: 0.6;
+}
+
+.new-chat-button {
+  margin-top: 1.5rem;
+  background-color: #5A92C2;
+  color: white;
+  border: none;
+  border-radius: 24px;
+  padding: 12px 24px;
+  cursor: pointer;
+  font-weight: bold;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  transition: background-color 0.3s;
+}
+
+.new-chat-button:hover {
+  background-color: #2A4E6E;
 }
 
 .conversation-card {
   display: flex;
   align-items: center;
-  padding: 1.5rem;
-  margin-bottom: 1rem;
+  padding: 1.2rem;
+  margin-bottom: 0.8rem;
   background: white;
   border-radius: 12px;
   box-shadow: 0 2px 8px rgba(90, 146, 194, 0.1);
-  transition: transform 0.2s ease;
+  transition: all 0.3s ease;
   cursor: pointer;
+  position: relative;
+  border: 1px solid transparent;
 }
 
 .conversation-card:hover {
   transform: translateY(-3px);
   box-shadow: 0 4px 12px rgba(90, 146, 194, 0.15);
+  border-color: rgba(90, 146, 194, 0.2);
+}
+
+.conversation-card.active {
+  background-color: rgba(90, 146, 194, 0.1);
+  border-left: 4px solid #5A92C2;
+}
+
+.user-avatar {
+  position: relative;
+  margin-right: 1.2rem;
 }
 
 .user-avatar img {
   width: 50px;
   height: 50px;
   border-radius: 50%;
-  margin-right: 1.5rem;
+  object-fit: cover;
+  border: 2px solid #e2e8f0;
+}
+
+.unread-indicator {
+  position: absolute;
+  top: -3px;
+  right: -3px;
+  width: 12px;
+  height: 12px;
+  background-color: #5A92C2;
+  border-radius: 50%;
+  border: 2px solid white;
+}
+
+.conversation-info {
+  flex: 1;
+  min-width: 0;
 }
 
 .conversation-info h3 {
   color: #2A4E6E;
-  margin: 0 0 0.5rem 0;
+  margin: 0 0 0.3rem 0;
   font-size: 1.1rem;
+  font-weight: 600;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 .last-message {
   color: #5A92C2;
   margin: 0;
   font-size: 0.9rem;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.you-label {
+  font-weight: 500;
+  color: #7FB685;
 }
 
 .conversation-meta {
-  margin-left: auto;
-  text-align: right;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  margin-left: 0.8rem;
 }
 
 .timestamp {
   color: #7F8FA4;
-  font-size: 0.8rem;
-  display: block;
+  font-size: 0.75rem;
+  margin-bottom: 0.5rem;
+  white-space: nowrap;
 }
 
 .unread-badge {
   background: #5A92C2;
   color: white;
-  padding: 0.2rem 0.5rem;
-  border-radius: 15px;
-  font-size: 0.8rem;
-  margin-top: 0.3rem;
-  display: inline-block;
+  min-width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  font-size: 0.75rem;
+  font-weight: bold;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
-.unread {
-  border-left: 4px solid #5A92C2;
+/* Responsive para pantallas pequeñas */
+@media (max-width: 768px) {
+  .header {
+    padding: 0.8rem 1rem;
+  }
+
+  .logo-neuro {
+    font-size: 1.5rem;
+  }
+
+  .logo-health {
+    font-size: 1.2rem;
+  }
+
+  .login-button span {
+    display: none;
+  }
+
+  .login-button {
+    padding: 0.6rem;
+  }
+
+  .conversations-container {
+    padding: 1rem;
+  }
+
+  .conversation-card {
+    padding: 1rem;
+  }
+
+  .user-avatar img {
+    width: 42px;
+    height: 42px;
+    margin-right: 1rem;
+  }
+
+  .conversation-info h3 {
+    font-size: 1rem;
+  }
+
+  .last-message {
+    font-size: 0.85rem;
+  }
+
+  .new-chat-button span {
+    display: none;
+  }
+
+  .new-chat-button {
+    padding: 0.8rem;
+    border-radius: 50%;
+  }
 }

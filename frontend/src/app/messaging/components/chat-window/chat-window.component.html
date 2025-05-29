@@ -1,24 +1,54 @@
+<header class="header">
+  <div class="logo-container" (click)="goHome()">
+    <div class="logo">
+      <span class="logo-neuro">NEURO</span>
+      <span class="logo-health">HEALTH</span>
+    </div>
+  </div>
+
+  <div class="header-actions">
+    <button class="back-button" (click)="goBack()">
+      <mat-icon>arrow_back</mat-icon>
+      <span>Volver</span>
+    </button>
+
+    <div class="receiver-container">
+      <div class="receiver-info" [title]="getReceiverName()">
+        {{ getReceiverName() }}
+      </div>
+    </div>
+
+    <button *ngIf="isLoggedIn" class="login-button" (click)="logout()">
+      <mat-icon>logout</mat-icon>
+      <span>Logout</span>
+    </button>
+  </div>
+</header>
+
 <div class="chat-container">
-  <div class="message-history">
+  <div class="messages-container" #messagesContainer>
+    <div *ngIf="messages.length === 0" class="empty-state">
+      <mat-icon>chat</mat-icon>
+      <p>Envía tu primer mensaje</p>
+    </div>
+
     <div *ngFor="let msg of messages"
          [class.sent]="msg.senderId === currentUserId"
-         class="message-bubble">
-      <div class="message-content">
-        <p>{{ msg.content }}</p>
-        <div class="message-meta">
-          <span class="time">{{ msg.timestamp | date:'shortTime' }}</span>
-          <span *ngIf="msg.status === 'read'" class="status">✓✓</span>
-          <span *ngIf="msg.status === 'delivered'" class="status">✓</span>
-        </div>
-      </div>
+         [class.received]="msg.senderId !== currentUserId"
+         class="message">
+
+      <div class="message-content">{{ msg.content }}</div>
+      <div class="message-time">{{ msg.timestamp | date:'shortTime' }}</div>
     </div>
   </div>
 
   <div class="message-input">
-    <textarea
-      [(ngModel)]="newMessage"
-      placeholder="Escribe tu mensaje..."
-      (keydown.enter)="sendMessage()"></textarea>
-    <button (click)="sendMessage()">Enviar</button>
+    <input [(ngModel)]="newMessage"
+           placeholder="Escribe un mensaje..."
+           (keyup.enter)="sendMessage()">
+    <button (click)="sendMessage()">
+      <mat-icon>send</mat-icon>
+      <span class="desktop-text">Enviar</span>
+    </button>
   </div>
 </div>

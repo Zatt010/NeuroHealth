@@ -1,19 +1,52 @@
+<header class="header">
+  <div class="logo-container" routerLink="/">
+    <div class="logo">
+      <span class="logo-neuro">NEURO</span>
+      <span class="logo-health">HEALTH</span>
+    </div>
+  </div>
+
+  <div class="header-actions">
+    <button *ngIf="isLoggedIn" class="login-button" (click)="logout()">
+      <mat-icon>logout</mat-icon>
+      <span>Logout</span>
+    </button>
+  </div>
+</header>
+
 <div class="conversations-container">
+  <div *ngIf="isLoading" class="loading-container">
+    <mat-icon class="spinner">autorenew</mat-icon>
+    <p>Cargando conversaciones...</p>
+  </div>
+
+  <div *ngIf="!isLoading && conversations.length === 0" class="empty-state">
+    <mat-icon>forum</mat-icon>
+    <p>No tienes conversaciones aún</p>
+    <button class="new-chat-button" (click)="startNewConversation()">
+      <mat-icon>add</mat-icon>
+      <span>Iniciar nueva conversación</span>
+    </button>
+  </div>
+
   <div *ngFor="let conv of conversations"
        class="conversation-card"
        [class.unread]="conv.unreadCount > 0"
-       (click)="openConversation(conv._id)"> <!-- Cambiado a conv._id -->
+       [class.active]="isActiveConversation(conv._id)"
+       (click)="openConversation(conv._id)">
 
     <div class="user-avatar">
-      <img [src]="conv.participants[0].startsWith('doc')
-           ? 'assets/doctor-icon.png'
-           : 'assets/patient-icon.png'"
-           [alt]="conv.participants[0].startsWith('doc') ? 'Doctor' : 'Paciente'">
+      <img [src]="getParticipantAvatar(conv)"
+           [alt]="getParticipantName(conv)">
+      <div *ngIf="conv.unreadCount > 0" class="unread-indicator"></div>
     </div>
 
     <div class="conversation-info">
-      <h3>{{ getParticipantName(conv.participants[0]) }}</h3>
-      <p class="last-message">{{ conv.lastMessage.content }}</p>
+      <h3>{{ getParticipantName(conv) }}</h3>
+      <p class="last-message">
+        <span *ngIf="conv.lastMessage.senderId === currentUserId" class="you-label">Tú: </span>
+        {{ conv.lastMessage.content | truncate:40 }}
+      </p>
     </div>
 
     <div class="conversation-meta">
