@@ -42,8 +42,30 @@ public class CitaService {
         return citaRepository.save(cita);
     }
 
-    public List<Cita> obtenerCitas() {
-        return citaRepository.findAll();
+    public List<Map<String, Object>> obtenerCitas() {
+        return citaRepository.findAll().stream().map(
+                p -> {
+                    Map<String, Object> response = new HashMap<>();
+                    response.put("especialistaId", p.getEspecialistaId());
+                    response.put("fecha", p.getFecha());
+                    response.put("hora", p.getHora());
+                    response.put("id", p.getId());
+                    response.put("usuarioId", p.getUsuarioId());
+
+                    Optional<Usuario> user = usuarioRepository.findById(p.getUsuarioId());
+                    String nombre = user.map(Usuario::getNombre).orElse("");
+                    String apellido = user.map(Usuario::getApellido).orElse("");
+                    response.put("pacienteNombre", nombre + " " + apellido);
+
+                    Optional<Usuario> especialista = usuarioRepository.findById(p.getEspecialistaId());
+                    String espName = especialista.map(Usuario::getNombre).orElse("");
+                    String espApellido = especialista.map(Usuario::getApellido).orElse("");
+                    response.put("especialistaNombre", espName + " " + espApellido);
+                    response.put("estado", "Activo");
+
+                    return response;
+                }
+        ).collect(Collectors.toList());
     }
 
     public List<Cita> obtenerCitasPorUsuario(String usuarioId) {

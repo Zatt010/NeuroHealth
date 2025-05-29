@@ -32,4 +32,53 @@ public class Comentario {
         this.comentarioPadreId = comentarioPadreId;
         this.fechaComentario = Instant.now();
     }
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
+
+    public Publicacion getPublicacion() {
+        return publicacion;
+    }
+
+    public void setPublicacion(Publicacion publicacion) {
+        this.publicacion = publicacion;
+    }
+
+    public Usuario getUsuario() {
+        return usuario;
+    }
+
+    public void setUsuario(Usuario usuario) {
+        this.usuario = usuario;
+    }
+
+    public String getContenido() {
+        return contenido;
+    }
+
+    public void setContenido(String contenido) {
+        this.contenido = contenido;
+    }
+
+    public Instant getFechaComentario() {
+        return fechaComentario;
+    }
+
+    public void setFechaComentario(Instant fechaComentario) {
+        this.fechaComentario = fechaComentario;
+    }
+
+    public String getComentarioPadreId() {
+        return comentarioPadreId;
+    }
+
+    public void setComentarioPadreId(String comentarioPadreId) {
+        this.comentarioPadreId = comentarioPadreId;
+    }
+
 }

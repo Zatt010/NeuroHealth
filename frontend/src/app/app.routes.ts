@@ -6,12 +6,11 @@ import { HealthResourcesComponent } from './pages/health-resources/health-resour
 import { BigFiveTestComponent } from './pages/big-five-test/big-five-test.component';
 import { CommunityComponent } from './pages/community/community.component';
 import { NewPostComponent } from './pages/community/new-post/new-post.component';
-import { PostDetailComponent } from './pages/community/post-detail/post-detail.component';
-import {MeditationsComponent} from './pages/Meditations/Meditations.component';
-import {AppointmentComponent} from './pages/appointment/appointment.component'
-import {PatientsHistorialComponent} from './pages/pacientsHistorial/pacientsHistorial.component'
-import {DoctorAppointmentsComponent} from './pages/doctor-appointments/doctor-appointments.component'
-
+import { MeditationsComponent } from './pages/Meditations/Meditations.component';
+import { AppointmentComponent } from './pages/appointment/appointment.component';
+import { PatientsHistorialComponent } from './pages/pacientsHistorial/pacientsHistorial.component';
+import { DoctorAppointmentsComponent } from './pages/doctor-appointments/doctor-appointments.component';
+import { AdminPageComponent } from './pages/admin-page/admin-page.component';
 
 export const routes: Routes = [
   { path: '', component: landingPage },
@@ -25,7 +24,6 @@ export const routes: Routes = [
     component: CommunityComponent,
     children: [
       { path: 'new', component: NewPostComponent },
-      //{ path: ':id', component: PostDetailComponent, data: { renderMode: 'client' } }, 
       { path: '', redirectTo: 'list', pathMatch: 'full' }
     ]
   },
@@ -33,5 +31,5 @@ export const routes: Routes = [
   { path: 'appointments', component: AppointmentComponent },
   { path: 'historials', component: PatientsHistorialComponent },
   { path: 'doctor-appointments', component: DoctorAppointmentsComponent },
+  { path: 'admin', component: AdminPageComponent }
 ];
-

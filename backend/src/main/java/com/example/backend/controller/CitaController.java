@@ -30,7 +30,7 @@ public class CitaController {
 
     // Obtener todas las citas
     @GetMapping
-    public List<Cita> obtenerCitas() {
+    public List<Map<String, Object>> obtenerCitas() {
         return citaService.obtenerCitas();
     }
 
