@@ -5,6 +5,7 @@ import { TruncatePipe } from '../../shared/pipes/truncate.pipe';
 import { MatDialog } from '@angular/material/dialog';
 import { NewPostComponent } from './new-post/new-post.component';
 import { CommentService } from '../../services/comment.service';
+import { Router } from '@angular/router';
 
 @Component({
   standalone: true,
@@ -17,7 +18,7 @@ export class CommunityComponent {
   categories: string[] = ['Todos los temas', 'Ansiedad', 'Depresión', 'Estrés', 'Meditación'];
   posts: any[] = [];
 
-  constructor(private commentService: CommentService, private dialog: MatDialog) {}
+  constructor(private router: Router,private commentService: CommentService, private dialog: MatDialog) {}
 
   ngOnInit(): void {
     this.commentService.getComments().subscribe({
@@ -75,5 +76,8 @@ export class CommunityComponent {
         }
       });
     });
+  }
+  goToHome() {
+    this.router.navigate(['/']);
   }
 }

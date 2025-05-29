@@ -6,6 +6,7 @@ import com.example.backend.repository.EspecialistaRepository;
 import com.example.backend.service.EspecialistaService;
 import com.example.backend.service.EmailService;
 import com.example.backend.service.UsuarioService;
+import com.example.backend.service.CitaService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -25,6 +26,8 @@ public class EspecialistaController {
     private UsuarioService usuarioService;
     @Autowired
     private EmailService emailService;
+    @Autowired
+    private CitaService citaService;
     @Autowired
     private EspecialistaRepository especialistaRepository;
 
@@ -49,10 +52,14 @@ public class EspecialistaController {
         String fecha = body.get("fecha");
         String userId = body.get("userId");
 
+
         Usuario usuario = usuarioService.obtenerUsuarioPorId(userId);
         Optional<Especialista> doctor = especialistaRepository.findById(id);
 
         boolean success = especialistaService.addOccupiedHour(id, hour, fecha);
+        especialistaService.addPatient(id, userId);
+        System.out.println(doctor.get().getEspecialistaId());
+        citaService.crearCita(userId, doctor.get().getEspecialistaId(), fecha, hour);
         if (success) {
             try {
                 emailService.sendEmail(usuario.getEmail(),

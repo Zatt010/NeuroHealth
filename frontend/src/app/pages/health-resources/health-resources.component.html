@@ -5,7 +5,6 @@
   </div>
 </header>
 <div class="landing-container">
-  <!-- Sección Test Big Five -->
   <section class="tests-section">
     <h2 class="section-title">Tests Disponibles</h2>
     <div class="test-item card">
@@ -15,26 +14,25 @@
     </div>
   </section>
 
-  <!-- Sección de Artículos -->
   <section class="articles-section">
     <h2 class="section-title">Artículos sobre Trastornos Comunes</h2>
-    
     <div class="article-grid">
-      <!-- Artículos dinámicos -->
       <div class="article-card card" *ngFor="let article of articles">
         <h3>{{ article.title }}</h3>
         <p class="article-description">{{ article.description }}</p>
-        
         <div class="resources-links">
           <ng-container *ngFor="let link of article.links">
-            <!-- Enlaces de navegación -->
             <a *ngIf="link.type === 'route'"
                [routerLink]="link.target"
                class="btn secondary">
               {{ link.text }}
             </a>
-
-            <!-- Botones de video -->
+            <a *ngIf="link.type === 'routeWithFragment'"
+               (click)="handleLinkClick(link)"
+               class="btn secondary"
+               style="cursor: pointer;">
+              {{ link.text }}
+            </a>
             <button *ngIf="link.type === 'video'"
                     class="btn secondary"
                     (click)="handleLinkClick(link)">
@@ -46,14 +44,13 @@
     </div>
   </section>
 
-  <!-- Modal de Video -->
   <div class="video-modal" *ngIf="selectedVideoUrl">
     <div class="modal-content">
-      <span class="close-btn" (click)="closeVideoModal()">&times;</span>
-      <iframe 
-        [src]="selectedVideoUrl | safeUrl" 
-        frameborder="0" 
-        allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" 
+      <span class="close-btn" (click)="closeVideoModal()">×</span>
+      <iframe
+        [src]="selectedVideoUrl | safeUrl"
+        frameborder="0"
+        allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture"
         allowfullscreen>
       </iframe>
     </div>
