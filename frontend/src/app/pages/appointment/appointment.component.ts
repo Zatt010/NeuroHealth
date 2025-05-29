@@ -5,6 +5,7 @@ import { FormsModule } from '@angular/forms';
 import { EspecialistaService } from '../../services/especialista.service';
 import { HttpClientModule } from '@angular/common/http';
 import { AuthService } from '../../auth.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-appointment',
@@ -28,7 +29,8 @@ export class AppointmentComponent implements OnInit {
     private route: ActivatedRoute,
     private datePipe: DatePipe,
     private especialistaService: EspecialistaService,
-    private authService: AuthService
+    private authService: AuthService,
+    private router: Router
   ) {
     const usuario = this.authService.getUsuario();
     this.usuarioId = usuario ? usuario.id : null;
@@ -119,7 +121,9 @@ export class AppointmentComponent implements OnInit {
         });
     }
   }
-  
+  goToHome() {
+    this.router.navigate(['/']);
+  }
   
   
   

@@ -1,11 +1,10 @@
 <div class="appointment-container">
-  <header class="header">
-    <div class="logo">
-      <span class="logo-neuro">NEURO</span>
-      <span class="logo-health">HEALTH</span>
-    </div>
-    <button class="login-button" routerLink="/login">Mi Cuenta</button>
-  </header>
+<header class="header">
+  <div class="logo" (click)="goToHome()" style="cursor: pointer;">
+    <span class="logo-neuro">NEURO</span>
+    <span class="logo-health">HEALTH</span>
+  </div>
+</header>
 
   <main class="calendar-section">
     <h2 class="section-title">Agendar Cita con Especialista</h2>

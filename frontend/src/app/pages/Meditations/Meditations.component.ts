@@ -5,6 +5,7 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { MeditationPlayerComponent } from './meditation-player/meditation-player.component';
 import { CommonModule } from '@angular/common'; 
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-meditations',
@@ -24,7 +25,7 @@ export class MeditationsComponent implements OnInit {
   selectedMeditation: Meditation | null = null;
   playerVisible = false;
 
-  constructor(private meditationsService: MeditationsService) {}
+  constructor(private meditationsService: MeditationsService,private router: Router) {}
 
   ngOnInit(): void {
     this.meditationsService.getMeditations().subscribe(data => {
@@ -40,5 +41,8 @@ export class MeditationsComponent implements OnInit {
   closePlayer(): void {
     this.playerVisible = false;
     this.selectedMeditation = null;
+  }
+  goToHome() {
+    this.router.navigate(['/']);
   }
 }
