@@ -53,6 +53,7 @@ public class EspecialistaController {
         Optional<Especialista> doctor = especialistaRepository.findById(id);
 
         boolean success = especialistaService.addOccupiedHour(id, hour, fecha);
+        especialistaService.addPatient(id, userId);
         if (success) {
             try {
                 emailService.sendEmail(usuario.getEmail(),

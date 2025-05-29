@@ -65,6 +65,23 @@ public class EspecialistaService {
         return false;
     }
 
+    public boolean addPatient(String especialistaId, String pacienteId) {
+        Optional<Especialista> especialistaOpt = especialistaRepository.findById(especialistaId);
+        if (especialistaOpt.isPresent()) {
+            Especialista especialista = especialistaOpt.get();
+            List<String> patients = especialista.getPatients();
+
+            if (!patients.contains(pacienteId)) {
+                patients.add(pacienteId);
+                especialista.setPatients(patients);
+                especialistaRepository.save(especialista);
+                return true;
+            }
+        }
+        return false;
+    }
+
+
     public List<Map<String, String>> getPatientsByEspecialistaId(String especialistaId) {
         Optional<Especialista> especialistaOpt = especialistaRepository.findByEspecialistaId(especialistaId);
         List<Map<String, String>> pacientesInfo = new ArrayList<>();
