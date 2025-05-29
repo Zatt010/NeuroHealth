@@ -15,7 +15,10 @@
   </div>
 
   <div class="message-input">
-    <textarea [(ngModel)]="newMessage" placeholder="Escribe tu mensaje..."></textarea>
+    <textarea
+      [(ngModel)]="newMessage"
+      placeholder="Escribe tu mensaje..."
+      (keydown.enter)="sendMessage()"></textarea>
     <button (click)="sendMessage()">Enviar</button>
   </div>
 </div>

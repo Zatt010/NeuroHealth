@@ -1,16 +1,25 @@
+// src/app/interfaces/message.interface.ts
 export interface Message {
-  id: string;
+  _id?: string; // Hacer opcional para nuevos mensajes
   senderId: string;
   receiverId: string;
   content: string;
-  timestamp: string;
-  status: 'sent' | 'delivered' | 'read';
+  timestamp?: Date; // Hacer opcional
+  status?: 'sent' | 'delivered' | 'read'; // Hacer opcional
   type: 'text' | 'file' | 'prescription';
 }
 
 export interface Conversation {
-  id: string;
+  _id: string; // Usar _id para MongoDB
   participants: string[];
   lastMessage: Message;
   unreadCount: number;
+}
+
+// Añadir interfaz User si es necesaria
+export interface User {
+  _id: string;
+  nombre: string;
+  email: string;
+  rol: string;
 }

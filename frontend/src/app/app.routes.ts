@@ -10,9 +10,8 @@ import { PostDetailComponent } from './pages/community/post-detail/post-detail.c
 import {MeditationsComponent} from './pages/Meditations/Meditations.component';
 import {AppointmentComponent} from './pages/appointment/appointment.component'
 import {PatientsHistorialComponent} from './pages/pacientsHistorial/pacientsHistorial.component'
-import { ConversationListComponent } from './messaging/conversation-list/conversation-list.component';
-import { ChatWindowComponent } from './messaging/chat-window/chat-window.component';
-
+import { ConversationListComponent } from './messaging/components/conversation-list/conversation-list.component';
+import { ChatWindowComponent } from './messaging/components/chat-window/chat-window.component';
 
 export const routes: Routes = [
   { path: '', component: landingPage },
@@ -34,11 +33,11 @@ export const routes: Routes = [
   { path: 'appointments', component: AppointmentComponent },
   { path: 'historials', component: PatientsHistorialComponent },
    {
-      path: 'messaging',
-      children: [
-        { path: '', component: ConversationListComponent },
-        { path: 'chat/:id', component: ChatWindowComponent }
-      ]
-    },
+     path: 'messaging',
+     children: [
+       { path: '', component: ConversationListComponent },
+       { path: 'chat/:conversationId', component: ChatWindowComponent }
+     ]
+   }
 ];
 

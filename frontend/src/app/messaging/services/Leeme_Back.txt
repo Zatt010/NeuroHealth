@@ -1,0 +1,35 @@
+eliminar menssaging-mock.service.ts, ejemplo de implementacion con back
+Backend Integration Points:
+
+
+    Service Methods: Replace all commented API sections in MessagingService with:
+
+
+return this.http.get<Conversation[]>(`${environment.apiUrl}/conversations`);
+
+
+
+    Auth Integration:
+
+
+@Injectable({ providedIn: 'root' })
+export class AuthInterceptor implements HttpInterceptor {
+  intercept(req: HttpRequest<any>, next: HttpHandler) {
+    const token = this.auth.getToken();
+    return next.handle(token ?
+      req.clone({ setHeaders: { Authorization: `Bearer ${token}` } }) :
+      req
+    );
+  }
+}
+
+
+
+    Error Handling:
+
+
+private handleError(err: HttpErrorResponse) {
+  // Common error handling logic
+  if (err.status === 401) this.router.navigate(['/login']);
+  return throwError(() => err);
+}
