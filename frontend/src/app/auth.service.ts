@@ -79,6 +79,6 @@ export class AuthService {
   }
 
   isAdmin(): boolean {
-    return this.usuario?.rol === 'administrador';
+    return this.usuario?.rol === 'admin';
   }
 }

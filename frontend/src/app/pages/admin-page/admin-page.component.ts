@@ -32,14 +32,14 @@ export class AdminPageComponent implements OnInit {
   }
 
   loadUsers() {
-    this.adminService.getUsers().subscribe((users: any[]) => {
-      this.usuarios = users;
+    this.adminService.getUsers().subscribe((users: Object) => {
+      this.usuarios = users as any[];
     });
   }
 
   loadAppointments() {
-    this.adminService.getAppointments().subscribe((appointments: any[]) => {
-      this.citas = appointments;
+    this.adminService.getAppointments().subscribe((appointments: Object) => {
+      this.citas = appointments as any[];
     });
   }
 

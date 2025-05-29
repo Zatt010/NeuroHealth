@@ -1,11 +1,14 @@
 import { Injectable } from '@angular/core';
 import { Observable, of } from 'rxjs';
 import { delay } from 'rxjs/operators';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 
 @Injectable({
   providedIn: 'root'
 })
 export class AdminService {
+  private apiUrl = 'http://localhost:8080/usuarios';
+  private apiAppointmentsUrl = 'http://localhost:8080/citas';
   // Datos mockeados
   private mockUsers = [
     { id: '1', nombre: 'Juan', apellido: 'Pérez', email: 'juan@example.com', rol: 'usuario', activo: true },
@@ -26,14 +29,15 @@ export class AdminService {
     { timestamp: new Date('2023-10-08T11:15:00'), action: 'Usuario nuevo registrado: ana@example.com', admin: 'Admin Principal' },
   ];
 
-  constructor() { }
+  constructor(private http: HttpClient) { }
 
-  getUsers(): Observable<any[]> {
-    return of(this.mockUsers).pipe(delay(500)); // Simula retardo de red
+  getUsers(): Observable<Object> {
+    // return of(this.mockUsers).pipe(delay(500)); 
+    return this.http.get(`${this.apiUrl}`, { headers: new HttpHeaders({ 'Content-Type': 'application/json' }) });
   }
 
-  getAppointments(): Observable<any[]> {
-    return of(this.mockAppointments).pipe(delay(500));
+  getAppointments(): Observable<Object> {
+    return this.http.get(`${this.apiAppointmentsUrl}`, { headers: new HttpHeaders({ 'Content-Type': 'application/json' }) });
   }
 
   getActivityLog(): Observable<any[]> {

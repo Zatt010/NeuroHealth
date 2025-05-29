@@ -22,7 +22,7 @@
           <th>Nombre</th>
           <th>Email</th>
           <th>Rol</th>
-          <th>Estado</th>
+          <!-- <th>Estado</th> -->
           <th>Acciones</th>
         </tr>
       </thead>
@@ -32,15 +32,15 @@
           <td>{{ user.nombre }} {{ user.apellido }}</td>
           <td>{{ user.email }}</td>
           <td>{{ user.rol }}</td>
-          <td>
+          <!-- <td>
             <span [class.active]="user.activo" [class.inactive]="!user.activo">
               {{ user.activo ? 'Activo' : 'Bloqueado' }}
             </span>
-          </td>
+          </td> -->
           <td class="actions">
-            <button (click)="toggleUserStatus(user)">
+            <!-- <button (click)="toggleUserStatus(user)">
               {{ user.activo ? 'Bloquear' : 'Activar' }}
-            </button>
+            </button> -->
             <button class="delete" (click)="deleteUser(user.id)">Eliminar</button>
           </td>
         </tr>
