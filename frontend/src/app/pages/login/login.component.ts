@@ -24,7 +24,6 @@ export class LoginComponent {
         console.log('Login exitoso:', response);
         this.authService.guardarUsuario(response);
         
-        // Redirigir según el rol
         if (response.rol === 'administrador') {
           this.router.navigate(['/admin']); 
         } else {

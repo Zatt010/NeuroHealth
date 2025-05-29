@@ -6,7 +6,6 @@ import { delay } from 'rxjs/operators';
   providedIn: 'root'
 })
 export class AdminService {
-  // Datos mockeados
   private mockUsers = [
     { id: '1', nombre: 'Juan', apellido: 'Pérez', email: 'juan@example.com', rol: 'usuario', activo: true },
     { id: '2', nombre: 'María', apellido: 'Gómez', email: 'maria@example.com', rol: 'especialista', activo: true },
@@ -29,7 +28,7 @@ export class AdminService {
   constructor() { }
 
   getUsers(): Observable<any[]> {
-    return of(this.mockUsers).pipe(delay(500)); // Simula retardo de red
+    return of(this.mockUsers).pipe(delay(500));
   }
 
   getAppointments(): Observable<any[]> {

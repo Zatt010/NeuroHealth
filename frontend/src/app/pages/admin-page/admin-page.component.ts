@@ -3,11 +3,13 @@ import { CommonModule, DatePipe } from '@angular/common';
 import { AdminService } from '../../services/admin.service';
 import { AuthService } from '../../auth.service';
 import { Router } from '@angular/router';
+import { forkJoin } from 'rxjs';
+import { LoadingContainerComponent } from '../../shared/components/loading-container/loading-container.component';
 
 @Component({
   selector: 'app-admin-page',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, LoadingContainerComponent],
   templateUrl: './admin-page.component.html',
   styleUrls: ['./admin-page.component.css'],
   providers: [AdminService, DatePipe]
@@ -17,6 +19,7 @@ export class AdminPageComponent implements OnInit {
   citas: any[] = [];
   actividadLog: any[] = [];
   currentView: 'users' | 'appointments' | 'logs' = 'users';
+  isLoading: boolean = true;
 
   constructor(
     private adminService: AdminService,
@@ -26,26 +29,27 @@ export class AdminPageComponent implements OnInit {
   ) {}
 
   ngOnInit() {
-    this.loadUsers();
-    this.loadAppointments();
-    this.loadActivityLog();
+    this.loadData();
   }
 
-  loadUsers() {
-    this.adminService.getUsers().subscribe((users: any[]) => {
-      this.usuarios = users;
-    });
-  }
-
-  loadAppointments() {
-    this.adminService.getAppointments().subscribe((appointments: any[]) => {
-      this.citas = appointments;
-    });
-  }
-
-  loadActivityLog() {
-    this.adminService.getActivityLog().subscribe((logs: any[]) => {
-      this.actividadLog = logs;
+  loadData() {
+    this.isLoading = true;
+    
+    forkJoin([
+      this.adminService.getUsers(),
+      this.adminService.getAppointments(),
+      this.adminService.getActivityLog()
+    ]).subscribe({
+      next: ([users, appointments, logs]) => {
+        this.usuarios = users;
+        this.citas = appointments;
+        this.actividadLog = logs;
+        this.isLoading = false;
+      },
+      error: (error) => {
+        console.error('Error loading data', error);
+        this.isLoading = false;
+      }
     });
   }
 

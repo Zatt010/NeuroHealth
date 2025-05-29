@@ -15,7 +15,6 @@ export class AuthService {
   constructor(private http: HttpClient) {}
 
   login(email: string, password: string): Observable<any> {
-    // Mock para administrador
     if (email === 'admin@neurohealth.com' && password === 'admin123') {
       const mockAdmin = {
         id: 'admin1',
@@ -28,7 +27,6 @@ export class AuthService {
       return of(mockAdmin).pipe(delay(500));
     }
     
-    // Lógica normal para otros usuarios
     const params = new URLSearchParams();
     params.append('email', email);
     params.append('contrasena', password);
