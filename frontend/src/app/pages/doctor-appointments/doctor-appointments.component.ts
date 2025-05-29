@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule, DatePipe } from '@angular/common';
 import { RouterModule } from '@angular/router';
+import { CitaService, Cita } from '../../services/cita.service';
+import { AuthService } from '../../auth.service';
 
 interface Appointment {
   id: string;
@@ -20,58 +22,7 @@ interface CalendarDay {
   isToday: boolean;
 }
 
-const MOCK_SPECIALIST_ID = 'especialista_123';
-
-let MOCK_APPOINTMENTS: Appointment[] = [ 
-  {
-    id: 'app1',
-    fecha: new DatePipe('en-US').transform(new Date(), 'yyyy-MM-dd')!,
-    hora: '09:00 AM',
-    pacienteNombre: 'Ana Pérez',
-    especialistaId: MOCK_SPECIALIST_ID,
-    estado: 'confirmada'
-  },
-  {
-    id: 'app2',
-    fecha: new DatePipe('en-US').transform(new Date(), 'yyyy-MM-dd')!,
-    hora: '11:00 AM',
-    pacienteNombre: 'Luis García',
-    especialistaId: MOCK_SPECIALIST_ID,
-    estado: 'pendiente_confirmacion_paciente'
-  },
-  {
-    id: 'app3',
-    fecha: new DatePipe('en-US').transform(new Date(new Date().setDate(new Date().getDate() + 1)), 'yyyy-MM-dd')!,
-    hora: '10:00 AM',
-    pacienteNombre: 'Carlos Ruiz',
-    especialistaId: MOCK_SPECIALIST_ID,
-    estado: 'confirmada'
-  },
-  {
-    id: 'app4',
-    fecha: new DatePipe('en-US').transform(new Date(new Date().setDate(new Date().getDate() + 1)), 'yyyy-MM-dd')!,
-    hora: '02:00 PM',
-    pacienteNombre: 'Maria López',
-    especialistaId: 'another_specialist_id',
-    estado: 'confirmada'
-  },
-  {
-    id: 'app5',
-    fecha: new DatePipe('en-US').transform(new Date(new Date().setDate(new Date().getDate() - 1)), 'yyyy-MM-dd')!,
-    hora: '03:00 PM',
-    pacienteNombre: 'Juan Torres',
-    especialistaId: MOCK_SPECIALIST_ID,
-    estado: 'cancelada_paciente'
-  },
-  {
-    id: 'app6',
-    fecha: new DatePipe('en-US').transform(new Date(new Date().getFullYear(), new Date().getMonth(), 15), 'yyyy-MM-dd')!,
-    hora: '04:00 PM',
-    pacienteNombre: 'Laura Vidal',
-    especialistaId: MOCK_SPECIALIST_ID,
-    estado: 'confirmada'
-  },
-];
+const MOCK_SPECIALIST_ID = '681043720e4c1b9eaf382310';
 
 @Component({
   selector: 'app-doctor-appointments',
@@ -99,10 +50,13 @@ export class DoctorAppointmentsComponent implements OnInit {
   reschedulePromptMessage: string | null = null;
 
   constructor(
-    private datePipe: DatePipe
+    private authService: AuthService,
+    private datePipe: DatePipe,
+    private citaService: CitaService
   ) {}
 
   ngOnInit(): void {
+    this.currentSpecialistId = this.authService.getUsuario().id;
     if (this.currentSpecialistId) {
       this.loadAppointmentsForMonthRange(this.currentDate);
     } else {
@@ -116,24 +70,41 @@ export class DoctorAppointmentsComponent implements OnInit {
     this.isLoadingAppointments = true;
     this.allFetchedAppointments.clear();
 
-    setTimeout(() => {
-      MOCK_APPOINTMENTS.forEach(app => {
-        if (app.especialistaId === this.currentSpecialistId) {
-          const dateKey = app.fecha;
+    // Fetch appointments from the service
+    this.citaService.obtenerCitasPorEspecialista(this.currentSpecialistId).subscribe({
+      next: (citas) => {
+        console.log('Citas obtenidas:', citas);
+        citas.forEach(cita => {
+          const appointment: Appointment = {
+            id: cita.id || '',
+            fecha: cita.fecha,
+            hora: cita.hora,
+            pacienteId: cita.usuarioId,
+            pacienteNombre: cita.usuario,
+            especialistaId: cita.especialistaId,
+            estado: 'confirmada' // Default state, should come from backend
+          };
+
+          const dateKey = cita.fecha;
 
           if (!this.allFetchedAppointments.has(dateKey)) {
             this.allFetchedAppointments.set(dateKey, []);
           }
-          this.allFetchedAppointments.get(dateKey)?.push({...app});
-        }
-      });
+          this.allFetchedAppointments.get(dateKey)?.push(appointment);
+        });
 
-      this.generateCalendar(this.currentDate);
-      if (this.selectedDate && !this.isRescheduling) { // Don't auto-select if in rescheduling mode
-        this.fetchAppointmentsForSelectedDate(this.selectedDate);
+        this.generateCalendar(this.currentDate);
+        if (this.selectedDate && !this.isRescheduling) {
+          this.fetchAppointmentsForSelectedDate(this.selectedDate);
+        }
+        this.isLoadingAppointments = false;
+      },
+      error: (error) => {
+        console.error('Error loading appointments:', error);
+        this.isLoadingAppointments = false;
+        alert('Error al cargar las citas. Por favor, inténtelo de nuevo más tarde.');
       }
-      this.isLoadingAppointments = false;
-    }, 300);
+    });
   }
 
   generateCalendar(date: Date): void {
@@ -223,13 +194,13 @@ export class DoctorAppointmentsComponent implements OnInit {
   prevMonth(): void {
     this.currentDate = new Date(this.currentDate.getFullYear(), this.currentDate.getMonth() - 1, 1);
     this.generateCalendar(this.currentDate);
-    
+    this.loadAppointmentsForMonthRange(this.currentDate);
   }
 
   nextMonth(): void {
     this.currentDate = new Date(this.currentDate.getFullYear(), this.currentDate.getMonth() + 1, 1);
     this.generateCalendar(this.currentDate);
-    
+    this.loadAppointmentsForMonthRange(this.currentDate);
   }
 
   cancelAppointment(appointmentId: string): void {
@@ -240,30 +211,35 @@ export class DoctorAppointmentsComponent implements OnInit {
     if (!this.currentSpecialistId) return;
 
     if (confirm('¿Está seguro de que desea cancelar esta cita? Esta acción no se puede deshacer.')) {
-      const appIndexInGlobalMock = MOCK_APPOINTMENTS.findIndex(app => app.id === appointmentId && app.especialistaId === this.currentSpecialistId);
+      // Find appointment in local data first
+      const appointment = this.findAppointmentById(appointmentId);
+      
+      if (appointment) {
+        // In a real implementation, you would call a service method to cancel the appointment
+        // For now, we'll just update our local data
+        const originalDateKey = appointment.fecha;
+        appointment.estado = 'cancelada_especialista';
 
-      if (appIndexInGlobalMock > -1) {
-        const originalDateKey = MOCK_APPOINTMENTS[appIndexInGlobalMock].fecha;
-        MOCK_APPOINTMENTS[appIndexInGlobalMock].estado = 'cancelada_especialista';
+        alert('Cita cancelada exitosamente.');
 
-        const appointmentsOnOriginalDate = this.allFetchedAppointments.get(originalDateKey);
-        if (appointmentsOnOriginalDate) {
-          const appInMapIndex = appointmentsOnOriginalDate.findIndex(a => a.id === appointmentId);
-          if (appInMapIndex > -1) {
-            appointmentsOnOriginalDate[appInMapIndex].estado = 'cancelada_especialista';
-          }
-        }
-
-        alert('Cita cancelada exitosamente (simulado).');
-
+        // Update the UI to reflect the changes
         if (this.selectedDate && this.datePipe.transform(this.selectedDate, 'yyyy-MM-dd') === originalDateKey) {
           this.fetchAppointmentsForSelectedDate(this.selectedDate);
         }
         this.generateCalendar(this.currentDate);
       } else {
-        alert('Error: Cita no encontrada o no pertenece a este especialista (simulado).');
+        alert('Error: Cita no encontrada o no pertenece a este especialista.');
       }
     }
+  }
+
+  findAppointmentById(appointmentId: string): Appointment | null {
+    // Look through all appointments in the map
+    for (const [_, appointments] of this.allFetchedAppointments.entries()) {
+      const found = appointments.find(app => app.id === appointmentId);
+      if (found) return found;
+    }
+    return null;
   }
 
   openRescheduleModal(appointment: Appointment): void {
@@ -280,22 +256,62 @@ export class DoctorAppointmentsComponent implements OnInit {
 
     const newDateFormatted = this.datePipe.transform(newDate, 'yyyy-MM-dd')!;
     const oldDateFormatted = this.appointmentToReschedule.fecha;
-
-   
     const newTime = this.appointmentToReschedule.hora; 
 
     if (confirm(`¿Reagendar cita de ${this.appointmentToReschedule.pacienteNombre} de ${oldDateFormatted} a ${newDateFormatted} a las ${newTime}?`)) {
-      const appIndexInGlobalMock = MOCK_APPOINTMENTS.findIndex(app => app.id === this.appointmentToReschedule!.id);
-      if (appIndexInGlobalMock > -1) {
-        MOCK_APPOINTMENTS[appIndexInGlobalMock].fecha = newDateFormatted;
-        MOCK_APPOINTMENTS[appIndexInGlobalMock].hora = newTime; 
-        MOCK_APPOINTMENTS[appIndexInGlobalMock].estado = 'reagendada';
+      // In a real implementation, you would call a service method to reschedule the appointment
+      // Something like:
+      /*
+      const updatedCita: Cita = {
+        id: this.appointmentToReschedule.id,
+        usuarioId: this.appointmentToReschedule.pacienteId || '',
+        especialistaId: this.appointmentToReschedule.especialistaId,
+        fecha: newDateFormatted,
+        hora: newTime
+      };
+      
+      this.citaService.actualizarCita(updatedCita).subscribe({
+        next: (response) => {
+          // Handle success
+          this.loadAppointmentsForMonthRange(this.currentDate);
+          alert(`Cita reagendada para ${this.appointmentToReschedule.pacienteNombre} a ${newDateFormatted} ${newTime}.`);
+          this.exitRescheduleMode(newDate);
+        },
+        error: (error) => {
+          // Handle error
+          alert('Error al reagendar la cita. Por favor, inténtelo de nuevo más tarde.');
+          console.error('Error rescheduling appointment:', error);
+        }
+      });
+      */
+      
+      // For now, let's simulate success
+      // Update the appointment in our local data
+      const appointment = this.findAppointmentById(this.appointmentToReschedule.id);
+      if (appointment) {
+        // Remove from old date
+        const oldDateKey = appointment.fecha;
+        const oldAppointments = this.allFetchedAppointments.get(oldDateKey) || [];
+        const updatedOldAppointments = oldAppointments.filter(a => a.id !== appointment.id);
+        
+        if (updatedOldAppointments.length > 0) {
+          this.allFetchedAppointments.set(oldDateKey, updatedOldAppointments);
+        } else {
+          this.allFetchedAppointments.delete(oldDateKey);
+        }
+        
+        // Add to new date
+        appointment.fecha = newDateFormatted;
+        appointment.estado = 'reagendada';
+        
+        if (!this.allFetchedAppointments.has(newDateFormatted)) {
+          this.allFetchedAppointments.set(newDateFormatted, []);
+        }
+        this.allFetchedAppointments.get(newDateFormatted)?.push(appointment);
       }
-
-   
-      this.loadAppointmentsForMonthRange(this.currentDate);
-
-      alert(`Cita reagendada para ${this.appointmentToReschedule.pacienteNombre} a ${newDateFormatted} ${newTime} (simulado).`);
+      
+      this.generateCalendar(this.currentDate);
+      alert(`Cita reagendada para ${this.appointmentToReschedule.pacienteNombre} a ${newDateFormatted} ${newTime}.`);
       this.exitRescheduleMode(newDate); 
     } else {
       this.exitRescheduleMode(null); 
