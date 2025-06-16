@@ -31,7 +31,7 @@
                 {
                   "glob": "**/*",
                   "input": "src/app/pages/landingPage/Assets",
-                  "output": "/"
+                  "output": "/assets/landing-page/"
                 },
                 {
                   "glob": "**/*",
