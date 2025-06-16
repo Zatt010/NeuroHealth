@@ -123,7 +123,11 @@
         </div>
       </div>
     </section>
-
+    <!-- SECCIÓN DE MAPA (ÚNICA) -->
+    <section class="map-section" id="map-section">
+      <h2 class="section-title">Centros de Salud Mental Cercanos</h2>
+      <div id="map" class="map-container"></div>
+    </section>
     <!-- SECCIÓN DE CALENDARIO (ÚNICA) -->
     <section class="appointment-section" id="appointment-section">
       <h2 class="section-title">AGENDA TU CITA</h2>
@@ -164,8 +168,8 @@
           </tbody>
         </table>
 
-        <button 
-          class="confirm-button" 
+        <button
+          class="confirm-button"
           (click)="confirmSelection()"
           [disabled]="!selectedDate">
           Confirmar
