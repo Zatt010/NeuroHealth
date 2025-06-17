@@ -1,4 +1,3 @@
-// src/app/pages/Meditations/Meditations.component.ts
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { MeditationsService, Meditation } from './meditations.service';
 import { MatCardModule } from '@angular/material/card';
@@ -13,7 +12,7 @@ import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { Subscription } from 'rxjs';
-import { AuthService } from '../../auth.service';
+import { AuthService } from '../../auth.service'; // Asegúrate de que esta importación sea correcta
 
 @Component({
   selector: 'app-meditations',
@@ -39,23 +38,24 @@ export class MeditationsComponent implements OnInit, OnDestroy {
   showAdminForm: boolean = false;
   isEditing: boolean = false;
   currentMeditationForForm: Partial<Meditation> = {
-    type: 'audio' // Default type
+    type: 'audio'
   };
   isLoading: boolean = false;
-  isadmin: boolean = false; // To check if the logged-in user is an admin
+  isadmin: boolean = false; // Propiedad para controlar la visibilidad del botón
   private authSubscription: Subscription | undefined;
   private meditationsSubscription: Subscription | undefined;
 
   constructor(
     private meditationsService: MeditationsService,
     private router: Router,
-    private authService: AuthService
+    private authService: AuthService // Inyecta AuthService
   ) {}
 
   ngOnInit(): void {
     this.isLoading = true;
     this.loadMeditations();
 
+    // Suscribirse al estado de administrador desde AuthService
     this.authSubscription = this.authService.isAdmin$.subscribe(isAdmin => {
       this.isadmin = isAdmin;
     });
@@ -91,26 +91,30 @@ export class MeditationsComponent implements OnInit, OnDestroy {
     this.router.navigate(['/home']);
   }
 
+  // Nuevo método para navegar al panel de administración
+  goToAdminDashboard(): void {
+    this.router.navigate(['/admin']); // Asegúrate de que esta ruta sea correcta para tu panel de administración
+  }
+
   openAddMeditationForm(): void {
     this.isEditing = false;
-    this.currentMeditationForForm = { type: 'audio' }; // Reset form for new meditation
+    this.currentMeditationForForm = { type: 'audio' };
     this.showAdminForm = true;
   }
 
   openEditMeditationForm(meditation: Meditation): void {
     this.isEditing = true;
-    this.currentMeditationForForm = { ...meditation }; // Create a copy for editing
+    this.currentMeditationForForm = { ...meditation };
     this.showAdminForm = true;
   }
 
   closeAdminForm(): void {
     this.showAdminForm = false;
     this.isEditing = false;
-    this.currentMeditationForForm = { type: 'audio' }; // Reset form
+    this.currentMeditationForForm = { type: 'audio' };
   }
 
   saveMeditation(): void {
-    // Perform basic validation before saving
     if (!this.currentMeditationForForm.title || !this.currentMeditationForForm.url || !this.currentMeditationForForm.type) {
       alert('Por favor, completa todos los campos requeridos (Título, URL, Tipo).');
       return;
