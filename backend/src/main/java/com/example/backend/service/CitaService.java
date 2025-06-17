@@ -179,7 +179,7 @@ public class CitaService {
         return savedCita;
     }
 
-    // Los demás métodos permanecen exactamente iguales
+
     public List<Map<String, Object>> obtenerCitas() {
         return citaRepository.findAll().stream().map(
                 p -> {
