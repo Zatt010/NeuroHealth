@@ -28,6 +28,7 @@ html, body {
   align-items: center;
   padding: 2rem;
   background-color: #5A92C2;
+  box-shadow: 0 2px 15px rgba(0,0,0,0.15);
   width: 100%;
   position: fixed;
   top: 0;
@@ -111,17 +112,20 @@ html, body {
   border-radius: 15px;
   padding: 2rem;
   box-shadow: 0 4px 15px rgba(0,0,0,0.1);
-  transition: transform 0.3s ease;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
   opacity: 1;
 }
 
 .service-card:hover {
   transform: translateY(-5px);
+  box-shadow: 0 12px 25px rgba(0,0,0,0.15);
+  transform: scale(1.03);
 }
 
 .card-image {
   width: 100%;
   height: 200px;
+  transition: transform 0.5s ease;
   border-radius: 10px;
   overflow: hidden;
   margin-bottom: 1.5rem;
@@ -131,9 +135,12 @@ html, body {
   width: 100%;
   height: 100%;
   object-fit: cover;
+  transition: transform 0.8s ease;
   opacity: 1 !important;
 }
-
+.service-card:hover .card-image {
+  transform: scale(1.03); /* Sutil zoom en imágenes */
+}
 .card-title {
   color: #5A92C2;
   font-size: 1.5rem;
@@ -203,6 +210,7 @@ html, body {
 .logo {
   display: flex;
   flex-direction: column;
+  text-shadow: 1px 1px 3px rgba(0,0,0,0.2);
   line-height: 1;
   color: #FAFAF9;
 }
@@ -308,6 +316,8 @@ html, body {
   color: var(--calendar-font-color);
   font-size: 1.5rem;
   cursor: pointer;
+  background: linear-gradient(to right, #2A4E6E, #5A92C2);
+  color: white;
   padding: 8px 16px;
   border-radius: 8px;
   transition: all 0.3s ease;
@@ -342,12 +352,25 @@ html, body {
 .calendar td:not(.empty):hover {
   background: #96b8d6 !important;
   color: #FAFAF9 !important;
+  position: relative;
   font-weight: bold;
+}
+
+.calendar td.today::before {
+  content: "";
+  position: absolute;
+  top: 5px;
+  right: 5px;
+  width: 6px;
+  height: 6px;
+  background: #7FB685;
+  border-radius: 50%;
 }
 
 .calendar td.selected {
   background: var(--calendar-today-color);
   color: #2A4E6E !important;
+  box-shadow: inset 0 0 0 2px #5A8F6E;
   font-weight: bold;
 }
 
@@ -359,6 +382,7 @@ html, body {
 .confirm-button {
   background: var(--calendar-today-color);
   color: var(--calendar-font-color);
+  background: linear-gradient(to right, #2A4E6E, #5A92C2);
   border: none;
   padding: 12px 24px;
   border-radius: 30px;
@@ -375,6 +399,8 @@ html, body {
 .confirm-button:hover {
   transform: translateY(-2px);
   box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+  transform: translateY(-3px);
+  box-shadow: 0 5px 15px rgba(0,0,0,0.2);
 }
 
 @media (max-width: 1200px) {
