@@ -11,6 +11,7 @@
       <button [class.active]="currentView === 'users'" (click)="currentView = 'users'">Usuarios</button>
       <button [class.active]="currentView === 'appointments'" (click)="currentView = 'appointments'">Citas</button>
       <button [class.active]="currentView === 'logs'" (click)="currentView = 'logs'">Registro de Actividades</button>
+      <button [class.active]="false" (click)="goToMeditations()">Meditaciones</button>
     </div>
   </div>
 
@@ -22,7 +23,6 @@
           <th>Nombre</th>
           <th>Email</th>
           <th>Rol</th>
-          <!-- <th>Estado</th> -->
           <th>Acciones</th>
         </tr>
       </thead>
@@ -32,15 +32,7 @@
           <td>{{ user.nombre }} {{ user.apellido }}</td>
           <td>{{ user.email }}</td>
           <td>{{ user.rol }}</td>
-          <!-- <td>
-            <span [class.active]="user.activo" [class.inactive]="!user.activo">
-              {{ user.activo ? 'Activo' : 'Bloqueado' }}
-            </span>
-          </td> -->
-          <td class="actions">
-            <!-- <button (click)="toggleUserStatus(user)">
-              {{ user.activo ? 'Bloquear' : 'Activar' }}
-            </button> -->
+          <td>
             <button class="delete" (click)="deleteUser(user.id)">Eliminar</button>
           </td>
         </tr>
@@ -48,7 +40,6 @@
     </table>
   </div>
 
-  <!-- Gestión de Citas -->
   <div *ngIf="currentView === 'appointments'" class="appointments-section">
     <table class="admin-table">
       <thead>
@@ -78,12 +69,15 @@
     </table>
   </div>
 
-  <!-- Registro de Actividades -->
   <div *ngIf="currentView === 'logs'" class="logs-section">
     <div class="log-entry" *ngFor="let log of actividadLog">
-      <div class="log-time">{{ formatDate(log.timestamp, 'dd/MM/yyyy HH:mm') }}</div>
+      <div class="log-time">{{ formatDate(log.timestamp, 'dd/MM/yyyy HH:mm:ss') }}</div>
       <div class="log-action">{{ log.action }}</div>
-      <div class="log-admin">por {{ log.admin }}</div>
+      <div class="log-admin">Por: {{ log.admin }}</div>
+    </div>
+    <div *ngIf="actividadLog.length === 0" class="empty-state">
+      <p>No hay registro de actividades.</p>
     </div>
   </div>
-</div>
+
+  </div>

@@ -1,95 +1,88 @@
+/* src/app/pages/Meditations/meditation-player/meditation-player.component.css */
+
 .player-container {
-    background: #FAFAF9;
-    border-radius: 12px;
-    width: 90%;
-    max-width: 800px;
-    padding: 2rem;
-    position: relative;
-    box-shadow: 0 8px 30px rgba(90, 146, 194, 0.15);
-  }
+  background: #FAFAF9;
+  border-radius: 12px;
+  width: 90%; /* This width applies within the flexbox centered overlay */
+  max-width: 800px;
+  padding: 2rem;
+  position: relative;
+  box-shadow: 0 8px 30px rgba(90, 146, 194, 0.15);
+  animation: slideIn 0.3s ease-out forwards; /* Add an animation for appearance */
+}
 
-  .player-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 1.5rem;
-    border-bottom: 2px solid #E0E0E0;
-    padding-bottom: 1rem;
-  }
+.player-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1.5rem;
+  border-bottom: 2px solid #E0E0E0;
+  padding-bottom: 1rem;
+}
 
+.player-header h2 {
+  color: #2A4E6E;
+  font-family: 'Julius Sans One', sans-serif;
+  margin: 0;
+  font-size: 1.8rem;
+}
+
+.media-container {
+  width: 100%;
+  margin: 1.5rem 0;
+}
+
+video, audio, iframe { /* Ensure iframe also gets these styles for consistency */
+  width: 100%;
+  border-radius: 8px;
+  background: #2A4E6E; /* Dark background for media elements */
+  display: block; /* Remove extra space below inline elements */
+}
+
+/* Personalización de controles nativos (might vary by browser) */
+::-webkit-media-controls-panel {
+  background: rgba(90, 146, 194, 0.9) !important;
+  border-radius: 0 0 8px 8px;
+}
+
+::-webkit-media-controls-play-button,
+::-webkit-media-controls-mute-button {
+  filter: invert(1);
+}
+
+.meditation-info {
+  background: rgba(127, 182, 133, 0.1);
+  padding: 1.5rem;
+  border-radius: 8px;
+  margin-top: 1.5rem;
+}
+
+.meditation-info p {
+  color: #2A4E6E;
+  margin-bottom: 0.5rem;
+  line-height: 1.6;
+}
+
+.meditation-info p strong {
+  color: #5A92C2;
+}
+
+/* Animation for the player sliding in */
+@keyframes slideIn {
+  from { transform: translateY(50px); opacity: 0; }
+  to { transform: translateY(0); opacity: 1; }
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .player-container {
+    padding: 1rem;
+    max-width: 95%;
+  }
   .player-header h2 {
-    color: #2A4E6E;
-    font-family: 'Julius Sans One', sans-serif;
-    margin: 0;
-    font-size: 1.8rem;
+    font-size: 1.5rem;
   }
-
-  .media-container {
-    width: 100%;
-    margin: 1.5rem 0;
+  iframe {
+    height: 300px; /* Adjust height for smaller screens */
   }
-
-  video, audio {
-    width: 100%;
-    border-radius: 8px;
-    background: #2A4E6E;
-  }
-
-  /* Personalización de controles nativos */
-  ::-webkit-media-controls-panel {
-    background: rgba(90, 146, 194, 0.9) !important;
-    border-radius: 0 0 8px 8px;
-  }
-
-  ::-webkit-media-controls-play-button,
-  ::-webkit-media-controls-mute-button {
-    filter: invert(1);
-  }
-
-  .meditation-info {
-    background: rgba(127, 182, 133, 0.1);
-    padding: 1.5rem;
-    border-radius: 8px;
-    margin-top: 1.5rem;
-  }
-
-  .meditation-info p {
-    color: #2A4E6E;
-    margin: 0.5rem 0;
-    line-height: 1.6;
-  }
-
-  .meditation-info strong {
-    color: #5A8F6E;
-  }
-
-  /* Botón de cerrar personalizado */
-  button[mat-icon-button] {
-    color: #e74c3c !important;
-    transition: transform 0.3s ease;
-  }
-
-  button[mat-icon-button]:hover {
-    transform: rotate(90deg);
-    cursor: pointer !important;
-  }
-
-  /* Responsive Design */
-  @media (max-width: 768px) {
-    .player-container {
-      width: 95%;
-      padding: 1rem;
-    }
-
-    .player-header h2 {
-      font-size: 1.4rem;
-    }
-
-    video, audio {
-      border-radius: 4px;
-    }
-    iframe {
-      border-radius: 8px;
-      border: 2px solid #2A4E6E;
-    }
-  }
+}

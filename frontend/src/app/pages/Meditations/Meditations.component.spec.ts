@@ -13,7 +13,7 @@ describe('BigFiveTestComponent', () => {
     .compileComponents();
 
     fixture = TestBed.createComponent(BigFiveTestComponent);
-    component = fixture.componentInstance;
+    component = fizxture.componentInstance;
     fixture.detectChanges();
   });
 

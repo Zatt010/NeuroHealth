@@ -1,3 +1,4 @@
+// src/app/services/admin.service.ts
 import { Injectable } from '@angular/core';
 import { Observable, of } from 'rxjs';
 import { delay } from 'rxjs/operators';
@@ -19,25 +20,25 @@ export class AdminService {
 
   private mockAppointments = [
     { id: '101', pacienteNombre: 'Juan Pérez', especialistaNombre: 'Dra. Gómez', fecha: '2023-10-15', hora: '10:00', estado: 'Confirmada' },
-    { id: '102', pacienteNombre: 'Luisa Fernández', especialistaNombre: 'Dr. López', fecha: '2023-10-16', hora: '11:00', estado: 'Confirmada' },
-    { id: '103', pacienteNombre: 'Mario Ruiz', especialistaNombre: 'Dra. Martínez', fecha: '2023-10-17', hora: '09:30', estado: 'Confirmada' },
+    { id: '102', pacienteNombre: 'Luisa Fernández', especialistaNombre: 'Dr. Smith', fecha: '2023-10-16', hora: '11:30', estado: 'Pendiente' },
+    { id: '103', pacienteNombre: 'Pedro García', especialistaNombre: 'Dra. Gómez', fecha: '2023-10-17', hora: '09:00', estado: 'Cancelada' },
   ];
 
   private mockActivityLog = [
-    { timestamp: new Date('2023-10-10T09:00:00'), action: 'Usuario juan@example.com activado', admin: 'Admin Principal' },
+    { timestamp: new Date('2023-10-10T10:00:00'), action: 'Usuario juan@example.com activado', admin: 'Admin Principal' },
     { timestamp: new Date('2023-10-09T14:30:00'), action: 'Cita 100 cancelada', admin: 'Admin Principal' },
     { timestamp: new Date('2023-10-08T11:15:00'), action: 'Usuario nuevo registrado: ana@example.com', admin: 'Admin Principal' },
   ];
 
   constructor(private http: HttpClient) { }
 
-  getUsers(): Observable<Object> {
+  getUsers(): Observable<any[]> { // Change Object to any[]
     // return of(this.mockUsers).pipe(delay(500)); 
-    return this.http.get(`${this.apiUrl}`, { headers: new HttpHeaders({ 'Content-Type': 'application/json' }) });
+    return this.http.get<any[]>(`${this.apiUrl}`, { headers: new HttpHeaders({ 'Content-Type': 'application/json' }) });
   }
 
-  getAppointments(): Observable<Object> {
-    return this.http.get(`${this.apiAppointmentsUrl}`, { headers: new HttpHeaders({ 'Content-Type': 'application/json' }) });
+  getAppointments(): Observable<any[]> { // Change Object to any[]
+    return this.http.get<any[]>(`${this.apiAppointmentsUrl}`, { headers: new HttpHeaders({ 'Content-Type': 'application/json' }) });
   }
 
   getActivityLog(): Observable<any[]> {
@@ -58,7 +59,10 @@ export class AdminService {
   }
 
   cancelAppointment(appointmentId: string): Observable<any> {
-    this.mockAppointments = this.mockAppointments.filter(a => a.id !== appointmentId);
+    const appointment = this.mockAppointments.find(a => a.id === appointmentId);
+    if (appointment) {
+      appointment.estado = 'Cancelada';
+    }
     return of({ success: true }).pipe(delay(300));
   }
 }
