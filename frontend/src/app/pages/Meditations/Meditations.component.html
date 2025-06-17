@@ -31,37 +31,41 @@
         </mat-form-field>
 
         <mat-form-field appearance="fill">
-          <mat-label>Duración (ej: 10:30 min)</mat-label>
-          <input matInput [(ngModel)]="currentMeditationForForm.duration" name="duration">
+          <mat-label>URL (Audio, Video o YouTube)</mat-label>
+          <input matInput [(ngModel)]="currentMeditationForForm.url" name="url" required>
         </mat-form-field>
 
         <mat-form-field appearance="fill">
           <mat-label>Tipo</mat-label>
           <mat-select [(ngModel)]="currentMeditationForForm.type" name="type" required>
-            <mat-option *ngFor="let type of meditationTypes" [value]="type">
-              {{ type | titlecase }}
-            </mat-option>
+            <mat-option value="audio">Audio</mat-option>
+            <mat-option value="video">Video</mat-option>
+            <mat-option value="youtube">YouTube</mat-option>
           </mat-select>
         </mat-form-field>
 
         <mat-form-field appearance="fill">
-          <mat-label>URL (ruta al archivo o enlace de YouTube)</mat-label>
-          <input matInput [(ngModel)]="currentMeditationForForm.url" name="url" required>
+          <mat-label>Duración (ej. 10 min)</mat-label>
+          <input matInput [(ngModel)]="currentMeditationForForm.duration" name="duration">
         </mat-form-field>
 
         <div class="form-actions">
-          <button mat-stroked-button type="button" (click)="closeAdminForm()">Cancelar</button>
-          <button mat-raised-button color="primary" type="submit" [disabled]="!meditationForm.form.valid">Guardar</button>
+          <button mat-raised-button color="primary" type="submit" [disabled]="!meditationForm.valid">
+            <mat-icon>save</mat-icon> {{ isEditing ? 'Guardar Cambios' : 'Agregar Meditación' }}
+          </button>
+          <button mat-raised-button color="warn" type="button" (click)="closeAdminForm()">
+            <mat-icon>cancel</mat-icon> Cancelar
+          </button>
         </div>
       </form>
     </div>
   </div>
 
-  <div class="meditations-grid" *ngIf="!showAdminForm">
+  <div class="meditations-grid">
     <mat-card *ngFor="let meditation of meditations" class="meditation-card">
       <mat-card-header>
         <mat-card-title>{{ meditation.title }}</mat-card-title>
-        <mat-card-subtitle>{{ meditation.type | titlecase }} - {{ meditation.duration }}</mat-card-subtitle>
+        <mat-card-subtitle>{{ meditation.duration }}</mat-card-subtitle>
       </mat-card-header>
       <mat-card-content>
         <p>{{ meditation.description }}</p>
@@ -88,15 +92,14 @@
   </div>
   
   <div *ngIf="isLoading" style="text-align: center; margin-top: 2rem;">
-    <mat-spinner></mat-spinner>
+    <mat-spinner diameter="50"></mat-spinner>
     <p>Cargando meditaciones...</p>
   </div>
 
-  <div *ngIf="playerVisible && selectedMeditation" class="player-overlay">
+  <div *ngIf="selectedMeditation" class="meditation-player-overlay">
     <app-meditation-player
       [meditation]="selectedMeditation"
       (close)="closePlayer()"
     ></app-meditation-player>
   </div>
-
 </div>

@@ -1,3 +1,4 @@
+// src/app/pages/Meditations/Meditations.component.ts
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { MeditationsService, Meditation } from './meditations.service';
 import { MatCardModule } from '@angular/material/card';
@@ -35,44 +36,28 @@ import { AuthService } from '../../auth.service';
 export class MeditationsComponent implements OnInit, OnDestroy {
   meditations: Meditation[] = [];
   selectedMeditation: Meditation | null = null;
-  playerVisible = false;
-
-  isadmin: boolean = false;
-  isLoggedIn: boolean = false;
-  showAdminForm = false;
-  isEditing = false;
+  showAdminForm: boolean = false;
+  isEditing: boolean = false;
+  currentMeditationForForm: Partial<Meditation> = {
+    type: 'audio' // Default type
+  };
   isLoading: boolean = false;
-  currentMeditationForForm: Partial<Meditation> = this.getEmptyMeditationForm();
-
+  isadmin: boolean = false; // To check if the logged-in user is an admin
   private authSubscription: Subscription | undefined;
   private meditationsSubscription: Subscription | undefined;
-
-  meditationTypes: Meditation['type'][] = ['audio', 'video', 'youtube'];
 
   constructor(
     private meditationsService: MeditationsService,
     private router: Router,
-    private authService: AuthService,
+    private authService: AuthService
   ) {}
 
   ngOnInit(): void {
-    const usuario = this.authService.getUsuario();
-    this.isLoggedIn = !!usuario;
-    this.isadmin = usuario?.rol === 'admin';
-    this.loadMeditations();
-  }
-
-  loadMeditations(): void {
     this.isLoading = true;
-    this.meditationsSubscription = this.meditationsService.getMeditations().subscribe({
-      next: data => {
-        this.meditations = data;
-        this.isLoading = false;
-      },
-      error: err => {
-        console.error('Error al cargar meditaciones:', err);
-        this.isLoading = false;
-      }
+    this.loadMeditations();
+
+    this.authSubscription = this.authService.isAdmin$.subscribe(isAdmin => {
+      this.isadmin = isAdmin;
     });
   }
 
@@ -81,59 +66,61 @@ export class MeditationsComponent implements OnInit, OnDestroy {
     this.meditationsSubscription?.unsubscribe();
   }
 
-  getEmptyMeditationForm(): Partial<Meditation> {
-    return {
-      title: '',
-      description: '',
-      duration: '',
-      type: 'audio',
-      url: ''
-    };
+  loadMeditations(): void {
+    this.meditationsSubscription = this.meditationsService.getMeditations().subscribe({
+      next: (data) => {
+        this.meditations = data;
+        this.isLoading = false;
+      },
+      error: (err) => {
+        console.error('Error al cargar meditaciones:', err);
+        this.isLoading = false;
+      }
+    });
   }
 
   playMeditation(meditation: Meditation): void {
     this.selectedMeditation = meditation;
-    this.playerVisible = true;
   }
 
   closePlayer(): void {
-    this.playerVisible = false;
     this.selectedMeditation = null;
   }
 
-  goToHome() {
-    this.router.navigate(['/']);
+  goToHome(): void {
+    this.router.navigate(['/home']);
   }
 
   openAddMeditationForm(): void {
     this.isEditing = false;
-    this.currentMeditationForForm = this.getEmptyMeditationForm();
+    this.currentMeditationForForm = { type: 'audio' }; // Reset form for new meditation
     this.showAdminForm = true;
   }
 
   openEditMeditationForm(meditation: Meditation): void {
     this.isEditing = true;
-    this.currentMeditationForForm = { ...meditation };
+    this.currentMeditationForForm = { ...meditation }; // Create a copy for editing
     this.showAdminForm = true;
   }
 
   closeAdminForm(): void {
     this.showAdminForm = false;
-    this.currentMeditationForForm = this.getEmptyMeditationForm();
+    this.isEditing = false;
+    this.currentMeditationForForm = { type: 'audio' }; // Reset form
   }
 
   saveMeditation(): void {
+    // Perform basic validation before saving
     if (!this.currentMeditationForForm.title || !this.currentMeditationForForm.url || !this.currentMeditationForForm.type) {
-        alert('Por favor, completa los campos obligatorios: Título, URL y Tipo.');
-        return;
+      alert('Por favor, completa todos los campos requeridos (Título, URL, Tipo).');
+      return;
     }
 
-    const meditationData = this.currentMeditationForForm as Omit<Meditation, 'id'>;
-    const fullMeditationData = this.currentMeditationForForm as Meditation;
+    const meditationData = this.currentMeditationForForm as Meditation;
     this.isLoading = true;
 
-    if (this.isEditing && fullMeditationData.id) {
-      this.meditationsService.updateMeditation(fullMeditationData).subscribe({
+    if (this.isEditing && meditationData.id) {
+      this.meditationsService.updateMeditation(meditationData).subscribe({
         next: () => {
           this.closeAdminForm();
           this.loadMeditations();

@@ -1,5 +1,7 @@
+/* src/app/pages/Meditations/meditations.component.css */
+
 .meditations-container {
-  margin-top: 120px; 
+  margin-top: 120px;
   padding: 2rem 3rem;
   min-height: calc(100vh - 120px); /* 100% del viewport menos altura del header */
   box-sizing: border-box;
@@ -16,7 +18,7 @@
   top: 0;
   left: 0;
   z-index: 1000;
-  height: 120px; 
+  height: 120px;
   box-sizing: border-box;
 }
 
@@ -42,35 +44,207 @@
 .section-title {
   color: #2A4E6E;
   text-align: center;
-  margin-bottom: 2rem;
+  font-size: 2.5rem;
+  margin-bottom: 2.5rem;
+  font-family: 'Julius Sans One', sans-serif;
+  letter-spacing: 0.05em;
+  text-shadow: 1px 1px 2px rgba(0,0,0,0.05);
 }
 
 .meditations-grid {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-  gap: 1.5rem;
+  gap: 2rem;
+  padding: 1rem 0;
 }
 
 .meditation-card {
-  background: #FAFAF9;
-  border-radius: 8px;
-  transition: transform 0.3s ease;
+  background-color: #fff;
+  border-radius: 12px;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
 }
 
 .meditation-card:hover {
   transform: translateY(-5px);
-  box-shadow: 0 4px 15px rgba(90, 146, 194, 0.1);
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.12);
 }
 
-.player-overlay {
+.mat-card-header {
+  padding: 1.5rem;
+  border-bottom: 1px solid #eee;
+}
+
+.mat-card-title {
+  font-size: 1.5rem;
+  color: #2A4E6E;
+  font-weight: bold;
+  margin-bottom: 0.5rem;
+}
+
+.mat-card-subtitle {
+  color: #7FB685; /* A soothing green */
+  font-weight: 600;
+}
+
+.mat-card-content {
+  padding: 1.5rem;
+  flex-grow: 1;
+  color: #555;
+  line-height: 1.6;
+}
+
+.mat-card-actions {
+  padding: 1rem 1.5rem 1.5rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-top: 1px solid #eee;
+}
+
+.mat-button {
+  color: #5A92C2;
+  font-weight: bold;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.mat-button:hover {
+  background-color: #e0f2f7;
+}
+
+.mat-icon-button {
+  color: #777;
+  transition: color 0.3s ease;
+}
+
+.mat-icon-button.mat-accent:hover {
+  color: #FFC107; /* A subtle yellow for edit */
+}
+
+.mat-icon-button.mat-warn:hover {
+  color: #DC3545; /* Red for delete */
+}
+
+.empty-state {
+  text-align: center;
+  margin-top: 4rem;
+  color: #777;
+}
+
+.empty-state-icon {
+  font-size: 5rem;
+  color: #ccc;
+  margin-bottom: 1rem;
+}
+
+.empty-state p {
+  font-size: 1.2rem;
+  margin-bottom: 0.5rem;
+}
+
+/* Admin Form Styles */
+.admin-form-overlay {
   position: fixed;
   top: 0;
   left: 0;
   width: 100%;
   height: 100%;
-  background: rgba(0, 0, 0, 0.8);
+  background-color: rgba(0, 0, 0, 0.6); /* Slightly darker overlay for admin form */
   display: flex;
   justify-content: center;
   align-items: center;
-  z-index: 1000;
+  z-index: 1002; /* Higher than player overlay if both could theoretically be open */
+  backdrop-filter: blur(8px);
+}
+
+.admin-form-container {
+  background: #fff;
+  padding: 2.5rem;
+  border-radius: 12px;
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
+  width: 90%;
+  max-width: 600px;
+  position: relative;
+  max-height: 90vh;
+  overflow-y: auto;
+  animation: fadeInScale 0.3s ease-out forwards;
+}
+
+.admin-form-container h2 {
+  color: #2A4E6E;
+  text-align: center;
+  margin-bottom: 2rem;
+  font-family: 'Julius Sans One', sans-serif;
+  font-size: 2rem;
+}
+
+.admin-form-container form {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.mat-form-field {
+  width: 100%;
+}
+
+.form-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 1rem;
+  margin-top: 1.5rem;
+}
+
+/* Meditation Player Overlay Styles (Crucial for the pop-up behavior) */
+.meditation-player-overlay {
+  position: fixed; /* Fixes it relative to the viewport */
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.7); /* Semi-transparent black background */
+  display: flex;
+  justify-content: center; /* Center the player horizontally */
+  align-items: center;   /* Center the player vertically */
+  z-index: 1001; /* Ensure it's above other content */
+  backdrop-filter: blur(5px); /* Optional: adds a blur effect */
+  animation: fadeIn 0.3s ease-out forwards;
+}
+
+/* Animations */
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes fadeInScale {
+  from { opacity: 0; transform: scale(0.9); }
+  to { opacity: 1; transform: scale(1); }
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .meditations-container {
+    padding: 1rem;
+  }
+  .section-title {
+    font-size: 1.8rem;
+  }
+  .meditations-grid {
+    grid-template-columns: 1fr;
+  }
+  .admin-form-container {
+    padding: 1.5rem;
+  }
+  .admin-form-container h2 {
+    font-size: 1.5rem;
+  }
+  .player-container {
+    width: 95%; /* Adjust width for smaller screens */
+  }
 }

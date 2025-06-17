@@ -1,8 +1,9 @@
+// src/app/pages/admin-page/admin-page.component.ts
 import { Component, OnInit } from '@angular/core';
 import { CommonModule, DatePipe } from '@angular/common';
 import { AdminService } from '../../services/admin.service';
 import { AuthService } from '../../auth.service';
-import { Router } from '@angular/router';
+import { Router } from '@angular/router'; // Import Router
 
 @Component({
   selector: 'app-admin-page',
@@ -22,7 +23,7 @@ export class AdminPageComponent implements OnInit {
     private adminService: AdminService,
     private authService: AuthService,
     private datePipe: DatePipe,
-    private router: Router
+    private router: Router // Inject Router
   ) {}
 
   ngOnInit() {
@@ -32,14 +33,14 @@ export class AdminPageComponent implements OnInit {
   }
 
   loadUsers() {
-    this.adminService.getUsers().subscribe((users: Object) => {
-      this.usuarios = users as any[];
+    this.adminService.getUsers().subscribe((users: any[]) => {
+      this.usuarios = users;
     });
   }
 
   loadAppointments() {
-    this.adminService.getAppointments().subscribe((appointments: Object) => {
-      this.citas = appointments as any[];
+    this.adminService.getAppointments().subscribe((appointments: any[]) => {
+      this.citas = appointments;
     });
   }
 
@@ -80,16 +81,21 @@ export class AdminPageComponent implements OnInit {
     this.actividadLog.unshift({
       timestamp: new Date(),
       action: action,
-      admin: `${user.nombre} ${user.apellido}`
+      admin: user ? `${user.nombre} ${user.apellido}` : 'Desconocido'
     });
   }
 
-  formatDate(date: Date | string, format: string): string {
+  formatDate(date: string | Date, format: string): string {
     return this.datePipe.transform(date, format) || '';
   }
 
   logout() {
     this.authService.logout();
     this.router.navigate(['/login']);
+  }
+
+  // Add the goToMeditations method
+  goToMeditations() {
+    this.router.navigate(['/meditations']); // Navigate to the meditations route
   }
 }
