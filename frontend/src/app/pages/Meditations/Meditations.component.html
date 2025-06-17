@@ -92,4 +92,11 @@
     <p>Cargando meditaciones...</p>
   </div>
 
+  <div *ngIf="playerVisible && selectedMeditation" class="player-overlay">
+    <app-meditation-player
+      [meditation]="selectedMeditation"
+      (close)="closePlayer()"
+    ></app-meditation-player>
+  </div>
+
 </div>
